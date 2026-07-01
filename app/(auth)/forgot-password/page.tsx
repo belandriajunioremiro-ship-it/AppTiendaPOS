@@ -20,6 +20,7 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [submittedEmail, setSubmittedEmail] = useState('');
 
   const {
     register,
@@ -32,6 +33,7 @@ export default function ForgotPasswordPage() {
   const onSubmit = async (data: ForgotPasswordFormData) => {
     setError(null);
     setLoading(true);
+    setSubmittedEmail(data.email);
     try {
       await api.post('/auth/forgot-password', { email: data.email });
       setSuccess(true);
@@ -69,7 +71,7 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
           <Link
-            href="/reset-password"
+            href={`/reset-password?email=${encodeURIComponent(submittedEmail)}`}
             className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-amber text-dark-primary font-semibold rounded-md hover:bg-amber-dark transition-all text-center"
           >
             <SendHorizonal className="h-4 w-4" />
