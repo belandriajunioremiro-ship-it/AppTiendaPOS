@@ -44,6 +44,14 @@ export default function ResetPasswordPage() {
   );
 }
 
+function maskEmail(email: string): string {
+  const [local, domain] = email.split('@');
+  if (!domain) return email;
+  const visible = local.slice(0, 5);
+  const stars = '*'.repeat(Math.max(4, local.length - 5));
+  return `${visible}${stars}@${domain}`;
+}
+
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -151,21 +159,18 @@ function ResetPasswordForm() {
 
       {view === 'verify' ? (
         <form onSubmit={verifyForm.handleSubmit(onVerify)} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="email-verify">Correo electrónico</Label>
-            <Input
-              id="email-verify"
-              type="email"
-              placeholder="tu@email.com"
-              icon={<Mail className="h-4 w-4" />}
-              {...verifyForm.register('email')}
-            />
-            {verifyForm.formState.errors.email && (
-              <p className="text-red-400 text-xs mt-1">
-                {verifyForm.formState.errors.email.message}
+          <div className="bg-dark-tertiary/30 rounded-lg p-4 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0">
+              <Mail className="h-4 w-4 text-amber" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-zinc-500 mb-0.5">Correo electrónico</p>
+              <p className="text-sm text-zinc-100 font-medium truncate">
+                {emailFromUrl ? maskEmail(emailFromUrl) : 'tu@email.com'}
               </p>
-            )}
+            </div>
           </div>
+          <input type="hidden" {...verifyForm.register('email')} />
 
           <div className="space-y-2">
             <Label>Código de verificación</Label>
