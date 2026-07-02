@@ -41,9 +41,6 @@ input:-webkit-autofill:active {
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   html {
     color-scheme: dark;
   }
