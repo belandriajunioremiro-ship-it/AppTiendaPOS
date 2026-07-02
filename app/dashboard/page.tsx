@@ -68,7 +68,8 @@ export default function DashboardPage() {
   const [userRole, setUserRole] = useState('cajero');
 
   useEffect(() => {
-    if (!token) {
+    const effectiveToken = token || localStorage.getItem('tiendapos_token');
+    if (!effectiveToken) {
       router.push('/login');
       return;
     }
@@ -135,7 +136,7 @@ export default function DashboardPage() {
     );
   }
 
-  if (!token) return null;
+  if (!token && !localStorage.getItem('tiendapos_token')) return null;
 
   const sidebar = (
     <aside className="h-full flex flex-col">
