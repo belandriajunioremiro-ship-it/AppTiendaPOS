@@ -109,7 +109,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen bg-[#1b1c22]">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen bg-dark-tertiary">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex flex-col items-center mb-8">
             <Image src={logo} alt="TiendaPOS" className="h-14 w-auto" priority />
