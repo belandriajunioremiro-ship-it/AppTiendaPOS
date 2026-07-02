@@ -606,36 +606,36 @@ export default function OnboardingPage() {
               </div>
               <div className="space-y-2.5">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">RIF / NIT</span>
-                  <span className="text-amber font-semibold">{fiscalData?.identificacion_fiscal || '—'}</span>
+                  <span className="text-amber font-semibold">RIF / NIT</span>
+                  <span className="text-zinc-100 font-semibold">{fiscalData?.identificacion_fiscal || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Razón Social</span>
-                  <span className="text-amber font-semibold">{fiscalData?.razon_social || '—'}</span>
+                  <span className="text-amber font-semibold">Razón Social</span>
+                  <span className="text-zinc-100 font-semibold">{fiscalData?.razon_social || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Nombre Comercial</span>
-                  <span className="text-amber font-semibold">{fiscalData?.nombre_comercial || '—'}</span>
+                  <span className="text-amber font-semibold">Nombre Comercial</span>
+                  <span className="text-zinc-100 font-semibold">{fiscalData?.nombre_comercial || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Dirección</span>
-                  <span className="text-amber font-semibold text-right max-w-[200px] truncate">{fiscalData?.direccion || '—'}</span>
+                  <span className="text-amber font-semibold">Dirección</span>
+                  <span className="text-zinc-100 font-semibold text-right max-w-[200px] truncate">{fiscalData?.direccion || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Teléfono</span>
-                  <span className="text-amber font-semibold">{fiscalData?.telefono || '—'}</span>
+                  <span className="text-amber font-semibold">Teléfono</span>
+                  <span className="text-zinc-100 font-semibold">{fiscalData?.telefono || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">País</span>
-                  <span className="text-amber font-semibold">{storeCountry || '—'}</span>
+                  <span className="text-amber font-semibold">País</span>
+                  <span className="text-zinc-100 font-semibold">{storeCountry || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Usuario</span>
-                  <span className="text-amber font-semibold">{user?.name || '—'}</span>
+                  <span className="text-amber font-semibold">Usuario</span>
+                  <span className="text-zinc-100 font-semibold">{user?.name || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Email registrado</span>
-                  <span className="text-amber font-semibold">{user?.email || '—'}</span>
+                  <span className="text-amber font-semibold">Email registrado</span>
+                  <span className="text-zinc-100 font-semibold">{user?.email || '—'}</span>
                 </div>
               </div>
             </div>
@@ -649,20 +649,20 @@ export default function OnboardingPage() {
               </div>
               <div className="space-y-2.5">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Tipo de Negocio</span>
-                  <span className="text-amber font-semibold capitalize">{businessData?.tipo_negocio || '—'}</span>
+                  <span className="text-amber font-semibold">Tipo de Negocio</span>
+                  <span className="text-zinc-100 font-semibold capitalize">{businessData?.tipo_negocio || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Almacén</span>
-                  <span className="text-amber font-semibold">{businessData?.nombre_almacen || '—'}</span>
+                  <span className="text-amber font-semibold">Almacén</span>
+                  <span className="text-zinc-100 font-semibold">{businessData?.nombre_almacen || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Caja</span>
-                  <span className="text-amber font-semibold">{businessData?.nombre_caja || '—'}</span>
+                  <span className="text-amber font-semibold">Caja</span>
+                  <span className="text-zinc-100 font-semibold">{businessData?.nombre_caja || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Impresora</span>
-                  <span className="text-amber font-semibold capitalize">{businessData?.tipo_impresora?.replace('_', ' ') || '—'}</span>
+                  <span className="text-amber font-semibold">Impresora</span>
+                  <span className="text-zinc-100 font-semibold capitalize">{businessData?.tipo_impresora?.replace('_', ' ') || '—'}</span>
                 </div>
               </div>
 
@@ -678,20 +678,20 @@ export default function OnboardingPage() {
                 ) : productData ? (
                   <div className="space-y-2.5">
                     <div className="flex justify-between text-xs">
-                      <span className="text-zinc-100">Nombre</span>
-                      <span className="text-amber font-semibold">{productData.nombre}</span>
+                      <span className="text-amber font-semibold">Nombre</span>
+                      <span className="text-zinc-100 font-semibold">{productData.nombre}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-zinc-100">SKU</span>
-                      <span className="text-amber font-semibold">{productData.sku || '—'}</span>
+                      <span className="text-amber font-semibold">SKU</span>
+                      <span className="text-zinc-100 font-semibold">{productData.sku || '—'}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-zinc-100">Costo</span>
-                      <span className="text-amber font-semibold">{productData.costo || '—'}</span>
+                      <span className="text-amber font-semibold">Costo</span>
+                      <span className="text-zinc-100 font-semibold">{productData.costo || '—'}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-zinc-100">Stock inicial</span>
-                      <span className="text-amber font-semibold">{productData.stock_inicial || '—'}</span>
+                      <span className="text-amber font-semibold">Stock inicial</span>
+                      <span className="text-zinc-100 font-semibold">{productData.stock_inicial || '—'}</span>
                     </div>
                   </div>
                 ) : (
@@ -710,20 +710,20 @@ export default function OnboardingPage() {
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-100">Plan</span>
-                <span className="text-amber font-semibold">14 días de prueba gratuita</span>
+                <span className="text-amber font-semibold">Plan</span>
+                <span className="text-zinc-100 font-semibold">14 días de prueba gratuita</span>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-100">Productos</span>
-                <span className="text-amber font-semibold">Ilimitados durante la prueba</span>
+                <span className="text-amber font-semibold">Productos</span>
+                <span className="text-zinc-100 font-semibold">Ilimitados durante la prueba</span>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-100">Soporte</span>
-                <span className="text-amber font-semibold">Soporte técnico incluido</span>
+                <span className="text-amber font-semibold">Soporte</span>
+                <span className="text-zinc-100 font-semibold">Soporte técnico incluido</span>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-100">Almacenes y Cajas</span>
-                <span className="text-amber font-semibold">Sin límites</span>
+                <span className="text-amber font-semibold">Almacenes y Cajas</span>
+                <span className="text-zinc-100 font-semibold">Sin límites</span>
               </div>
             </div>
           </div>
@@ -731,10 +731,10 @@ export default function OnboardingPage() {
           <button
             onClick={goToDashboard}
             disabled={saving}
-            className="w-full flex flex-col items-center justify-center gap-0.5 py-3.5 px-6 bg-amber text-dark-primary font-semibold rounded-lg hover:bg-amber-dark transition-all disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 py-3 px-6 bg-amber text-dark-primary font-bold rounded-lg hover:bg-amber-dark transition-all disabled:opacity-50"
           >
-            <span className="text-sm">Gracias por confiar en nosotros</span>
-            <span className="text-[11px] opacity-80">Ingresa a tu negocio</span>
+            <Store className="h-4 w-4" />
+            Gracias por confiar en nosotros, ingresa a tu negocio
           </button>
         </div>
       )}
