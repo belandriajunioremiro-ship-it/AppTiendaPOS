@@ -161,8 +161,20 @@ export default function AuthLayout({
         )}
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen">
-        <div className="w-full max-w-md">
+      <div className={`w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen relative ${isLogin ? '' : ''}`}>
+        {isLogin && (
+          <div
+            className="absolute inset-0 opacity-[0.03] pointer-events-none"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgb(161 161 170) 1px, transparent 1px),
+                linear-gradient(to bottom, rgb(161 161 170) 1px, transparent 1px)
+              `,
+              backgroundSize: '40px 40px',
+            }}
+          />
+        )}
+        <div className="w-full max-w-md relative z-10">
           <div className="lg:hidden flex flex-col items-center mb-8">
             <Image src={logo} alt="TiendaPOS" className="h-14 w-auto" priority />
             <span className="font-display text-lg font-bold text-zinc-100 mt-1.5">
