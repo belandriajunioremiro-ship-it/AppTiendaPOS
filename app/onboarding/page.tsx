@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Building2, Store, Package, ArrowRight, ArrowLeft, Check, ChevronRight, Save, Plus, SkipForward, FileText, Tag, Phone, Mail, MapPin, Hash, Barcode, DollarSign, CreditCard } from 'lucide-react';
 import api from '@/lib/axios';
+import { showToast } from '@/lib/toast';
 import { useAuthStore } from '@/stores/auth-store';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -79,7 +80,6 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
@@ -90,14 +90,22 @@ export default function OnboardingPage() {
     loadStep();
   }, [token]);
 
+  const getErrMessage = (err: unknown): string => {
+    const res = (err as { response?: { data?: { message?: string; errors?: Record<string, string[]> } } })?.response;
+    if (res?.data?.errors) {
+      const first = Object.values(res.data.errors)[0]?.[0];
+      if (first) return first;
+    }
+    return res?.data?.message || 'Error al guardar';
+  };
+
   const loadStep = async () => {
     try {
       const response = await api.get('/onboarding/estado');
       const { paso_actual, completado: isCompleted } = response.data.data;
 
       if (isCompleted) {
-        setCompleted(true);
-        router.push('/dashboard');
+        goToDashboard();
         return;
       }
 
@@ -107,6 +115,12 @@ export default function OnboardingPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const goToDashboard = () => {
+    setCompleted(true);
+    showToast.success({ message: '¡Todo listo!', description: 'Tu negocio está configurado. ¡Empieza a vender!' });
+    setTimeout(() => router.push('/dashboard'), 1200);
   };
 
   const fiscalForm = useForm<DatosFiscalesData>({
@@ -123,12 +137,11 @@ export default function OnboardingPage() {
 
   const onSubmitFiscal = async (data: DatosFiscalesData) => {
     setSaving(true);
-    setError(null);
     try {
       await api.post('/onboarding/datos-fiscales', data);
       setCurrentStep(3);
-    } catch (err: unknown) {
-      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al guardar');
+    } catch (err) {
+      showToast.error({ message: getErrMessage(err) });
     } finally {
       setSaving(false);
     }
@@ -136,7 +149,6 @@ export default function OnboardingPage() {
 
   const onSubmitBusiness = async (data: ConfigurarNegocioData) => {
     setSaving(true);
-    setError(null);
     try {
       await api.post('/onboarding/configurar-negocio', {
         tipo_negocio: data.tipo_negocio,
@@ -145,8 +157,8 @@ export default function OnboardingPage() {
         tipo_impresora: data.tipo_impresora || undefined,
       });
       setCurrentStep(4);
-    } catch (err: unknown) {
-      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al guardar');
+    } catch (err) {
+      showToast.error({ message: getErrMessage(err) });
     } finally {
       setSaving(false);
     }
@@ -154,7 +166,6 @@ export default function OnboardingPage() {
 
   const onSubmitProduct = async (data: PrimerProductoData) => {
     setSaving(true);
-    setError(null);
     try {
       await api.post('/onboarding/primer-producto', {
         nombre: data.nombre,
@@ -165,9 +176,9 @@ export default function OnboardingPage() {
         stock_inicial: data.stock_inicial ? Number(data.stock_inicial) : undefined,
       });
       setCompleted(true);
-      router.push('/dashboard');
-    } catch (err: unknown) {
-      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al guardar');
+      goToDashboard();
+    } catch (err) {
+      showToast.error({ message: getErrMessage(err) });
     } finally {
       setSaving(false);
     }
@@ -178,9 +189,9 @@ export default function OnboardingPage() {
     try {
       await api.post('/onboarding/saltar-primer-producto');
       setCompleted(true);
-      router.push('/dashboard');
+      goToDashboard();
     } catch {
-      setError('Error al saltar este paso');
+      showToast.error({ message: 'Error al saltar este paso' });
     } finally {
       setSaving(false);
     }
@@ -200,7 +211,10 @@ export default function OnboardingPage() {
   if (completed) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="text-zinc-400">Redirigiendo al panel...</div>
+        <div className="flex flex-col items-center gap-3 text-zinc-400">
+          <div className="w-5 h-5 border-2 border-amber/30 border-t-amber rounded-full animate-spin" />
+          <span>Redirigiendo al panel...</span>
+        </div>
       </div>
     );
   }
@@ -250,13 +264,6 @@ export default function OnboardingPage() {
           );
         })}
       </div>
-
-      {error && (
-        <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-          <p className="text-red-400 text-sm">{error}</p>
-        </div>
-      )}
 
       {currentStep === 2 && (
         <form onSubmit={fiscalForm.handleSubmit(onSubmitFiscal)} className="space-y-6">
