@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/auth-store';
 import api from '@/lib/axios';
+import Image from 'next/image';
+import logo from '@/assets/TiendaPoslogo1.png';
 import {
   Bell, LayoutDashboard, ShoppingCart, Package, DollarSign,
   Users, BarChart3, Settings, LogOut, TrendingUp, AlertTriangle,
-  Store, CreditCard, Menu, ClipboardList, ArrowUpRight,
-  AlertCircle, CheckCircle2
+  CreditCard, Menu, ClipboardList, ArrowUpRight,
+  AlertCircle, CheckCircle2, Store
 } from 'lucide-react';
 
 interface DashboardData {
@@ -141,9 +143,7 @@ export default function DashboardPage() {
   const sidebar = (
     <aside className="h-full flex flex-col">
       <div className="flex items-center gap-3 px-6 py-5 border-b border-white/[0.06]">
-        <div className="w-8 h-8 rounded-lg bg-amber flex items-center justify-center">
-          <Store className="h-4 w-4 text-dark-primary" />
-        </div>
+        <Image src={logo} alt="TiendaPOS" className="h-8 w-auto" priority />
         <span className="font-display text-lg font-bold text-zinc-100 leading-none">
           Tienda<span className="text-amber">POS</span>
         </span>
@@ -155,17 +155,14 @@ export default function DashboardPage() {
             key={item.href}
             href={item.href}
             onClick={(e) => { e.preventDefault(); if (item.href === '/dashboard') return; }}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 group ${
+            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 group ${
               item.href === '/dashboard'
-                ? 'bg-amber/10 text-amber'
+                ? 'bg-amber/[0.08] text-amber font-medium'
                 : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04]'
             }`}
           >
             <item.icon className="h-4 w-4 shrink-0" />
-            <span className="font-medium">{item.label}</span>
-            {item.href === '/dashboard' && (
-              <div className="ml-auto w-1.5 h-1.5 rounded-full bg-amber" />
-            )}
+            <span>{item.label}</span>
           </a>
         ))}
       </nav>
@@ -202,9 +199,22 @@ export default function DashboardPage() {
         {sidebar}
       </div>
 
-      <div className={`fixed inset-0 z-50 lg:hidden ${sidebarOpen ? '' : 'hidden'}`}>
-        <div className="fixed inset-0 bg-black/60" onClick={() => setSidebarOpen(false)} />
-        <div className="fixed inset-y-0 left-0 w-64 bg-[#090909] border-r border-white/[0.06] animate-fade-in">
+      <div
+        className={`fixed inset-0 z-50 transition-all duration-300 ease-out lg:hidden ${
+          sidebarOpen ? 'visible' : 'invisible'
+        }`}
+      >
+        <div
+          className={`fixed inset-0 bg-black/60 transition-opacity duration-300 ease-out ${
+            sidebarOpen ? 'opacity-100' : 'opacity-0'
+          }`}
+          onClick={() => setSidebarOpen(false)}
+        />
+        <div
+          className={`fixed inset-y-0 left-0 w-64 bg-[#090909] border-r border-white/[0.06] transition-transform duration-300 ease-out ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
           {sidebar}
         </div>
       </div>
@@ -237,7 +247,7 @@ export default function DashboardPage() {
 
         <main className="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
               <div className="flex items-center justify-between mb-3">
                 <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">
                   <TrendingUp className="h-5 w-5 text-emerald-400" />
@@ -254,19 +264,19 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
               <div className="flex items-center justify-between mb-3">
                 <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
                   <Package className="h-5 w-5 text-blue-400" />
                 </div>
               </div>
               <p className="text-2xl font-bold text-zinc-100 mb-0.5 font-display">
-                {dashboard?.total_productos ?? '—'}
+                {dashboard?.total_productos ?? 0}
               </p>
               <p className="text-xs text-zinc-500">Productos registrados</p>
             </div>
 
-            <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
               <div className="flex items-center justify-between mb-3">
                 <div className="w-10 h-10 rounded-lg bg-amber/10 flex items-center justify-center">
                   <DollarSign className="h-5 w-5 text-amber" />
@@ -278,7 +288,7 @@ export default function DashboardPage() {
               <p className="text-xs text-zinc-500">Cajas abiertas</p>
             </div>
 
-            <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
               <div className="flex items-center justify-between mb-3">
                 <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
                   <CreditCard className="h-5 w-5 text-purple-400" />
@@ -295,7 +305,7 @@ export default function DashboardPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <div className="lg:col-span-1">
-              <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5">
+              <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <Bell className="h-4 w-4 text-amber" />
                   <h2 className="text-sm font-semibold text-zinc-100">Alertas de Inventario</h2>
@@ -354,7 +364,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="lg:col-span-2">
-              <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5">
+              <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-4 w-4 text-emerald-400" />
@@ -414,7 +424,7 @@ export default function DashboardPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5">
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center">
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
@@ -443,7 +453,7 @@ export default function DashboardPage() {
               )}
             </div>
 
-            <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5">
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 rounded-lg bg-amber/10 flex items-center justify-center">
                   <Store className="h-3.5 w-3.5 text-amber" />
@@ -471,7 +481,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="bg-dark-secondary border border-white/[0.06] rounded-xl p-5">
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 rounded-lg bg-blue-500/10 flex items-center justify-center">
                   <ClipboardList className="h-3.5 w-3.5 text-blue-400" />
