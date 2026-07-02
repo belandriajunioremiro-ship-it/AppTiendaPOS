@@ -65,6 +65,9 @@ export default function DashboardPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
+  const [storeName, setStoreName] = useState('');
+  const [storeCurrency, setStoreCurrency] = useState('USD');
+  const [storeFiscalRegime, setStoreFiscalRegime] = useState('General');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userRole, setUserRole] = useState('cajero');
@@ -80,10 +83,11 @@ export default function DashboardPage() {
 
   const loadData = async () => {
     try {
-      const [meRes, dashRes, subRes] = await Promise.all([
+      const [meRes, dashRes, subRes, tiendaRes] = await Promise.all([
         api.get('/auth/me'),
         api.get('/dashboard'),
         api.get('/suscripcion/estado').catch(() => null),
+        api.get('/tienda').catch(() => null),
       ]);
 
       const profileData = meRes.data.data;
@@ -91,6 +95,12 @@ export default function DashboardPage() {
       setUserRole(profileData.roles?.[0] || 'cajero');
       setDashboard(dashRes.data.data);
       setSubscription(subRes?.data?.data || null);
+      if (tiendaRes?.data?.data) {
+        const t = tiendaRes.data.data;
+        setStoreName(t.nombre_comercial || t.razon_social || '');
+        setStoreCurrency(t.moneda_base || 'USD');
+        setStoreFiscalRegime(t.regimen_fiscal || 'General');
+      }
     } catch (err) {
       setError('Error al cargar los datos del dashboard');
     } finally {
@@ -149,8 +159,8 @@ export default function DashboardPage() {
             Tienda<span className="text-amber">POS</span>
           </span>
         </div>
-        {profile?.tienda?.nombre_comercial && (
-          <p className="text-[11px] text-zinc-500 mt-1.5 truncate pl-[2px]">{profile.tienda.nombre_comercial}</p>
+        {storeName && (
+          <p className="text-[11px] text-zinc-500 mt-1.5 truncate pl-[2px]">{storeName}</p>
         )}
       </div>
 
@@ -466,18 +476,18 @@ export default function DashboardPage() {
                 <div>
                   <p className="text-xs text-zinc-500">Mi Tienda</p>
                   <p className="text-lg font-semibold text-zinc-100 font-display truncate">
-                    {profile?.tienda?.nombre_comercial || 'Tienda'}
+                    {storeName || 'Tienda'}
                   </p>
                 </div>
               </div>
               <div className="space-y-1">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-zinc-500">Moneda base</span>
-                  <span className="text-zinc-300">{profile?.tienda?.moneda_base || 'USD'}</span>
+                  <span className="text-zinc-300">{storeCurrency}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-zinc-500">Régimen fiscal</span>
-                  <span className="text-zinc-300">{profile?.tienda?.regimen_fiscal || 'General'}</span>
+                  <span className="text-zinc-300">{storeFiscalRegime}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-zinc-500">Plan</span>
