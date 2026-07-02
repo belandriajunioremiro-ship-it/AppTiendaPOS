@@ -72,7 +72,7 @@ function LoginForm() {
       : { opacity: 0, transform: 'translateY(8px)' };
 
   const inputCls =
-    'h-12 bg-white border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-amber focus:ring-[3px] focus:ring-amber/[0.12] rounded-xl text-[14px]';
+    'h-12 bg-white border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-amber focus:ring-[3px] focus:ring-amber/[0.15] rounded-xl text-[14px] shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:border-zinc-300 transition-colors duration-200';
 
   return (
     <div style={anim(0)}>
@@ -173,7 +173,7 @@ function LoginForm() {
           type="submit"
           disabled={loading || !isValid}
           style={anim(320)}
-          className="group relative w-full flex items-center justify-center gap-2.5 h-12 bg-amber text-[#09090b] font-semibold text-[14px] rounded-xl transition-all duration-200 hover:bg-amber-dark hover:shadow-[0_8px_28px_-6px_rgba(245,158,11,0.4)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fafaf9]"
+          className="group relative w-full flex items-center justify-center gap-2.5 h-12 bg-amber text-[#09090b] font-semibold text-[14px] rounded-xl transition-all duration-200 hover:bg-amber-dark hover:shadow-[0_8px_32px_-4px_rgba(245,158,11,0.5)] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#faf9f7] shadow-[0_2px_8px_rgba(245,158,11,0.25)]"
         >
           {loading ? (
             <>
@@ -186,7 +186,7 @@ function LoginForm() {
         </button>
       </form>
 
-      <div style={anim(400)} className="mt-10 pt-6 border-t border-zinc-100 text-center">
+      <div style={anim(400)} className="mt-10 pt-6 border-t border-zinc-200/60 text-center">
         <p className="text-zinc-500 text-[13px]">
           ¿Aún no tienes cuenta?{' '}
           <Link

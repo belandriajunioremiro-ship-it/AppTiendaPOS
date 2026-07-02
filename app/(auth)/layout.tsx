@@ -65,30 +65,35 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="min-h-screen flex flex-col lg:flex-row">
         {/* ── LEFT: 60% dark branding ── */}
         <div className="hidden lg:flex lg:w-[60%] relative overflow-hidden flex-col bg-[#09090b]">
-          {/* Dot pattern */}
+          {/* Dot pattern - más visible */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              backgroundImage: 'radial-gradient(circle at 1.5px 1.5px, rgba(245,158,11,0.05) 1px, transparent 0)',
-              backgroundSize: '32px 32px',
+              backgroundImage: 'radial-gradient(circle at 1.5px 1.5px, rgba(245,158,11,0.07) 1px, transparent 0)',
+              backgroundSize: '28px 28px',
             }}
           />
-          {/* Subtle grid overlay */}
+          {/* Subtle grid overlay - más sutil pero presente */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               backgroundImage:
-                'linear-gradient(rgba(245,158,11,0.015) 1px, transparent 0), linear-gradient(90deg, rgba(245,158,11,0.015) 1px, transparent 0)',
-              backgroundSize: '64px 64px',
+                'linear-gradient(rgba(245,158,11,0.02) 1px, transparent 0), linear-gradient(90deg, rgba(245,158,11,0.02) 1px, transparent 0)',
+              backgroundSize: '56px 56px',
             }}
           />
-          {/* Amber glow behind title */}
+          {/* Amber glow principal - MÁS PRONUNCIADO */}
           <div
-            className="absolute top-[40%] left-[35%] -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] rounded-full pointer-events-none"
-            style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 65%)' }}
+            className="absolute top-[42%] left-[30%] -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
+            style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.18) 0%, rgba(245,158,11,0.06) 40%, transparent 70%)' }}
+          />
+          {/* Glow secundario - más cercano al centro */}
+          <div
+            className="absolute top-[38%] left-[25%] -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-full pointer-events-none"
+            style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.25) 0%, transparent 60%)' }}
           />
           {/* Edge vignette */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#09090b] via-transparent to-[#09090b] pointer-events-none opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#09090b] via-transparent to-[#09090b] pointer-events-none opacity-50" />
 
           {/* Content */}
           <div className="relative z-10 flex flex-col flex-1 px-16 xl:px-20 pt-10 pb-10">
@@ -113,11 +118,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 {loginFeatures.map((item, idx) => {
                   const Icon = item.icon;
                   return (
-                    <div key={idx} className="flex items-center gap-3.5 group">
-                      <div className="w-8 h-8 rounded-lg bg-amber/[0.08] flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-amber/[0.15] group-hover:scale-105">
-                        <Icon className="h-[15px] w-[15px] text-amber" />
+                    <div key={idx} className="flex items-center gap-4 group">
+                      <div className="w-9 h-9 rounded-xl bg-amber/[0.12] flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-amber/[0.2] group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+                        <Icon className="h-4 w-4 text-amber" />
                       </div>
-                      <span className="text-zinc-400 text-[14px] transition-colors duration-200 group-hover:text-zinc-300">
+                      <span className="text-zinc-300 text-[14px] font-medium transition-colors duration-200 group-hover:text-zinc-100">
                         {item.text}
                       </span>
                     </div>
@@ -126,19 +131,29 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
 
-            {/* Security badge */}
-            <div className="pt-5 border-t border-zinc-900">
-              <div className="flex items-center gap-2">
-                <Shield className="h-3.5 w-3.5 text-amber/50 shrink-0" />
-                <span className="text-zinc-600 text-[12px]">Conexión cifrada de extremo a extremo</span>
+            {/* Security badge - más visible */}
+            <div className="pt-5 border-t border-zinc-800/80">
+              <div className="flex items-center gap-2.5">
+                <div className="w-6 h-6 rounded-md bg-amber/[0.1] flex items-center justify-center">
+                  <Shield className="h-3.5 w-3.5 text-amber/70" />
+                </div>
+                <span className="text-zinc-400 text-[12px] font-medium">Conexión cifrada de extremo a extremo</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── RIGHT: 40% light form ── */}
-        <div className="w-full lg:w-[40%] flex items-center justify-center px-6 py-10 lg:px-14 min-h-screen bg-[#fafaf9]">
-          <div className="w-full max-w-[340px]">
+        {/* ── RIGHT: 40% light form - fondo más cálido ── */}
+        <div className="w-full lg:w-[40%] flex items-center justify-center px-6 py-10 lg:px-14 min-h-screen bg-[#faf9f7] relative">
+          {/* Sutil patrón decorativo en fondo claro */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-30"
+            style={{
+              backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(245,158,11,0.08) 1px, transparent 0)',
+              backgroundSize: '40px 40px',
+            }}
+          />
+          <div className="w-full max-w-[340px] relative z-10">
             {/* Mobile logo */}
             <div className="lg:hidden flex flex-col items-center mb-10">
               <Image src={logo} alt="TiendaPOS" className="h-10 w-auto mb-1.5" priority />
