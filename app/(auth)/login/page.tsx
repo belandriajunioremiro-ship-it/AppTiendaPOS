@@ -9,6 +9,7 @@ import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
 import { useAuthStore } from '@/stores/auth-store';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { showToast } from '@/lib/toast';
 import Link from 'next/link';
 
 const loginSchema = z.object({
@@ -29,7 +30,7 @@ export default function LoginPage() {
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login, loading, error, clearError } = useAuthStore();
+  const { login, loading, clearError } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const resetSuccess = searchParams.get('reset');
   const registered = searchParams.get('registered');
@@ -47,6 +48,7 @@ function LoginForm() {
     clearError();
     const success = await login(data.email, data.password);
     if (success) {
+      showToast.loginSuccess();
       try {
         const { data: onboardingData } = await (await import('@/lib/axios')).default.get('/onboarding/estado');
         if (!onboardingData.data.completado) {
@@ -55,6 +57,8 @@ function LoginForm() {
         }
       } catch {}
       router.push('/dashboard');
+    } else {
+      showToast.credentials();
     }
   };
 
@@ -79,12 +83,6 @@ function LoginForm() {
         <div className="mb-6 p-3 rounded-lg bg-amber/10 border border-amber/20 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-amber shrink-0" />
           <p className="text-amber text-sm">Cuenta creada exitosamente. Continúa con la configuración de tu negocio.</p>
-        </div>
-      )}
-      {error && (
-        <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-          <p className="text-red-400 text-sm">{error}</p>
         </div>
       )}
 
