@@ -30,16 +30,14 @@
   --radius: 0.5rem;
 }
 
-/* Override browser autofill styles */
+/* Autofill — works for both dark and light inputs */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px rgba(24, 24, 27, 0.5) inset !important;
-  box-shadow: 0 0 0 30px rgba(24, 24, 27, 0.5) inset !important;
-  -webkit-text-fill-color: #F4F4F5 !important;
-  caret-color: #F4F4F5 !important;
-  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: inherit !important;
+  caret-color: inherit !important;
+  transition: background-color 9999s ease-in-out 0s;
 }
 
 @layer base {

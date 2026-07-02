@@ -2,13 +2,13 @@
 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Store, Shield, TrendingUp, HeadphonesIcon, Clock, BarChart3, PackageSearch, Users, CreditCard, Zap, RefreshCw, TrendingDown } from 'lucide-react';
+import { Store, Shield, TrendingUp, HeadphonesIcon, Clock, BarChart3, PackageSearch, Users, CreditCard, Zap, RefreshCw, BarChart2 } from 'lucide-react';
 import logo from '@/assets/TiendaPoslogo1.png';
 
 const loginFeatures = [
   { icon: Zap, text: 'Vende más rápido en tu caja' },
   { icon: RefreshCw, text: 'Inventario sincronizado al instante' },
-  { icon: TrendingDown, text: 'Métricas que te ayudan a decidir' },
+  { icon: BarChart2, text: 'Métricas que te ayudan a decidir' },
 ];
 
 const features = [
@@ -55,40 +55,57 @@ const leftContent: Record<string, { title: string; subtitle: string; highlights:
   },
 };
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const content = leftContent[pathname] || leftContent['/login'];
   const isLogin = pathname === '/login';
 
   if (isLogin) {
     return (
-      <div className="min-h-screen flex flex-col lg:flex-row bg-[#fafaf9]">
-        {/* Left panel — 60% branding dark */}
-        <div className="hidden lg:flex lg:w-[60%] relative overflow-hidden min-h-screen bg-[#09090b]">
-          {/* SVG dot pattern overlay */}
-          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(245 158 11) 1px, transparent 0)', backgroundSize: '28px 28px' }} />
-          {/* Subtle amber glow — softened */}
-          <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-amber-glow blur-[200px] pointer-events-none" />
+      <div className="min-h-screen flex flex-col lg:flex-row">
+        {/* ── LEFT: 60% dark branding ── */}
+        <div className="hidden lg:flex lg:w-[60%] relative overflow-hidden flex-col bg-[#09090b]">
+          {/* Dot pattern */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: 'radial-gradient(circle at 1.5px 1.5px, rgba(245,158,11,0.05) 1px, transparent 0)',
+              backgroundSize: '32px 32px',
+            }}
+          />
+          {/* Subtle grid overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(245,158,11,0.015) 1px, transparent 0), linear-gradient(90deg, rgba(245,158,11,0.015) 1px, transparent 0)',
+              backgroundSize: '64px 64px',
+            }}
+          />
+          {/* Amber glow behind title */}
+          <div
+            className="absolute top-[40%] left-[35%] -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] rounded-full pointer-events-none"
+            style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 65%)' }}
+          />
+          {/* Edge vignette */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#09090b] via-transparent to-[#09090b] pointer-events-none opacity-60" />
 
-          <div className="relative z-10 flex flex-col h-full w-full px-16 xl:px-20 pt-12 pb-10">
+          {/* Content */}
+          <div className="relative z-10 flex flex-col flex-1 px-16 xl:px-20 pt-10 pb-10">
             {/* Logo */}
-            <div className="flex items-center gap-3">
-              <Image src={logo} alt="TiendaPOS" className="h-9 w-auto" priority />
-              <span className="font-display text-base font-bold tracking-tight text-[#fafaf9]">
+            <div className="flex items-center gap-2.5">
+              <Image src={logo} alt="TiendaPOS" className="h-7 w-auto" priority />
+              <span className="font-display text-[14px] font-bold tracking-tight text-zinc-200">
                 Tienda<span className="text-amber">POS</span>
               </span>
             </div>
 
-            {/* Content */}
-            <div className="flex-1 flex flex-col justify-center -mt-8 max-w-md">
-              <h1 className="font-display text-[40px] xl:text-[48px] font-bold text-[#fafaf9] mb-3 leading-[1.06] tracking-tight">
+            {/* Center */}
+            <div className="flex-1 flex flex-col justify-center max-w-md -mt-4">
+              <h1 className="font-display text-[44px] xl:text-[52px] font-bold text-zinc-50 leading-[1.05] tracking-[-0.02em] mb-3">
                 {content.title}
               </h1>
-              <p className="text-zinc-500 text-[15px] leading-relaxed mb-14 max-w-sm">
+              <p className="text-zinc-500 text-[15px] leading-relaxed max-w-[26rem] mb-14">
                 {content.subtitle}
               </p>
 
@@ -97,10 +114,10 @@ export default function AuthLayout({
                   const Icon = item.icon;
                   return (
                     <div key={idx} className="flex items-center gap-3.5 group">
-                      <div className="w-7 h-7 rounded-[6px] bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/[0.14] transition-colors">
+                      <div className="w-8 h-8 rounded-lg bg-amber/[0.08] flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-amber/[0.15] group-hover:scale-105">
                         <Icon className="h-[15px] w-[15px] text-amber" />
                       </div>
-                      <span className="text-zinc-400 text-sm group-hover:text-zinc-300 transition-colors">
+                      <span className="text-zinc-400 text-[14px] transition-colors duration-200 group-hover:text-zinc-300">
                         {item.text}
                       </span>
                     </div>
@@ -110,20 +127,21 @@ export default function AuthLayout({
             </div>
 
             {/* Security badge */}
-            <div className="pt-6 border-t border-zinc-800/80">
-              <div className="flex items-center gap-2.5">
-                <Shield className="h-3.5 w-3.5 text-amber/70 shrink-0" />
-                <span className="text-zinc-600 text-[12px] tracking-wide">Conexión cifrada de extremo a extremo</span>
+            <div className="pt-5 border-t border-zinc-900">
+              <div className="flex items-center gap-2">
+                <Shield className="h-3.5 w-3.5 text-amber/50 shrink-0" />
+                <span className="text-zinc-600 text-[12px]">Conexión cifrada de extremo a extremo</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right panel — 40% light form */}
-        <div className="w-full lg:w-[40%] flex items-center justify-center px-6 py-8 lg:px-12 min-h-screen bg-[#fafaf9]">
-          <div className="w-full max-w-sm">
+        {/* ── RIGHT: 40% light form ── */}
+        <div className="w-full lg:w-[40%] flex items-center justify-center px-6 py-10 lg:px-14 min-h-screen bg-[#fafaf9]">
+          <div className="w-full max-w-[340px]">
+            {/* Mobile logo */}
             <div className="lg:hidden flex flex-col items-center mb-10">
-              <Image src={logo} alt="TiendaPOS" className="h-11 w-auto mb-2" priority />
+              <Image src={logo} alt="TiendaPOS" className="h-10 w-auto mb-1.5" priority />
               <span className="font-display text-lg font-bold text-[#09090b]">
                 Tienda<span className="text-amber">POS</span>
               </span>
@@ -135,6 +153,7 @@ export default function AuthLayout({
     );
   }
 
+  /* ── Other auth pages — dark theme ── */
   return (
     <div className="min-h-screen bg-dark-primary flex flex-col lg:flex-row">
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-dark-secondary via-dark-primary to-dark-tertiary min-h-screen">
@@ -167,9 +186,7 @@ export default function AuthLayout({
                     <Icon className="h-4 w-4 text-amber" />
                   </div>
                   <div>
-                    <p className="text-zinc-300 text-sm leading-relaxed">
-                      {item.text}
-                    </p>
+                    <p className="text-zinc-300 text-sm leading-relaxed">{item.text}</p>
                   </div>
                 </div>
               );
