@@ -70,7 +70,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="flex flex-col items-start max-w-md">
             <div className="flex flex-row items-center gap-3 mb-8">
               <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
-              <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100">
+              <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100 leading-none">
                 Tienda<span className="text-amber">POS</span>
               </span>
             </div>
