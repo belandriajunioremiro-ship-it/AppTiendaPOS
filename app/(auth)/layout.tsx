@@ -70,6 +70,12 @@ export default function AuthLayout({
         )}
         {isLogin ? (
           <div className="relative z-10 flex flex-col h-full w-full px-12 lg:px-16 pt-6 pb-10">
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-amber-glow blur-[150px]" />
+              <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-amber-glow blur-[150px]" />
+              <div className="absolute -bottom-40 -right-40 w-60 h-60 rounded-full bg-amber-glow blur-[120px]" />
+              <div className="absolute -top-40 -left-40 w-60 h-60 rounded-full bg-amber-glow blur-[120px]" />
+            </div>
             <div className="flex flex-row items-center gap-3 mb-14">
               <Image src={logo} alt="TiendaPOS" className="h-12 w-auto lg:h-14" priority />
               <span className="font-display text-lg lg:text-xl font-bold text-zinc-100">
