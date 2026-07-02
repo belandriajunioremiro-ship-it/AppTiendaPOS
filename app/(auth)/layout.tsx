@@ -69,10 +69,10 @@ export default function AuthLayout({
           </div>
         )}
         {isLogin ? (
-          <div className="relative z-10 flex flex-col h-full w-full px-12 lg:px-16 pt-16 pb-10">
-            <div className="flex flex-row items-center gap-3 mb-16">
-              <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
-              <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100">
+          <div className="relative z-10 flex flex-col h-full w-full px-12 lg:px-16 pt-6 pb-10">
+            <div className="flex flex-row items-center gap-3 mb-14">
+              <Image src={logo} alt="TiendaPOS" className="h-12 w-auto lg:h-14" priority />
+              <span className="font-display text-lg lg:text-xl font-bold text-zinc-100">
                 Tienda<span className="text-amber">POS</span>
               </span>
             </div>
