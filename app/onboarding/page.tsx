@@ -226,9 +226,9 @@ export default function OnboardingPage() {
               <div
                 className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all w-full ${
                   isActive
-                    ? 'bg-amber/10 text-amber ring-1 ring-amber/25'
+                    ? 'text-amber ring-1 ring-amber/25'
                     : isPast
-                    ? 'bg-amber/[0.06] text-amber/60 ring-1 ring-amber/10'
+                    ? 'text-amber/60 ring-1 ring-amber/10'
                     : 'text-zinc-500'
                 }`}
               >
