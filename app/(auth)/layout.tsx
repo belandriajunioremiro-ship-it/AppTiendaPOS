@@ -60,8 +60,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   const content = leftContent[pathname] || leftContent['/login'];
 
   return (
-    <div className="min-h-screen bg-dark-primary flex flex-col lg:flex-row">
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-dark-secondary via-dark-primary to-dark-tertiary min-h-screen">
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#090909] min-h-screen">
         <div className="absolute inset-0">
           <div className="absolute -top-1/4 -left-1/4 w-3/4 h-3/4 rounded-full bg-amber/5 blur-[100px]" />
           <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-amber/5 blur-[80px]" />
@@ -109,7 +109,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen bg-[#1b1c22]">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex flex-col items-center mb-8">
             <Image src={logo} alt="TiendaPOS" className="h-14 w-auto" priority />

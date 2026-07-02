@@ -62,9 +62,9 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
         dark: {
-          primary: '#0A0A0B',
-          secondary: '#111113',
-          tertiary: '#18181B',
+          primary: '#090909',
+          secondary: '#0a0a0b',
+          tertiary: '#1b1c22',
           elevated: '#1F1F23',
           border: '#27272A',
         },
