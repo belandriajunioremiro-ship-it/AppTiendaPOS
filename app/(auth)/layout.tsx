@@ -61,11 +61,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#090909] min-h-screen">
-        <div className="absolute inset-0">
-          <div className="absolute -top-1/4 -left-1/4 w-3/4 h-3/4 rounded-full bg-amber/5 blur-[100px]" />
-          <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-amber/5 blur-[80px]" />
-        </div>
+        <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#090909] min-h-screen">
         <div className="relative z-10 flex flex-col justify-center h-full px-12 lg:px-16 py-16">
           <div className="flex flex-col items-start max-w-md">
             <div className="flex flex-row items-center gap-3 mb-8">
