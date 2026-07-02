@@ -153,15 +153,15 @@ export default function DashboardPage() {
   const sidebar = (
     <aside className="h-full flex flex-col">
       <div className="px-5 pt-5 pb-3 border-b border-white/[0.06]">
-        <div className="flex items-center gap-2.5">
-          <Image src={logo} alt="TiendaPOS" className="h-7 w-auto" priority />
-          <span className="font-display text-base font-bold text-zinc-100 leading-none">
+        <div className="flex flex-col items-center gap-0.5">
+          <Image src={logo} alt="TiendaPOS" className="h-10 w-auto" priority />
+          <span className="font-display text-base font-bold text-zinc-100 leading-tight mt-1">
             Tienda<span className="text-amber">POS</span>
           </span>
+          {storeName && (
+            <p className="text-xs font-semibold text-zinc-100 leading-tight">{storeName}</p>
+          )}
         </div>
-        {storeName && (
-          <p className="text-xs font-semibold text-zinc-100 mt-1.5 truncate">{storeName}</p>
-        )}
       </div>
 
       <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
