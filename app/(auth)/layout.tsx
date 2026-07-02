@@ -70,26 +70,25 @@ export default function AuthLayout({
         {/* Left panel — 60% branding dark */}
         <div className="hidden lg:flex lg:w-[60%] relative overflow-hidden min-h-screen bg-[#09090b]">
           {/* SVG dot pattern overlay */}
-          <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(245 158 11) 1px, transparent 0)', backgroundSize: '28px 28px' }} />
-          {/* Subtle amber glow behind content */}
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-amber-glow blur-[180px] pointer-events-none" />
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(245 158 11) 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+          {/* Subtle amber glow — softened */}
+          <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-amber-glow blur-[200px] pointer-events-none" />
 
-          <div className="relative z-10 flex flex-col h-full w-full px-16 xl:px-20 pt-10 pb-10">
+          <div className="relative z-10 flex flex-col h-full w-full px-16 xl:px-20 pt-12 pb-10">
             {/* Logo */}
-            <div className="flex items-center gap-3 mb-20">
-              <Image src={logo} alt="TiendaPOS" className="h-10 w-auto" priority />
-              <span className="font-display text-lg font-bold tracking-tight text-[#fafaf9]">
+            <div className="flex items-center gap-3">
+              <Image src={logo} alt="TiendaPOS" className="h-9 w-auto" priority />
+              <span className="font-display text-base font-bold tracking-tight text-[#fafaf9]">
                 Tienda<span className="text-amber">POS</span>
               </span>
             </div>
 
             {/* Content */}
-            <div className="flex-1 flex flex-col justify-center max-w-lg">
-              <div className="w-10 h-px bg-amber/50 mb-8" />
-              <h1 className="font-display text-4xl xl:text-5xl font-bold text-[#fafaf9] mb-4 leading-[1.08] tracking-tight">
+            <div className="flex-1 flex flex-col justify-center -mt-8 max-w-md">
+              <h1 className="font-display text-[40px] xl:text-[48px] font-bold text-[#fafaf9] mb-3 leading-[1.06] tracking-tight">
                 {content.title}
               </h1>
-              <p className="text-zinc-500 text-base leading-relaxed mb-12 max-w-sm">
+              <p className="text-zinc-500 text-[15px] leading-relaxed mb-14 max-w-sm">
                 {content.subtitle}
               </p>
 
@@ -98,8 +97,8 @@ export default function AuthLayout({
                   const Icon = item.icon;
                   return (
                     <div key={idx} className="flex items-center gap-3.5 group">
-                      <div className="w-7 h-7 rounded-md bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/15 transition-colors">
-                        <Icon className="h-3.5 w-3.5 text-amber" />
+                      <div className="w-7 h-7 rounded-[6px] bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/[0.14] transition-colors">
+                        <Icon className="h-[15px] w-[15px] text-amber" />
                       </div>
                       <span className="text-zinc-400 text-sm group-hover:text-zinc-300 transition-colors">
                         {item.text}
@@ -111,10 +110,10 @@ export default function AuthLayout({
             </div>
 
             {/* Security badge */}
-            <div className="pt-6 border-t border-zinc-800">
+            <div className="pt-6 border-t border-zinc-800/80">
               <div className="flex items-center gap-2.5">
-                <Shield className="h-3.5 w-3.5 text-amber shrink-0" />
-                <span className="text-zinc-600 text-xs tracking-wide">Conexión cifrada de extremo a extremo</span>
+                <Shield className="h-3.5 w-3.5 text-amber/70 shrink-0" />
+                <span className="text-zinc-600 text-[12px] tracking-wide">Conexión cifrada de extremo a extremo</span>
               </div>
             </div>
           </div>
@@ -123,10 +122,9 @@ export default function AuthLayout({
         {/* Right panel — 40% light form */}
         <div className="w-full lg:w-[40%] flex items-center justify-center px-6 py-8 lg:px-12 min-h-screen bg-[#fafaf9]">
           <div className="w-full max-w-sm">
-            {/* Mobile logo */}
             <div className="lg:hidden flex flex-col items-center mb-10">
-              <Image src={logo} alt="TiendaPOS" className="h-12 w-auto mb-2" priority />
-              <span className="font-display text-xl font-bold text-[#09090b]">
+              <Image src={logo} alt="TiendaPOS" className="h-11 w-auto mb-2" priority />
+              <span className="font-display text-lg font-bold text-[#09090b]">
                 Tienda<span className="text-amber">POS</span>
               </span>
             </div>

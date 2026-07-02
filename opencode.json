@@ -1,0 +1,21 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "mimodeloperzonalizado5.2": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Mi Modelo Personalizado 5.2",
+      "options": {
+        "baseURL": "https://api.doubleword.ai/v1",
+        "apiKey": "sk--8dIFEaxnSxVHRx49jBIIF2N52pm9ln1IQFwR_1DY6w"
+      },
+      "models": {
+        "zai-org/GLM-5.2-FP8": {
+          "name": "GLM 5.2 FP8",
+          "interleaved": {
+            "field": "reasoning_content"
+          }
+        }
+      }
+    }
+  }
+}
