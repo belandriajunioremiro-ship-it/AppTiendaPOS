@@ -4,7 +4,6 @@ import {
   CheckCircle2,
   AlertTriangle,
   Info,
-  X,
   Mail,
   Lock,
   Wifi,
@@ -31,11 +30,10 @@ const icons = {
   networkOk: <Wifi className={iconStyle} />,
   timeout: <Clock className={iconStyle} />,
   security: <Shield className={iconStyle} />,
-  close: <X className="h-4 w-4" />,
 };
 
 const IconCircle = ({ icon }: { icon: React.ReactNode }) => (
-  <div className="w-8 h-8 rounded-full bg-amber flex items-center justify-center shrink-0">
+  <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-amber flex items-center justify-center shrink-0 z-10">
     {icon}
   </div>
 );
@@ -45,9 +43,6 @@ export const showToast = {
     toast.error(message, {
       description,
       icon: <IconCircle icon={icons.error} />,
-      style: {
-        borderColor: 'rgba(245, 158, 11, 0.4)',
-      },
     });
   },
 
@@ -55,9 +50,6 @@ export const showToast = {
     toast.success(message, {
       description,
       icon: <IconCircle icon={icons.success} />,
-      style: {
-        borderColor: 'rgba(245, 158, 11, 0.4)',
-      },
     });
   },
 
@@ -65,9 +57,6 @@ export const showToast = {
     toast.warning(message, {
       description,
       icon: <IconCircle icon={icons.warning} />,
-      style: {
-        borderColor: 'rgba(245, 158, 11, 0.4)',
-      },
     });
   },
 
@@ -75,9 +64,6 @@ export const showToast = {
     toast.info(message, {
       description,
       icon: <IconCircle icon={icons.info} />,
-      style: {
-        borderColor: 'rgba(245, 158, 11, 0.4)',
-      },
     });
   },
 
