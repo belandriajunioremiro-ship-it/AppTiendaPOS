@@ -20,7 +20,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            'peer flex h-11 w-full rounded-lg border border-white/20 bg-dark-tertiary/50 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 hover:border-white/35 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 font-body',
+            'peer flex h-11 w-full rounded-lg border border-white/20 bg-dark-tertiary/50 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 hover:border-white/35 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 ease-out caret-amber font-body',
             icon && 'pl-10',
             error && 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
             className
