@@ -210,7 +210,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-dark-primary flex">
-      <div className="hidden lg:flex lg:w-56 lg:flex-col lg:fixed lg:inset-y-0 bg-[#090909] border-r border-white/[0.06]">
+      <div className="hidden lg:flex lg:w-48 lg:flex-col lg:fixed lg:inset-y-0 bg-[#090909] border-r border-white/[0.06]">
         {sidebar}
       </div>
 
@@ -226,7 +226,7 @@ export default function DashboardPage() {
           onClick={() => setSidebarOpen(false)}
         />
         <div
-          className={`fixed inset-y-0 left-0 w-56 bg-[#090909] border-r border-white/[0.06] transition-transform duration-300 ease-out ${
+          className={`fixed inset-y-0 left-0 w-48 bg-[#090909] border-r border-white/[0.06] transition-transform duration-300 ease-out ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -234,7 +234,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="flex-1 lg:pl-56">
+      <div className="flex-1 lg:pl-48">
         <header className="sticky top-0 z-30 bg-dark-primary/80 backdrop-blur-md border-b border-white/[0.06]">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
             <div className="flex items-center gap-3">
