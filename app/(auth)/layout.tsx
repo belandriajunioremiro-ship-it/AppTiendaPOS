@@ -87,8 +87,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               {content.highlights.map((item, idx) => {
                 const Icon = item.icon;
                 return (
-                  <div key={idx} className="flex items-start gap-3 group">
-                    <div className="mt-0.5 w-8 h-8 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
+                  <div key={idx} className="flex items-center gap-3 group">
+                    <div className="w-8 h-8 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
                       <Icon className="h-4 w-4 text-amber" />
                     </div>
                     <div>
