@@ -223,15 +223,7 @@ export default function OnboardingPage() {
           const isPast = currentStep !== null && currentStep > step.number;
           return (
             <div key={step.number} className="flex items-center gap-2 flex-1 min-w-0">
-              <div
-                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all w-full ${
-                  isActive
-                    ? 'text-amber ring-1 ring-amber/25'
-                    : isPast
-                    ? 'text-amber/60 ring-1 ring-amber/10'
-                    : 'text-zinc-500'
-                }`}
-              >
+              <div className="flex items-center gap-2.5 px-3 py-2.5 text-sm transition-all w-full">
                 <div className={`w-6 h-6 rounded-md flex items-center justify-center transition-all shrink-0 ${
                   isActive ? 'bg-amber text-dark-primary' :
                   isPast ? 'bg-amber/20 text-amber' : 'bg-zinc-800 text-zinc-500'
@@ -243,14 +235,16 @@ export default function OnboardingPage() {
                   )}
                 </div>
                 <div className="hidden sm:block min-w-0 flex-1">
-                  <p className={`text-xs font-semibold truncate ${isActive ? 'text-amber' : isPast ? 'text-amber/70' : 'text-zinc-400'}`}>
+                  <p className={`text-xs font-semibold truncate ${isActive ? 'text-amber' : isPast ? 'text-amber/60' : 'text-zinc-500'}`}>
                     {step.label}
                   </p>
-                  <p className="text-[11px] opacity-60 truncate">{step.desc}</p>
+                  <p className={`text-[11px] truncate ${isActive ? 'text-zinc-100' : isPast ? 'text-zinc-500' : 'text-zinc-600'}`}>
+                    {step.desc}
+                  </p>
                 </div>
               </div>
               {idx < steps.length - 1 && (
-                <ChevronRight className="h-4 w-4 text-zinc-600 shrink-0" />
+                <ChevronRight className="h-4 w-4 text-zinc-700 shrink-0" />
               )}
             </div>
           );
