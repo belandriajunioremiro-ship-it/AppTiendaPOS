@@ -160,7 +160,7 @@ export default function DashboardPage() {
           </span>
         </div>
         {storeName && (
-          <p className="text-[11px] text-zinc-500 mt-1.5 truncate pl-[2px]">{storeName}</p>
+          <p className="text-xs font-semibold text-zinc-100 mt-1.5 truncate">{storeName}</p>
         )}
       </div>
 
