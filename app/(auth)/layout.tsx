@@ -66,42 +66,44 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="absolute -top-1/4 -left-1/4 w-3/4 h-3/4 rounded-full bg-amber/5 blur-[100px]" />
           <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-amber/5 blur-[80px]" />
         </div>
-        <div className="relative z-10 flex flex-col justify-center h-full px-12 lg:px-16">
-          <div className="flex flex-row items-center gap-3 mb-8">
-            <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
-            <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100">
-              Tienda<span className="text-amber">POS</span>
-            </span>
-          </div>
-          <div className="mb-10">
-            <h2 className="font-display text-3xl xl:text-4xl font-bold text-zinc-100 mb-3 leading-tight">
-              {content.title}
-            </h2>
-            <p className="text-zinc-400 text-base leading-relaxed max-w-md">
-              {content.subtitle}
-            </p>
-          </div>
+        <div className="relative z-10 flex flex-col justify-center h-full px-12 lg:px-16 py-16">
+          <div className="flex flex-col items-start max-w-md">
+            <div className="flex flex-row items-center gap-3 mb-8">
+              <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
+              <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100">
+                Tienda<span className="text-amber">POS</span>
+              </span>
+            </div>
+            <div className="mb-10">
+              <h2 className="font-display text-3xl xl:text-4xl font-bold text-zinc-100 mb-3 leading-tight">
+                {content.title}
+              </h2>
+              <p className="text-zinc-400 text-base leading-relaxed max-w-md">
+                {content.subtitle}
+              </p>
+            </div>
 
-          <div className="space-y-4">
-            {content.highlights.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div key={idx} className="flex items-start gap-3 group">
-                  <div className="mt-0.5 w-8 h-8 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
-                    <Icon className="h-4 w-4 text-amber" />
+            <div className="space-y-4">
+              {content.highlights.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div key={idx} className="flex items-start gap-3 group">
+                    <div className="mt-0.5 w-8 h-8 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
+                      <Icon className="h-4 w-4 text-amber" />
+                    </div>
+                    <div>
+                      <p className="text-zinc-300 text-sm leading-relaxed">{item.text}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-zinc-300 text-sm leading-relaxed">{item.text}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
 
-          <div className="mt-10 pt-8 border-t border-dark-border">
-            <div className="flex items-center gap-2 text-zinc-500 text-xs">
-              <Shield className="h-3.5 w-3.5 shrink-0" />
-              <span>Tus datos están protegidos con encriptación SSL</span>
+            <div className="mt-10 pt-8 border-t border-dark-border">
+              <div className="flex items-center gap-2 text-zinc-500 text-xs">
+                <Shield className="h-3.5 w-3.5 shrink-0" />
+                <span>Tus datos están protegidos con encriptación SSL</span>
+              </div>
             </div>
           </div>
         </div>
