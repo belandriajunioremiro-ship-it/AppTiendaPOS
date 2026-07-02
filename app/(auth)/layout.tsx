@@ -75,6 +75,14 @@ export default function AuthLayout({
               <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-amber-glow blur-[150px]" />
               <div className="absolute -bottom-40 -right-40 w-60 h-60 rounded-full bg-amber-glow blur-[120px]" />
               <div className="absolute -top-40 -left-40 w-60 h-60 rounded-full bg-amber-glow blur-[120px]" />
+              <div
+                className="absolute inset-0 opacity-[0.04]"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                  backgroundSize: '256px 256px',
+                  imageRendering: 'pixelated',
+                }}
+              />
             </div>
             <div className="flex flex-row items-center gap-3 mb-14">
               <Image src={logo} alt="TiendaPOS" className="h-12 w-auto lg:h-14" priority />
