@@ -142,20 +142,25 @@ export default function DashboardPage() {
 
   const sidebar = (
     <aside className="h-full flex flex-col">
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-white/[0.06]">
-        <Image src={logo} alt="TiendaPOS" className="h-8 w-auto" priority />
-        <span className="font-display text-lg font-bold text-zinc-100 leading-none">
-          Tienda<span className="text-amber">POS</span>
-        </span>
+      <div className="px-5 pt-5 pb-3 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2.5">
+          <Image src={logo} alt="TiendaPOS" className="h-7 w-auto" priority />
+          <span className="font-display text-base font-bold text-zinc-100 leading-none">
+            Tienda<span className="text-amber">POS</span>
+          </span>
+        </div>
+        {profile?.tienda?.nombre_comercial && (
+          <p className="text-[11px] text-zinc-500 mt-1.5 truncate pl-[2px]">{profile.tienda.nombre_comercial}</p>
+        )}
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => (
           <a
             key={item.href}
             href={item.href}
             onClick={(e) => { e.preventDefault(); if (item.href === '/dashboard') return; }}
-            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 group ${
+            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
               item.href === '/dashboard'
                 ? 'bg-amber/[0.08] text-amber font-medium'
                 : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04]'
@@ -167,24 +172,24 @@ export default function DashboardPage() {
         ))}
       </nav>
 
-      <div className="px-3 py-4 border-t border-white/[0.06]">
-        <div className="flex items-center gap-3 px-3 py-2.5">
-          <div className="w-8 h-8 rounded-full bg-amber/20 flex items-center justify-center text-amber text-xs font-bold shrink-0">
+      <div className="px-4 py-3 border-t border-white/[0.06]">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-full bg-amber/20 flex items-center justify-center text-amber text-[10px] font-bold shrink-0">
             {profile ? getInitials(profile.name) : 'U'}
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-zinc-100 truncate">{profile?.name || 'Usuario'}</p>
-            <p className="text-xs text-zinc-500 truncate">{profile?.email || ''}</p>
+            <p className="text-[11px] text-zinc-500 truncate">{profile?.email || ''}</p>
           </div>
           <button
             onClick={handleLogout}
-            className="p-1.5 rounded-lg text-zinc-500 hover:text-amber hover:bg-amber/10 transition-all shrink-0"
+            className="p-1 rounded-lg text-zinc-500 hover:text-amber hover:bg-amber/10 transition-all shrink-0"
             title="Cerrar Sesión"
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className="h-3.5 w-3.5" />
           </button>
         </div>
-        <div className="px-3 pt-1.5">
+        <div className="mt-2 pl-[38px]">
           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border ${roleColors[userRole] || 'text-zinc-400 border-zinc-700 bg-zinc-800/50'}`}>
             {userRole}
           </span>
@@ -195,7 +200,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-dark-primary flex">
-      <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 bg-[#090909] border-r border-white/[0.06]">
+      <div className="hidden lg:flex lg:w-56 lg:flex-col lg:fixed lg:inset-y-0 bg-[#090909] border-r border-white/[0.06]">
         {sidebar}
       </div>
 
@@ -211,7 +216,7 @@ export default function DashboardPage() {
           onClick={() => setSidebarOpen(false)}
         />
         <div
-          className={`fixed inset-y-0 left-0 w-64 bg-[#090909] border-r border-white/[0.06] transition-transform duration-300 ease-out ${
+          className={`fixed inset-y-0 left-0 w-56 bg-[#090909] border-r border-white/[0.06] transition-transform duration-300 ease-out ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -219,7 +224,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="flex-1 lg:pl-64">
+      <div className="flex-1 lg:pl-56">
         <header className="sticky top-0 z-30 bg-dark-primary/80 backdrop-blur-md border-b border-white/[0.06]">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
             <div className="flex items-center gap-3">
@@ -298,7 +303,7 @@ export default function DashboardPage() {
                 {subscription?.plan?.nombre || 'Gratuito'}
               </p>
               <p className="text-xs text-zinc-500">
-                {subscription?.dias_restantes ? `${subscription.dias_restantes} días restantes` : 'Plan activo'}
+                {subscription?.dias_restantes ? `${Math.round(subscription.dias_restantes)} días restantes` : 'Plan activo'}
               </p>
             </div>
           </div>
