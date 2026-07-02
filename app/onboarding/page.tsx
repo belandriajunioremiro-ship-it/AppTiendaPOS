@@ -596,28 +596,28 @@ export default function OnboardingPage() {
               </div>
               <div className="space-y-2.5">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">RIF / NIT</span>
-                  <span className="text-zinc-200 font-medium">{fiscalData?.identificacion_fiscal || '—'}</span>
+                  <span className="text-zinc-100">RIF / NIT</span>
+                  <span className="text-amber font-semibold">{fiscalData?.identificacion_fiscal || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Razón Social</span>
-                  <span className="text-zinc-200 font-medium">{fiscalData?.razon_social || '—'}</span>
+                  <span className="text-zinc-100">Razón Social</span>
+                  <span className="text-amber font-semibold">{fiscalData?.razon_social || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Nombre Comercial</span>
-                  <span className="text-zinc-200 font-medium">{fiscalData?.nombre_comercial || '—'}</span>
+                  <span className="text-zinc-100">Nombre Comercial</span>
+                  <span className="text-amber font-semibold">{fiscalData?.nombre_comercial || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Dirección</span>
-                  <span className="text-zinc-200 font-medium text-right max-w-[200px] truncate">{fiscalData?.direccion || '—'}</span>
+                  <span className="text-zinc-100">Dirección</span>
+                  <span className="text-amber font-semibold text-right max-w-[200px] truncate">{fiscalData?.direccion || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Teléfono</span>
-                  <span className="text-zinc-200 font-medium">{fiscalData?.telefono || '—'}</span>
+                  <span className="text-zinc-100">Teléfono</span>
+                  <span className="text-amber font-semibold">{fiscalData?.telefono || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Email</span>
-                  <span className="text-zinc-200 font-medium">{fiscalData?.email || user?.email || '—'}</span>
+                  <span className="text-zinc-100">Email</span>
+                  <span className="text-amber font-semibold">{fiscalData?.email || user?.email || '—'}</span>
                 </div>
               </div>
             </div>
@@ -631,20 +631,20 @@ export default function OnboardingPage() {
               </div>
               <div className="space-y-2.5">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Tipo de Negocio</span>
-                  <span className="text-zinc-200 font-medium capitalize">{businessData?.tipo_negocio || '—'}</span>
+                  <span className="text-zinc-100">Tipo de Negocio</span>
+                  <span className="text-amber font-semibold capitalize">{businessData?.tipo_negocio || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Almacén</span>
-                  <span className="text-zinc-200 font-medium">{businessData?.nombre_almacen || '—'}</span>
+                  <span className="text-zinc-100">Almacén</span>
+                  <span className="text-amber font-semibold">{businessData?.nombre_almacen || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Caja</span>
-                  <span className="text-zinc-200 font-medium">{businessData?.nombre_caja || '—'}</span>
+                  <span className="text-zinc-100">Caja</span>
+                  <span className="text-amber font-semibold">{businessData?.nombre_caja || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Impresora</span>
-                  <span className="text-zinc-200 font-medium capitalize">{businessData?.tipo_impresora?.replace('_', ' ') || '—'}</span>
+                  <span className="text-zinc-100">Impresora</span>
+                  <span className="text-amber font-semibold capitalize">{businessData?.tipo_impresora?.replace('_', ' ') || '—'}</span>
                 </div>
               </div>
 
@@ -660,20 +660,20 @@ export default function OnboardingPage() {
                 ) : productData ? (
                   <div className="space-y-2.5">
                     <div className="flex justify-between text-xs">
-                      <span className="text-zinc-500">Nombre</span>
-                      <span className="text-zinc-200 font-medium">{productData.nombre}</span>
+                      <span className="text-zinc-100">Nombre</span>
+                      <span className="text-amber font-semibold">{productData.nombre}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-zinc-500">SKU</span>
-                      <span className="text-zinc-200 font-medium">{productData.sku || '—'}</span>
+                      <span className="text-zinc-100">SKU</span>
+                      <span className="text-amber font-semibold">{productData.sku || '—'}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-zinc-500">Costo</span>
-                      <span className="text-zinc-200 font-medium">{productData.costo || '—'}</span>
+                      <span className="text-zinc-100">Costo</span>
+                      <span className="text-amber font-semibold">{productData.costo || '—'}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-zinc-500">Stock inicial</span>
-                      <span className="text-zinc-200 font-medium">{productData.stock_inicial || '—'}</span>
+                      <span className="text-zinc-100">Stock inicial</span>
+                      <span className="text-amber font-semibold">{productData.stock_inicial || '—'}</span>
                     </div>
                   </div>
                 ) : (
@@ -692,20 +692,20 @@ export default function OnboardingPage() {
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-500">Plan</span>
-                <span className="text-zinc-200 font-medium">14 días de prueba gratuita</span>
+                <span className="text-zinc-100">Plan</span>
+                <span className="text-amber font-semibold">14 días de prueba gratuita</span>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-500">Productos</span>
-                <span className="text-zinc-200 font-medium">Ilimitados durante la prueba</span>
+                <span className="text-zinc-100">Productos</span>
+                <span className="text-amber font-semibold">Ilimitados durante la prueba</span>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-500">Soporte</span>
-                <span className="text-zinc-200 font-medium">Soporte técnico incluido</span>
+                <span className="text-zinc-100">Soporte</span>
+                <span className="text-amber font-semibold">Soporte técnico incluido</span>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-500">Almacenes y Cajas</span>
-                <span className="text-zinc-200 font-medium">Sin límites</span>
+                <span className="text-zinc-100">Almacenes y Cajas</span>
+                <span className="text-amber font-semibold">Sin límites</span>
               </div>
             </div>
           </div>
