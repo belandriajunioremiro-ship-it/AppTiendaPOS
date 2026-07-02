@@ -85,6 +85,7 @@ export default function OnboardingPage() {
   const [businessData, setBusinessData] = useState<ConfigurarNegocioData | null>(null);
   const [productData, setProductData] = useState<PrimerProductoData | null>(null);
   const [skippedProduct, setSkippedProduct] = useState(false);
+  const [storeCountry, setStoreCountry] = useState('');
 
   useEffect(() => {
     if (!token) {
@@ -105,8 +106,17 @@ export default function OnboardingPage() {
 
   const loadStep = async () => {
     try {
-      const response = await api.get('/onboarding/estado');
-      const { paso_actual, completado: isCompleted } = response.data.data;
+      const [onboardingRes, tiendaRes] = await Promise.all([
+        api.get('/onboarding/estado'),
+        api.get('/tienda').catch(() => null),
+      ]);
+      const { paso_actual, completado: isCompleted } = onboardingRes.data.data;
+
+      if (tiendaRes?.data?.data?.pais) {
+        const code = tiendaRes.data.data.pais;
+        const names: Record<string, string> = { VE: 'Venezuela', US: 'Estados Unidos', CO: 'Colombia', PE: 'Perú', EC: 'Ecuador', MX: 'México', AR: 'Argentina', CL: 'Chile', ES: 'España' };
+        setStoreCountry(names[code] || code);
+      }
 
       if (isCompleted) {
         goToDashboard();
@@ -614,6 +624,10 @@ export default function OnboardingPage() {
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-100">Teléfono</span>
                   <span className="text-amber font-semibold">{fiscalData?.telefono || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-100">País</span>
+                  <span className="text-amber font-semibold">{storeCountry || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-100">Usuario</span>
