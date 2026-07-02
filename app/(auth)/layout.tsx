@@ -2,8 +2,14 @@
 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Store, Shield, TrendingUp, HeadphonesIcon, Clock, BarChart3, PackageSearch, Users, CreditCard } from 'lucide-react';
+import { Store, Shield, TrendingUp, HeadphonesIcon, Clock, BarChart3, PackageSearch, Users, CreditCard, Zap, RefreshCw, TrendingDown } from 'lucide-react';
 import logo from '@/assets/TiendaPoslogo1.png';
+
+const loginFeatures = [
+  { icon: Zap, text: 'Vende más rápido en tu caja' },
+  { icon: RefreshCw, text: 'Inventario sincronizado al instante' },
+  { icon: TrendingDown, text: 'Métricas que te ayudan a decidir' },
+];
 
 const features = [
   { icon: Store, text: 'Punto de Venta intuitivo y rápido' },
@@ -17,7 +23,7 @@ const features = [
 const leftContent: Record<string, { title: string; subtitle: string; highlights: { icon: any; text: string }[] }> = {
   '/login': {
     title: 'Bienvenido de vuelta',
-    subtitle: 'El sistema POS más completo para tu negocio en Latinoamérica',
+    subtitle: 'Tu negocio conectado desde cualquier lugar',
     highlights: features,
   },
   '/register': {
@@ -56,119 +62,133 @@ export default function AuthLayout({
 }) {
   const pathname = usePathname();
   const content = leftContent[pathname] || leftContent['/login'];
-
   const isLogin = pathname === '/login';
 
-  return (
-    <div className="min-h-screen bg-dark-primary flex flex-col lg:flex-row">
-      <div className={`hidden lg:flex lg:w-1/2 relative overflow-hidden min-h-screen ${isLogin ? 'bg-amber' : 'bg-gradient-to-br from-dark-secondary via-dark-primary to-dark-tertiary'}`}>
-        {!isLogin && (
-          <div className="absolute inset-0">
-            <div className="absolute -top-1/4 -left-1/4 w-3/4 h-3/4 rounded-full bg-amber-glow blur-[120px]" />
-            <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-amber-glow blur-[100px]" />
-          </div>
-        )}
-        {isLogin ? (
-          <div className="relative z-10 flex flex-col h-full w-full px-12 lg:px-16 pt-6 pb-10">
-            <div
-              className="absolute inset-0 opacity-[0.04] pointer-events-none"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                backgroundSize: '256px 256px',
-                imageRendering: 'pixelated',
-              }}
-            />
-            <div className="flex flex-row items-center gap-3 mb-14">
-              <Image src={logo} alt="TiendaPOS" className="h-12 w-auto lg:h-14" priority />
-              <span className="font-display text-lg lg:text-xl font-bold text-dark-primary">
-                Tienda<span className="text-dark-primary">POS</span>
+  if (isLogin) {
+    return (
+      <div className="min-h-screen flex flex-col lg:flex-row bg-[#fafaf9]">
+        {/* Left panel — 60% branding dark */}
+        <div className="hidden lg:flex lg:w-[60%] relative overflow-hidden min-h-screen bg-[#09090b]">
+          {/* SVG dot pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(245 158 11) 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+          {/* Subtle amber glow behind content */}
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-amber-glow blur-[180px] pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col h-full w-full px-16 xl:px-20 pt-10 pb-10">
+            {/* Logo */}
+            <div className="flex items-center gap-3 mb-20">
+              <Image src={logo} alt="TiendaPOS" className="h-10 w-auto" priority />
+              <span className="font-display text-lg font-bold tracking-tight text-[#fafaf9]">
+                Tienda<span className="text-amber">POS</span>
               </span>
             </div>
-            <div className="flex-1 flex flex-col justify-center">
-              <h2 className="font-display text-4xl xl:text-5xl font-bold text-dark-primary mb-4 leading-[1.1] tracking-tight">
+
+            {/* Content */}
+            <div className="flex-1 flex flex-col justify-center max-w-lg">
+              <div className="w-10 h-px bg-amber/50 mb-8" />
+              <h1 className="font-display text-4xl xl:text-5xl font-bold text-[#fafaf9] mb-4 leading-[1.08] tracking-tight">
                 {content.title}
-              </h2>
-              <p className="text-dark-primary/60 text-base leading-relaxed max-w-md mb-10">
+              </h1>
+              <p className="text-zinc-500 text-base leading-relaxed mb-12 max-w-sm">
                 {content.subtitle}
               </p>
-              <div className="space-y-3">
-                {features.slice(0, 3).map((item, idx) => {
+
+              <div className="space-y-4">
+                {loginFeatures.map((item, idx) => {
                   const Icon = item.icon;
                   return (
-                    <div key={idx} className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded bg-dark-primary/10 flex items-center justify-center">
-                        <Icon className="h-3 w-3 text-dark-primary" />
+                    <div key={idx} className="flex items-center gap-3.5 group">
+                      <div className="w-7 h-7 rounded-md bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/15 transition-colors">
+                        <Icon className="h-3.5 w-3.5 text-amber" />
                       </div>
-                      <span className="text-dark-primary/60 text-sm">{item.text}</span>
+                      <span className="text-zinc-400 text-sm group-hover:text-zinc-300 transition-colors">
+                        {item.text}
+                      </span>
                     </div>
                   );
                 })}
               </div>
             </div>
-            <div className="pt-6 border-t border-dark-primary/20">
-              <div className="flex items-center gap-2 text-dark-primary/50 text-xs">
-                <Shield className="h-3.5 w-3.5 shrink-0" />
-                <span>Tus datos están protegidos con encriptación SSL</span>
+
+            {/* Security badge */}
+            <div className="pt-6 border-t border-zinc-800">
+              <div className="flex items-center gap-2.5">
+                <Shield className="h-3.5 w-3.5 text-amber shrink-0" />
+                <span className="text-zinc-600 text-xs tracking-wide">Conexión cifrada de extremo a extremo</span>
               </div>
             </div>
           </div>
-        ) : (
-          <div className="relative z-10 flex flex-col justify-center h-full px-12 lg:px-16">
-            <div className="flex flex-row items-center gap-3 mb-8">
-              <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
-              <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100">
+        </div>
+
+        {/* Right panel — 40% light form */}
+        <div className="w-full lg:w-[40%] flex items-center justify-center px-6 py-8 lg:px-12 min-h-screen bg-[#fafaf9]">
+          <div className="w-full max-w-sm">
+            {/* Mobile logo */}
+            <div className="lg:hidden flex flex-col items-center mb-10">
+              <Image src={logo} alt="TiendaPOS" className="h-12 w-auto mb-2" priority />
+              <span className="font-display text-xl font-bold text-[#09090b]">
                 Tienda<span className="text-amber">POS</span>
               </span>
             </div>
-            <div className="mb-10">
-              <h2 className="font-display text-3xl xl:text-4xl font-bold text-zinc-100 mb-3 leading-tight">
-                {content.title}
-              </h2>
-              <p className="text-zinc-400 text-base leading-relaxed max-w-md">
-                {content.subtitle}
-              </p>
-            </div>
-            <div className="space-y-4">
-              {content.highlights.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div key={idx} className="flex items-start gap-3 group">
-                    <div className="mt-0.5 w-8 h-8 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
-                      <Icon className="h-4 w-4 text-amber" />
-                    </div>
-                    <div>
-                      <p className="text-zinc-300 text-sm leading-relaxed">
-                        {item.text}
-                      </p>
-                    </div>
+            {children}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-dark-primary flex flex-col lg:flex-row">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-dark-secondary via-dark-primary to-dark-tertiary min-h-screen">
+        <div className="absolute inset-0">
+          <div className="absolute -top-1/4 -left-1/4 w-3/4 h-3/4 rounded-full bg-amber-glow blur-[120px]" />
+          <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-amber-glow blur-[100px]" />
+        </div>
+        <div className="relative z-10 flex flex-col justify-center h-full px-12 lg:px-16">
+          <div className="flex flex-row items-center gap-3 mb-8">
+            <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
+            <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100">
+              Tienda<span className="text-amber">POS</span>
+            </span>
+          </div>
+          <div className="mb-10">
+            <h2 className="font-display text-3xl xl:text-4xl font-bold text-zinc-100 mb-3 leading-tight">
+              {content.title}
+            </h2>
+            <p className="text-zinc-400 text-base leading-relaxed max-w-md">
+              {content.subtitle}
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {content.highlights.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div key={idx} className="flex items-start gap-3 group">
+                  <div className="mt-0.5 w-8 h-8 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
+                    <Icon className="h-4 w-4 text-amber" />
                   </div>
-                );
-              })}
-            </div>
-            <div className="mt-10 pt-8 border-t border-dark-border">
-              <div className="flex items-center gap-2 text-zinc-500 text-xs">
-                <Shield className="h-3.5 w-3.5 shrink-0" />
-                <span>Tus datos están protegidos con encriptación SSL</span>
-              </div>
+                  <div>
+                    <p className="text-zinc-300 text-sm leading-relaxed">
+                      {item.text}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-10 pt-8 border-t border-dark-border">
+            <div className="flex items-center gap-2 text-zinc-500 text-xs">
+              <Shield className="h-3.5 w-3.5 shrink-0" />
+              <span>Tus datos están protegidos con encriptación SSL</span>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
-      <div className={`w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen relative ${isLogin ? '' : ''}`}>
-        {isLogin && (
-          <div
-            className="absolute inset-0 opacity-[0.03] pointer-events-none"
-            style={{
-              backgroundImage: `
-                linear-gradient(to right, rgb(161 161 170) 1px, transparent 1px),
-                linear-gradient(to bottom, rgb(161 161 170) 1px, transparent 1px)
-              `,
-              backgroundSize: '40px 40px',
-            }}
-          />
-        )}
-        <div className="w-full max-w-md relative z-10">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen">
+        <div className="w-full max-w-md">
           <div className="lg:hidden flex flex-col items-center mb-8">
             <Image src={logo} alt="TiendaPOS" className="h-14 w-auto" priority />
             <span className="font-display text-lg font-bold text-zinc-100 mt-1.5">
