@@ -34,28 +34,19 @@ const icons = {
   close: <X className="h-4 w-4" />,
 };
 
-const iconContainer = (type: 'error' | 'success' | 'warning' | 'info') => {
-  const colors = {
-    error: 'bg-red-500',
-    success: 'bg-emerald-500',
-    warning: 'bg-amber',
-    info: 'bg-blue-500',
-  };
-  return colors[type];
-};
+const IconCircle = ({ icon }: { icon: React.ReactNode }) => (
+  <div className="w-8 h-8 rounded-full bg-amber flex items-center justify-center shrink-0">
+    {icon}
+  </div>
+);
 
 export const showToast = {
   error: ({ message, description }: ToastOptions) => {
     toast.error(message, {
       description,
-      icon: (
-        <div className={`w-8 h-8 rounded-full ${iconContainer('error')} flex items-center justify-center shrink-0`}>
-          {icons.error}
-        </div>
-      ),
-      className: 'border-red-500/30',
+      icon: <IconCircle icon={icons.error} />,
       style: {
-        borderColor: 'rgba(239, 68, 68, 0.3)',
+        borderColor: 'rgba(245, 158, 11, 0.4)',
       },
     });
   },
@@ -63,14 +54,9 @@ export const showToast = {
   success: ({ message, description }: ToastOptions) => {
     toast.success(message, {
       description,
-      icon: (
-        <div className={`w-8 h-8 rounded-full ${iconContainer('success')} flex items-center justify-center shrink-0`}>
-          {icons.success}
-        </div>
-      ),
-      className: 'border-emerald-500/30',
+      icon: <IconCircle icon={icons.success} />,
       style: {
-        borderColor: 'rgba(16, 185, 129, 0.3)',
+        borderColor: 'rgba(245, 158, 11, 0.4)',
       },
     });
   },
@@ -78,14 +64,9 @@ export const showToast = {
   warning: ({ message, description }: ToastOptions) => {
     toast.warning(message, {
       description,
-      icon: (
-        <div className={`w-8 h-8 rounded-full ${iconContainer('warning')} flex items-center justify-center shrink-0`}>
-          {icons.warning}
-        </div>
-      ),
-      className: 'border-amber/30',
+      icon: <IconCircle icon={icons.warning} />,
       style: {
-        borderColor: 'rgba(245, 158, 11, 0.3)',
+        borderColor: 'rgba(245, 158, 11, 0.4)',
       },
     });
   },
@@ -93,14 +74,9 @@ export const showToast = {
   info: ({ message, description }: ToastOptions) => {
     toast.info(message, {
       description,
-      icon: (
-        <div className={`w-8 h-8 rounded-full ${iconContainer('info')} flex items-center justify-center shrink-0`}>
-          {icons.info}
-        </div>
-      ),
-      className: 'border-blue-500/30',
+      icon: <IconCircle icon={icons.info} />,
       style: {
-        borderColor: 'rgba(59, 130, 246, 0.3)',
+        borderColor: 'rgba(245, 158, 11, 0.4)',
       },
     });
   },
@@ -150,4 +126,4 @@ export const showToast = {
   },
 };
 
-export { icons, iconStyle, iconContainer };
+export { icons, iconStyle, IconCircle };
