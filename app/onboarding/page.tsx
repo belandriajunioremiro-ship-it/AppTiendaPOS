@@ -616,8 +616,12 @@ export default function OnboardingPage() {
                   <span className="text-amber font-semibold">{fiscalData?.telefono || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-100">Email</span>
-                  <span className="text-amber font-semibold">{fiscalData?.email || user?.email || '—'}</span>
+                  <span className="text-zinc-100">Usuario</span>
+                  <span className="text-amber font-semibold">{user?.name || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-100">Email registrado</span>
+                  <span className="text-amber font-semibold">{user?.email || '—'}</span>
                 </div>
               </div>
             </div>
@@ -713,10 +717,10 @@ export default function OnboardingPage() {
           <button
             onClick={goToDashboard}
             disabled={saving}
-            className="w-full flex items-center justify-center gap-2 py-3 px-6 bg-amber text-dark-primary font-semibold rounded-lg hover:bg-amber-dark transition-all disabled:opacity-50"
+            className="w-full flex flex-col items-center justify-center gap-0.5 py-3.5 px-6 bg-amber text-dark-primary font-semibold rounded-lg hover:bg-amber-dark transition-all disabled:opacity-50"
           >
-            <Store className="h-4 w-4" />
-            Acceder a tu sistema
+            <span className="text-sm">Gracias por confiar en nosotros</span>
+            <span className="text-[11px] opacity-80">Ingresa a tu negocio</span>
           </button>
         </div>
       )}
