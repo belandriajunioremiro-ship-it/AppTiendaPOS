@@ -39,6 +39,8 @@ const primerProductoSchema = z.object({
   nombre: z.string().min(1, 'Requerido'),
   sku: z.string().optional(),
   codigo_barra: z.string().optional(),
+  categoria_id: z.string().optional(),
+  descripcion: z.string().optional(),
   costo: z.string().optional(),
   aplica_iva: z.boolean().optional(),
   stock_inicial: z.string().optional(),
@@ -86,6 +88,7 @@ export default function OnboardingPage() {
   const [productData, setProductData] = useState<PrimerProductoData | null>(null);
   const [skippedProduct, setSkippedProduct] = useState(false);
   const [storeCountry, setStoreCountry] = useState('');
+  const [categories, setCategories] = useState<{ id: number; nombre: string }[]>([]);
 
   useEffect(() => {
     if (!token) {
@@ -94,6 +97,12 @@ export default function OnboardingPage() {
     }
     loadStep();
   }, [token]);
+
+  useEffect(() => {
+    if (currentStep === 4) {
+      api.get('/categorias').then(res => setCategories(res.data.data || res.data)).catch(() => {});
+    }
+  }, [currentStep]);
 
   const getErrMessage = (err: unknown): string => {
     const res = (err as { response?: { data?: { message?: string; errors?: Record<string, string[]> } } })?.response;
@@ -187,6 +196,8 @@ export default function OnboardingPage() {
         nombre: data.nombre,
         sku: data.sku || undefined,
         codigo_barra: data.codigo_barra || undefined,
+        categoria_id: data.categoria_id ? Number(data.categoria_id) : undefined,
+        descripcion: data.descripcion || undefined,
         costo: data.costo ? Number(data.costo) : undefined,
         aplica_iva: data.aplica_iva ?? true,
         stock_inicial: data.stock_inicial ? Number(data.stock_inicial) : undefined,
@@ -495,6 +506,32 @@ export default function OnboardingPage() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="categoria_id">Categoría</Label>
+              <Select
+                onValueChange={(value) => productForm.setValue('categoria_id', value)}
+              >
+                <SelectTrigger id="categoria_id">
+                  <SelectValue placeholder="Selecciona una categoría" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat.id} value={String(cat.id)}>{cat.nombre}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="descripcion">Descripción <span className="text-zinc-500">(opcional)</span></Label>
+              <textarea
+                id="descripcion"
+                className="w-full px-3 py-2 bg-dark-tertiary/50 border border-white/20 rounded-lg text-zinc-100 placeholder:text-zinc-500 hover:border-white/35 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 text-sm min-h-[60px] resize-none transition-all duration-300 ease-out caret-amber font-body"
+                placeholder="Describe tu producto..."
+                {...productForm.register('descripcion')}
+              />
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="sku">SKU <span className="text-zinc-500">(opcional)</span></Label>
               <Input
                 id="sku"
@@ -681,6 +718,16 @@ export default function OnboardingPage() {
                       <span className="text-amber font-semibold">Nombre</span>
                       <span className="text-zinc-100 font-semibold">{productData.nombre}</span>
                     </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-amber font-semibold">Categoría</span>
+                      <span className="text-zinc-100 font-semibold">{categories.find(c => String(c.id) === productData.categoria_id)?.nombre || '—'}</span>
+                    </div>
+                    {productData.descripcion && (
+                      <div className="flex justify-between text-xs">
+                        <span className="text-amber font-semibold">Descripción</span>
+                        <span className="text-zinc-100 font-semibold text-right max-w-[200px] truncate">{productData.descripcion}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-xs">
                       <span className="text-amber font-semibold">SKU</span>
                       <span className="text-zinc-100 font-semibold">{productData.sku || '—'}</span>
