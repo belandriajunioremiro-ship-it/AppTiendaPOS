@@ -320,7 +320,7 @@ function ResetPasswordForm() {
         </form>
       )}
 
-      <div className="mt-6 pt-6 border-t border-dark-border text-center">
+      <div className="mt-6 pt-6 border-t border-white/20 text-center">
         <Link
           href="/login"
           className="inline-flex items-center gap-2 text-zinc-400 text-sm hover:text-zinc-100 transition-colors"

@@ -234,7 +234,7 @@ export default function RegisterPage() {
         </button>
       </form>
 
-      <div className="mt-6 pt-6 border-t border-dark-border text-center">
+      <div className="mt-6 pt-6 border-t border-white/20 text-center">
         <p className="text-zinc-400 text-sm">
           ¿Ya tienes cuenta?{' '}
           <Link

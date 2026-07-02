@@ -266,7 +266,7 @@ export default function OnboardingPage() {
 
       {currentStep === 2 && (
         <form onSubmit={fiscalForm.handleSubmit(onSubmitFiscal)} className="space-y-6">
-          <div className="flex items-center gap-3 pb-4 border-b border-dark-border">
+          <div className="flex items-center gap-3 pb-4 border-b border-white/20">
             <div className="w-9 h-9 rounded-lg bg-amber/15 flex items-center justify-center">
               <Building2 className="h-4 w-4 text-amber" />
             </div>
@@ -339,7 +339,7 @@ export default function OnboardingPage() {
             <Label htmlFor="direccion">Dirección</Label>
             <textarea
               id="direccion"
-              className="w-full px-3 py-2 bg-dark-tertiary/50 border border-dark-border rounded-lg text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 text-sm min-h-[80px] resize-none transition-all duration-200 font-body"
+              className="w-full px-3 py-2 bg-dark-tertiary/50 border border-white/20 rounded-lg text-zinc-100 placeholder:text-zinc-500 hover:border-white/35 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 text-sm min-h-[80px] resize-none transition-all duration-300 ease-out caret-amber font-body"
               placeholder="Av. Principal, Edif. 123"
               {...fiscalForm.register('direccion')}
             />
@@ -363,7 +363,7 @@ export default function OnboardingPage() {
 
       {currentStep === 3 && (
         <form onSubmit={businessForm.handleSubmit(onSubmitBusiness)} className="space-y-6">
-          <div className="flex items-center gap-3 pb-4 border-b border-dark-border">
+          <div className="flex items-center gap-3 pb-4 border-b border-white/20">
             <div className="w-9 h-9 rounded-lg bg-amber/15 flex items-center justify-center">
               <Store className="h-4 w-4 text-amber" />
             </div>
@@ -453,7 +453,7 @@ export default function OnboardingPage() {
 
       {currentStep === 4 && (
         <form onSubmit={productForm.handleSubmit(onSubmitProduct)} className="space-y-6">
-          <div className="flex items-center gap-3 pb-4 border-b border-dark-border">
+          <div className="flex items-center gap-3 pb-4 border-b border-white/20">
             <div className="w-9 h-9 rounded-lg bg-amber/15 flex items-center justify-center">
               <Package className="h-4 w-4 text-amber" />
             </div>
@@ -550,7 +550,7 @@ export default function OnboardingPage() {
               type="button"
               onClick={skipProduct}
               disabled={saving}
-              className="flex items-center justify-center gap-2 py-2.5 px-5 text-zinc-400 hover:text-zinc-100 border border-dark-border rounded-lg hover:border-zinc-600 transition-all disabled:opacity-50 text-sm"
+              className="flex items-center justify-center gap-2 py-2.5 px-5 text-zinc-400 hover:text-zinc-100 border border-white/20 rounded-lg hover:border-white/35 transition-all duration-300 ease-out disabled:opacity-50 text-sm"
             >
               <SkipForward className="h-4 w-4" />
               Saltar paso

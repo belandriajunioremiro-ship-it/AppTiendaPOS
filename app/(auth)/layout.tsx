@@ -95,7 +95,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               })}
             </div>
 
-            <div className="mt-10 pt-8 border-t border-dark-border">
+            <div className="mt-10 pt-8 border-t border-white/20">
               <div className="flex items-center gap-2 text-zinc-500 text-xs">
                 <Shield className="h-3.5 w-3.5 shrink-0" />
                 <span>Tus datos están protegidos con encriptación SSL</span>

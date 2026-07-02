@@ -7,16 +7,12 @@ export default function OnboardingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-dark-primary flex flex-col lg:flex-row">
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-dark-secondary via-dark-primary to-dark-tertiary min-h-screen">
-        <div className="absolute inset-0">
-          <div className="absolute -top-1/4 -left-1/4 w-3/4 h-3/4 rounded-full bg-amber-glow blur-[120px]" />
-          <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-amber-glow blur-[100px]" />
-        </div>
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#090909] min-h-screen">
         <div className="relative z-10 flex flex-col justify-center h-full px-6 lg:px-10">
-          <div className="flex flex-row items-center gap-3 mb-10">
+          <div className="flex flex-row items-center gap-3 mb-8">
             <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
-            <span className="font-display text-2xl font-bold text-zinc-100">
+            <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100 leading-none">
               Tienda<span className="text-amber">POS</span>
             </span>
           </div>
@@ -27,8 +23,8 @@ export default function OnboardingLayout({
             Registra tus datos fiscales, configura tu tienda y agrega tu primer producto para empezar a vender.
           </p>
           <div className="space-y-10">
-            <div className="flex items-start gap-4 group">
-              <div className="mt-0.5 w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
+            <div className="flex items-center gap-4 group">
+              <div className="w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
                 <span className="text-amber text-sm font-bold">1</span>
               </div>
               <div>
@@ -36,8 +32,8 @@ export default function OnboardingLayout({
                 <p className="text-zinc-500 text-xs mt-0.5">Registra tu identificación fiscal y dirección</p>
               </div>
             </div>
-            <div className="flex items-start gap-4 group">
-              <div className="mt-0.5 w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
+            <div className="flex items-center gap-4 group">
+              <div className="w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
                 <span className="text-amber text-sm font-bold">2</span>
               </div>
               <div>
@@ -45,8 +41,8 @@ export default function OnboardingLayout({
                 <p className="text-zinc-500 text-xs mt-0.5">Elige el tipo de negocio y personaliza tu caja</p>
               </div>
             </div>
-            <div className="flex items-start gap-4 group">
-              <div className="mt-0.5 w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
+            <div className="flex items-center gap-4 group">
+              <div className="w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
                 <span className="text-amber text-sm font-bold">3</span>
               </div>
               <div>
@@ -57,7 +53,7 @@ export default function OnboardingLayout({
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-12 min-h-screen">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-12 min-h-screen bg-dark-tertiary">
         <div className="w-full max-w-2xl">
           <div className="lg:hidden flex flex-col items-center mb-8">
             <Image src={logo} alt="TiendaPOS" className="h-14 w-auto" priority />
