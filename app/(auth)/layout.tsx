@@ -61,7 +61,7 @@ export default function AuthLayout({
 
   return (
     <div className="min-h-screen bg-dark-primary flex flex-col lg:flex-row">
-      <div className={`hidden lg:flex lg:w-1/2 relative overflow-hidden min-h-screen ${isLogin ? 'bg-dark-primary' : 'bg-gradient-to-br from-dark-secondary via-dark-primary to-dark-tertiary'}`}>
+      <div className={`hidden lg:flex lg:w-1/2 relative overflow-hidden min-h-screen ${isLogin ? 'bg-amber' : 'bg-gradient-to-br from-dark-secondary via-dark-primary to-dark-tertiary'}`}>
         {!isLogin && (
           <div className="absolute inset-0">
             <div className="absolute -top-1/4 -left-1/4 w-3/4 h-3/4 rounded-full bg-amber-glow blur-[120px]" />
@@ -70,31 +70,25 @@ export default function AuthLayout({
         )}
         {isLogin ? (
           <div className="relative z-10 flex flex-col h-full w-full px-12 lg:px-16 pt-6 pb-10">
-            <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-amber-glow blur-[150px]" />
-              <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-amber-glow blur-[150px]" />
-              <div className="absolute -bottom-40 -right-40 w-60 h-60 rounded-full bg-amber-glow blur-[120px]" />
-              <div className="absolute -top-40 -left-40 w-60 h-60 rounded-full bg-amber-glow blur-[120px]" />
-              <div
-                className="absolute inset-0 opacity-[0.04]"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                  backgroundSize: '256px 256px',
-                  imageRendering: 'pixelated',
-                }}
-              />
-            </div>
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                backgroundSize: '256px 256px',
+                imageRendering: 'pixelated',
+              }}
+            />
             <div className="flex flex-row items-center gap-3 mb-14">
               <Image src={logo} alt="TiendaPOS" className="h-12 w-auto lg:h-14" priority />
-              <span className="font-display text-lg lg:text-xl font-bold text-zinc-100">
-                Tienda<span className="text-amber">POS</span>
+              <span className="font-display text-lg lg:text-xl font-bold text-dark-primary">
+                Tienda<span className="text-dark-primary">POS</span>
               </span>
             </div>
             <div className="flex-1 flex flex-col justify-center">
-              <h2 className="font-display text-4xl xl:text-5xl font-bold text-zinc-100 mb-4 leading-[1.1] tracking-tight">
+              <h2 className="font-display text-4xl xl:text-5xl font-bold text-dark-primary mb-4 leading-[1.1] tracking-tight">
                 {content.title}
               </h2>
-              <p className="text-zinc-500 text-base leading-relaxed max-w-md mb-10">
+              <p className="text-dark-primary/60 text-base leading-relaxed max-w-md mb-10">
                 {content.subtitle}
               </p>
               <div className="space-y-3">
@@ -102,17 +96,17 @@ export default function AuthLayout({
                   const Icon = item.icon;
                   return (
                     <div key={idx} className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded bg-amber/10 flex items-center justify-center">
-                        <Icon className="h-3 w-3 text-amber" />
+                      <div className="w-5 h-5 rounded bg-dark-primary/10 flex items-center justify-center">
+                        <Icon className="h-3 w-3 text-dark-primary" />
                       </div>
-                      <span className="text-zinc-500 text-sm">{item.text}</span>
+                      <span className="text-dark-primary/60 text-sm">{item.text}</span>
                     </div>
                   );
                 })}
               </div>
             </div>
-            <div className="pt-6 border-t border-dark-border">
-              <div className="flex items-center gap-2 text-zinc-600 text-xs">
+            <div className="pt-6 border-t border-dark-primary/20">
+              <div className="flex items-center gap-2 text-dark-primary/50 text-xs">
                 <Shield className="h-3.5 w-3.5 shrink-0" />
                 <span>Tus datos están protegidos con encriptación SSL</span>
               </div>
