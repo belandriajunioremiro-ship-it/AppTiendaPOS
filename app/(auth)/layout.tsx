@@ -69,38 +69,38 @@ export default function AuthLayout({
           </div>
         )}
         {isLogin ? (
-          <div className="relative z-10 flex flex-col justify-center h-full w-full px-12 lg:px-16">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber/10 to-transparent" />
+          <div className="relative z-10 flex flex-col h-full w-full px-12 lg:px-16 pt-16 pb-10">
             <div className="flex flex-row items-center gap-3 mb-16">
               <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
               <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100">
                 Tienda<span className="text-amber">POS</span>
               </span>
             </div>
-            <div className="mb-6">
-              <div className="w-12 h-px bg-amber/40 mb-8" />
+            <div className="flex-1 flex flex-col justify-center">
               <h2 className="font-display text-4xl xl:text-5xl font-bold text-zinc-100 mb-4 leading-[1.1] tracking-tight">
                 {content.title}
               </h2>
-              <p className="text-zinc-500 text-base leading-relaxed max-w-md">
+              <p className="text-zinc-500 text-base leading-relaxed max-w-md mb-10">
                 {content.subtitle}
               </p>
-            </div>
-            <div className="mt-auto pt-8">
-              <div className="flex items-center gap-2 text-zinc-600 text-xs">
-                <Shield className="h-3 w-3 shrink-0" />
-                <span>SSL seguro • Tus datos protegidos</span>
-              </div>
-              <div className="flex items-center gap-3 mt-3">
-                <div className="flex -space-x-2">
-                  {[1,2,3,4].map((i) => (
-                    <div key={i} className="w-6 h-6 rounded-full bg-dark-tertiary border border-dark-border flex items-center justify-center">
-                      <span className="text-[8px] text-zinc-500 font-medium">{String.fromCharCode(64 + i)}</span>
+              <div className="space-y-3">
+                {features.slice(0, 3).map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={idx} className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded bg-amber/10 flex items-center justify-center">
+                        <Icon className="h-3 w-3 text-amber" />
+                      </div>
+                      <span className="text-zinc-500 text-sm">{item.text}</span>
                     </div>
-                  ))}
-                </div>
-                <span className="text-zinc-600 text-xs">+4,000 negocios activos</span>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="pt-6 border-t border-dark-border">
+              <div className="flex items-center gap-2 text-zinc-600 text-xs">
+                <Shield className="h-3.5 w-3.5 shrink-0" />
+                <span>Tus datos están protegidos con encriptación SSL</span>
               </div>
             </div>
           </div>
