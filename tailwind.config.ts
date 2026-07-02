@@ -64,7 +64,7 @@ const config: Config = {
         dark: {
           primary: '#090909',
           secondary: '#0a0a0b',
-          tertiary: '#15161a',
+          tertiary: '#121317',
           elevated: '#1F1F23',
           border: '#27272A',
         },
