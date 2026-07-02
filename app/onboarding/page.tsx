@@ -76,7 +76,7 @@ const steps = [
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
   const [currentStep, setCurrentStep] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -617,7 +617,7 @@ export default function OnboardingPage() {
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-500">Email</span>
-                  <span className="text-zinc-200 font-medium">{fiscalData?.email || '—'}</span>
+                  <span className="text-zinc-200 font-medium">{fiscalData?.email || user?.email || '—'}</span>
                 </div>
               </div>
             </div>
