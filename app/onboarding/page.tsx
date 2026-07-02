@@ -81,6 +81,10 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [fiscalData, setFiscalData] = useState<DatosFiscalesData | null>(null);
+  const [businessData, setBusinessData] = useState<ConfigurarNegocioData | null>(null);
+  const [productData, setProductData] = useState<PrimerProductoData | null>(null);
+  const [skippedProduct, setSkippedProduct] = useState(false);
 
   useEffect(() => {
     if (!token) {
@@ -139,6 +143,7 @@ export default function OnboardingPage() {
     setSaving(true);
     try {
       await api.post('/onboarding/datos-fiscales', data);
+      setFiscalData(data);
       setCurrentStep(3);
     } catch (err) {
       showToast.error({ message: getErrMessage(err) });
@@ -156,6 +161,7 @@ export default function OnboardingPage() {
         nombre_caja: data.nombre_caja || undefined,
         tipo_impresora: data.tipo_impresora || undefined,
       });
+      setBusinessData(data);
       setCurrentStep(4);
     } catch (err) {
       showToast.error({ message: getErrMessage(err) });
@@ -175,8 +181,8 @@ export default function OnboardingPage() {
         aplica_iva: data.aplica_iva ?? true,
         stock_inicial: data.stock_inicial ? Number(data.stock_inicial) : undefined,
       });
-      setCompleted(true);
-      goToDashboard();
+      setProductData(data);
+      setCurrentStep(5);
     } catch (err) {
       showToast.error({ message: getErrMessage(err) });
     } finally {
@@ -188,8 +194,8 @@ export default function OnboardingPage() {
     setSaving(true);
     try {
       await api.post('/onboarding/saltar-primer-producto');
-      setCompleted(true);
-      goToDashboard();
+      setSkippedProduct(true);
+      setCurrentStep(5);
     } catch {
       showToast.error({ message: 'Error al saltar este paso' });
     } finally {
@@ -566,6 +572,153 @@ export default function OnboardingPage() {
             </button>
           </div>
         </form>
+      )}
+
+      {currentStep === 5 && (
+        <div className="animate-fade-in">
+          <div className="flex items-center gap-3 pb-4 border-b border-white/20 mb-6">
+            <div className="w-9 h-9 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+              <Check className="h-4 w-4 text-emerald-400" />
+            </div>
+            <div>
+              <h3 className="font-display text-lg font-semibold text-zinc-100">Todo listo</h3>
+              <p className="text-zinc-400 text-xs">Revisa los datos de tu cuenta antes de empezar</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-6 h-6 rounded-md bg-amber/15 flex items-center justify-center">
+                  <Building2 className="h-3 w-3 text-amber" />
+                </div>
+                <h4 className="text-sm font-semibold text-zinc-100">Datos Fiscales</h4>
+              </div>
+              <div className="space-y-2.5">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">RIF / NIT</span>
+                  <span className="text-zinc-200 font-medium">{fiscalData?.identificacion_fiscal || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Razón Social</span>
+                  <span className="text-zinc-200 font-medium">{fiscalData?.razon_social || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Nombre Comercial</span>
+                  <span className="text-zinc-200 font-medium">{fiscalData?.nombre_comercial || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Dirección</span>
+                  <span className="text-zinc-200 font-medium text-right max-w-[200px] truncate">{fiscalData?.direccion || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Teléfono</span>
+                  <span className="text-zinc-200 font-medium">{fiscalData?.telefono || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Email</span>
+                  <span className="text-zinc-200 font-medium">{fiscalData?.email || '—'}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-6 h-6 rounded-md bg-amber/15 flex items-center justify-center">
+                  <Store className="h-3 w-3 text-amber" />
+                </div>
+                <h4 className="text-sm font-semibold text-zinc-100">Configuración del Negocio</h4>
+              </div>
+              <div className="space-y-2.5">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Tipo de Negocio</span>
+                  <span className="text-zinc-200 font-medium capitalize">{businessData?.tipo_negocio || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Almacén</span>
+                  <span className="text-zinc-200 font-medium">{businessData?.nombre_almacen || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Caja</span>
+                  <span className="text-zinc-200 font-medium">{businessData?.nombre_caja || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Impresora</span>
+                  <span className="text-zinc-200 font-medium capitalize">{businessData?.tipo_impresora?.replace('_', ' ') || '—'}</span>
+                </div>
+              </div>
+
+              <div className="border-t border-white/[0.06] mt-4 pt-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 rounded-md bg-amber/15 flex items-center justify-center">
+                    <Package className="h-3 w-3 text-amber" />
+                  </div>
+                  <h4 className="text-sm font-semibold text-zinc-100">Primer Producto</h4>
+                </div>
+                {skippedProduct ? (
+                  <p className="text-xs text-zinc-500">Omitiste crear un producto. Puedes hacerlo después desde el panel.</p>
+                ) : productData ? (
+                  <div className="space-y-2.5">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-zinc-500">Nombre</span>
+                      <span className="text-zinc-200 font-medium">{productData.nombre}</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-zinc-500">SKU</span>
+                      <span className="text-zinc-200 font-medium">{productData.sku || '—'}</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-zinc-500">Costo</span>
+                      <span className="text-zinc-200 font-medium">{productData.costo || '—'}</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-zinc-500">Stock inicial</span>
+                      <span className="text-zinc-200 font-medium">{productData.stock_inicial || '—'}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-zinc-500">Sin datos</p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-dark-tertiary border border-amber/20 rounded-xl p-5 mb-8">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-6 h-6 rounded-md bg-amber/15 flex items-center justify-center">
+                <CreditCard className="h-3 w-3 text-amber" />
+              </div>
+              <h4 className="text-sm font-semibold text-zinc-100">Detalles de tu suscripción</h4>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-500">Plan</span>
+                <span className="text-zinc-200 font-medium">14 días de prueba gratuita</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-500">Productos</span>
+                <span className="text-zinc-200 font-medium">Ilimitados durante la prueba</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-500">Soporte</span>
+                <span className="text-zinc-200 font-medium">Soporte técnico incluido</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-500">Almacenes y Cajas</span>
+                <span className="text-zinc-200 font-medium">Sin límites</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={goToDashboard}
+            disabled={saving}
+            className="w-full flex items-center justify-center gap-2 py-3 px-6 bg-amber text-dark-primary font-semibold rounded-lg hover:bg-amber-dark transition-all disabled:opacity-50"
+          >
+            <Store className="h-4 w-4" />
+            Acceder a tu sistema
+          </button>
+        </div>
       )}
     </div>
   );
