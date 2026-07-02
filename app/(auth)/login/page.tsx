@@ -153,7 +153,7 @@ function LoginForm() {
           ) : (
             <>
               <LogIn className="h-4 w-4" />
-              Entrar
+              Acceder a tu negocio
             </>
           )}
         </button>
