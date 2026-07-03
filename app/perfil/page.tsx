@@ -74,6 +74,7 @@ export default function PerfilPage() {
   const { token, logout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [tienda, setTienda] = useState<UserProfile['tienda'] | null>(null);
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -97,15 +98,17 @@ export default function PerfilPage() {
 
   const loadData = async () => {
     try {
-      const [meRes, subRes] = await Promise.all([
+      const [meRes, subRes, tiendaRes] = await Promise.all([
         api.get('/auth/me'),
         api.get('/suscripcion/estado').catch(() => null),
+        api.get('/tienda').catch(() => null),
       ]);
       const userData = meRes.data.data;
       setProfile(userData);
       setFormName(userData.name);
       setFormEmail(userData.email);
       setSubscription(subRes?.data?.data || null);
+      if (tiendaRes?.data?.data) setTienda(tiendaRes.data.data);
     } catch {
       showToast.error({ message: 'Error al cargar los datos del perfil' });
     } finally {
@@ -188,8 +191,8 @@ export default function PerfilPage() {
           <span className="font-display text-base font-bold text-zinc-100 leading-tight mt-1">
             Tienda<span className="text-amber">POS</span>
           </span>
-          {profile?.tienda?.nombre_comercial && (
-            <p className="text-xs font-semibold text-zinc-100 leading-tight">{profile.tienda.nombre_comercial}</p>
+          {tienda?.nombre_comercial && (
+            <p className="text-xs font-semibold text-zinc-100 leading-tight">{tienda.nombre_comercial}</p>
           )}
         </div>
       </div>
@@ -426,16 +429,16 @@ export default function PerfilPage() {
               Información del Negocio
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <InfoItem icon={Building2} label="Razón Social" value={profile?.tienda?.razon_social} />
-              <InfoItem icon={Store} label="Nombre Comercial" value={profile?.tienda?.nombre_comercial} />
-              <InfoItem icon={FileText} label="RIF / NIT" value={profile?.tienda?.rif} />
-              <InfoItem icon={Globe} label="País" value={profile?.tienda?.pais ? `${countryNames[profile.tienda.pais] || profile.tienda.pais} (${profile.tienda.pais})` : '—'} />
-              <InfoItem icon={MapPin} label="Dirección" value={profile?.tienda?.direccion} />
-              <InfoItem icon={Phone} label="Teléfono" value={profile?.tienda?.telefono} />
-              <InfoItem icon={Mail} label="Email del negocio" value={profile?.tienda?.email} />
-              <InfoItem icon={Globe} label="Régimen Fiscal" value={profile?.tienda?.regimen_fiscal} capitalize />
-              <InfoItem icon={DollarSign} label="Moneda Base" value={profile?.tienda?.moneda_base} />
-              <InfoItem icon={Globe} label="Zona Horaria" value={profile?.tienda?.zona_horaria} />
+              <InfoItem icon={Building2} label="Razón Social" value={tienda?.razon_social} />
+              <InfoItem icon={Store} label="Nombre Comercial" value={tienda?.nombre_comercial} />
+              <InfoItem icon={FileText} label="RIF / NIT" value={tienda?.rif} />
+              <InfoItem icon={Globe} label="País" value={tienda?.pais ? `${countryNames[tienda.pais] || tienda.pais} (${tienda.pais})` : '—'} />
+              <InfoItem icon={MapPin} label="Dirección" value={tienda?.direccion} />
+              <InfoItem icon={Phone} label="Teléfono" value={tienda?.telefono} />
+              <InfoItem icon={Mail} label="Email del negocio" value={tienda?.email} />
+              <InfoItem icon={Globe} label="Régimen Fiscal" value={tienda?.regimen_fiscal} capitalize />
+              <InfoItem icon={DollarSign} label="Moneda Base" value={tienda?.moneda_base} />
+              <InfoItem icon={Globe} label="Zona Horaria" value={tienda?.zona_horaria} />
             </div>
           </div>
 
