@@ -370,7 +370,7 @@ export default function PerfilPage() {
               <InfoItem icon={User} label="Nombre" value={profile?.name} />
               <InfoItem icon={Mail} label="Email" value={profile?.email} />
               <InfoItem icon={Shield} label="Rol" value={profile?.roles?.[0]} capitalize />
-              <InfoItem icon={Calendar} label="Último acceso" value={profile?.ultimo_login ? new Date(profile.ultimo_login).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'} />
+              <InfoItem icon={Calendar} label="Último acceso" value={profile?.ultimo_login ? new Date(profile.ultimo_login).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Sin acceso registrado'} />
             </div>
           </div>
 
