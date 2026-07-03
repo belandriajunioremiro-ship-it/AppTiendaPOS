@@ -48,6 +48,10 @@ export default function DashboardPage() {
   const router = useRouter();
   const { user: authUser, token, logout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [dropdownOpen, setDropdownOpen] = useState<'notif' | 'avatar' | null>(null);
+
+  const closeAllDropdowns = () => setDropdownOpen(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
@@ -172,8 +176,16 @@ export default function DashboardPage() {
       </div>
 
       <div className="flex-1 lg:pl-48">
-        <header className="sticky top-0 z-30 bg-dark-primary/80 backdrop-blur-md border-b border-white/[0.06]">
+        <header className="sticky top-0 z-50 bg-dark-primary/80 backdrop-blur-md border-b border-white/[0.06]">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+
+            {/* backdrop */}
+            <div
+              className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-all duration-300 ${
+                dropdownOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+              onClick={closeAllDropdowns}
+            />
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setSidebarOpen(true)}
@@ -189,12 +201,19 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <NotificationDropdown />
+              <NotificationDropdown
+                isOpen={dropdownOpen === 'notif'}
+                onToggle={() => setDropdownOpen(dropdownOpen === 'notif' ? null : 'notif')}
+                onClose={closeAllDropdowns}
+              />
               <AvatarDropdown
                 userName={profile?.name || 'Usuario'}
                 userEmail={profile?.email || ''}
                 userInitials={profile ? getInitials(profile.name) : 'U'}
                 onLogout={handleLogout}
+                isOpen={dropdownOpen === 'avatar'}
+                onToggle={() => setDropdownOpen(dropdownOpen === 'avatar' ? null : 'avatar')}
+                onClose={closeAllDropdowns}
               />
             </div>
           </div>
