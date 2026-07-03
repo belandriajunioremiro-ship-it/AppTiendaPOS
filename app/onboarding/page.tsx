@@ -23,6 +23,7 @@ const datosFiscalesSchema = z.object({
   identificacion_fiscal: z.string().min(1, 'Requerido'),
   razon_social: z.string().min(1, 'Requerido'),
   nombre_comercial: z.string().optional(),
+  regimen_fiscal: z.string().min(1, 'Selecciona un régimen'),
   direccion: z.string().min(1, 'Requerido'),
   telefono: z.string().optional(),
   email: z.string().email('Email inválido').optional().or(z.literal('')),
@@ -70,6 +71,38 @@ const tiposImpresora = [
   { value: 'ninguno', label: 'Ninguna' },
 ];
 
+const regimenesPorPais: Record<string, { value: string; label: string }[]> = {
+  VE: [
+    { value: 'Ordinario', label: 'Ordinario' },
+    { value: 'Especial', label: 'Especial' },
+  ],
+  CO: [
+    { value: 'Común', label: 'Régimen Común' },
+    { value: 'Simplificado', label: 'Régimen Simplificado' },
+  ],
+  MX: [
+    { value: 'Persona Moral', label: 'Persona Moral' },
+    { value: 'Persona Física', label: 'Persona Física' },
+  ],
+  EC: [
+    { value: 'General', label: 'General' },
+    { value: 'RIMPE', label: 'RIMPE' },
+  ],
+  AR: [
+    { value: 'Responsable Inscripto', label: 'Responsable Inscripto' },
+    { value: 'Monotributo', label: 'Monotributo' },
+  ],
+  PE: [
+    { value: 'Régimen General', label: 'Régimen General' },
+    { value: 'Régimen MYPE', label: 'Régimen MYPE' },
+  ],
+};
+
+const regimenDefault = [
+  { value: 'General', label: 'General' },
+  { value: 'Simplificado', label: 'Simplificado' },
+];
+
 const steps = [
   { number: 2, label: 'Datos Fiscales', icon: Building2, desc: 'Registra tu información fiscal' },
   { number: 3, label: 'Configurar Negocio', icon: Store, desc: 'Personaliza tu tienda' },
@@ -88,6 +121,7 @@ export default function OnboardingPage() {
   const [productData, setProductData] = useState<PrimerProductoData | null>(null);
   const [skippedProduct, setSkippedProduct] = useState(false);
   const [storeCountry, setStoreCountry] = useState('');
+  const [countryCode, setCountryCode] = useState('');
   const [categories, setCategories] = useState<{ id: number; nombre: string }[]>([]);
 
   useEffect(() => {
@@ -125,6 +159,7 @@ export default function OnboardingPage() {
         const code = tiendaRes.data.data.pais;
         const names: Record<string, string> = { VE: 'Venezuela', US: 'Estados Unidos', CO: 'Colombia', PE: 'Perú', EC: 'Ecuador', MX: 'México', AR: 'Argentina', CL: 'Chile', ES: 'España' };
         setStoreCountry(names[code] || code);
+        setCountryCode(code);
       }
 
       if (isCompleted) {
@@ -360,6 +395,26 @@ export default function OnboardingPage() {
                 icon={<Mail className="h-4 w-4" />}
                 {...fiscalForm.register('email')}
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="regimen_fiscal">Régimen Fiscal</Label>
+              <Select
+                onValueChange={(value) => fiscalForm.setValue('regimen_fiscal', value)}
+                defaultValue={fiscalForm.getValues('regimen_fiscal')}
+              >
+                <SelectTrigger id="regimen_fiscal">
+                  <SelectValue placeholder="Selecciona un régimen" />
+                </SelectTrigger>
+                <SelectContent>
+                  {(countryCode ? (regimenesPorPais[countryCode] || regimenDefault) : regimenDefault).map((r) => (
+                    <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {fiscalForm.formState.errors.regimen_fiscal && (
+                <p className="text-red-400 text-xs">{fiscalForm.formState.errors.regimen_fiscal.message}</p>
+              )}
             </div>
           </div>
 
