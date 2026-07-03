@@ -20,6 +20,7 @@ interface DashboardData {
   stock_bajo: Array<{ variante: { producto: { nombre: string; codigo_sku: string } }; almacen: { nombre: string }; cantidad_disponible: number; stock_minimo: number }>;
   sin_stock: Array<{ variante: { producto: { nombre: string; codigo_sku: string } }; almacen: { nombre: string } }>;
   top_productos: Array<{ id: number; nombre: string; codigo_sku: string; total_vendido: number; total_facturado: number }>;
+  ultimos_productos: Array<{ id: number; nombre: string; codigo_sku: string; categoria: { id: number; nombre: string } | null; descripcion: string | null }>;
 }
 
 interface SubscriptionInfo {
@@ -93,7 +94,7 @@ export default function DashboardPage() {
       const profileData = meRes.data.data;
       setProfile(profileData);
       setUserRole(profileData.roles?.[0] || 'cajero');
-      setDashboard(dashRes.data.data);
+      setDashboard(dashRes.data.data || dashRes.data);
       setSubscription(subRes?.data?.data || null);
       if (tiendaRes?.data?.data) {
         const t = tiendaRes.data.data;
@@ -499,29 +500,32 @@ export default function DashboardPage() {
             <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                  <ClipboardList className="h-3.5 w-3.5 text-blue-400" />
+                  <Package className="h-3.5 w-3.5 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-zinc-500">Resumen del Día</p>
+                  <p className="text-xs text-zinc-500">Últimos Productos</p>
                   <p className="text-lg font-semibold text-zinc-100 font-display">
-                    {salesToday?.total_transacciones || 0} ventas
+                    {dashboard?.ultimos_productos?.length || 0} ingresados
                   </p>
                 </div>
               </div>
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-zinc-500">Total facturado</span>
-                  <span className="text-zinc-300">
-                    {salesToday ? formatMoney(salesToday.monto_total, salesToday.moneda_factura) : '$0.00'}
-                  </span>
+              {dashboard?.ultimos_productos && dashboard.ultimos_productos.length > 0 ? (
+                <div className="space-y-1.5">
+                  {dashboard.ultimos_productos.map((prod) => (
+                    <div key={prod.id} className="flex items-center justify-between px-3 py-2 rounded-lg bg-blue-500/5 border border-blue-500/10">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs text-zinc-300 truncate">{prod.nombre}</p>
+                        <p className="text-[10px] text-zinc-500">
+                          {prod.codigo_sku}
+                          {prod.categoria && <span> · {prod.categoria.nombre}</span>}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-zinc-500">IVA generado</span>
-                  <span className="text-zinc-300">
-                    {salesToday ? formatMoney(salesToday.total_iva, salesToday.moneda_factura) : '$0.00'}
-                  </span>
-                </div>
-              </div>
+              ) : (
+                <p className="text-xs text-zinc-500 text-center py-4">Sin productos registrados</p>
+              )}
             </div>
           </div>
         </main>
