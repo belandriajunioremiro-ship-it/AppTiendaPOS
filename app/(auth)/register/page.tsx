@@ -207,10 +207,24 @@ export default function RegisterPage() {
       router.push('/dashboard');
     } catch (err: unknown) {
       const e = err as { response?: { data?: { message?: string; errors?: Record<string, string[]> } } };
-      const message = e?.response?.data?.errors
-        ? Object.values(e.response.data.errors)[0]?.[0]
-        : e?.response?.data?.message || 'Error al crear la cuenta';
-      setServerError(message);
+      const fieldErrors = e?.response?.data?.errors;
+      if (fieldErrors) {
+        const s1Fields = ['name', 'email', 'password', 'password_confirmation', 'pais'];
+        const s2Fields = ['nombre_comercio', 'tipo_negocio', 'moneda_base', 'identificacion_fiscal', 'razon_social', 'regimen_fiscal', 'direccion', 'telefono', 'codigo_postal'];
+        const hasStep1 = Object.keys(fieldErrors).some(k => s1Fields.includes(k));
+        const hasStep2 = Object.keys(fieldErrors).some(k => s2Fields.includes(k));
+        if (hasStep1) {
+          setS1Errors(Object.fromEntries(Object.entries(fieldErrors).filter(([k]) => s1Fields.includes(k)).map(([k, v]) => [k, (v as string[])[0]])));
+          setStep(1);
+        } else if (hasStep2) {
+          setS2Errors(Object.fromEntries(Object.entries(fieldErrors).filter(([k]) => s2Fields.includes(k)).map(([k, v]) => [k, (v as string[])[0]])));
+          setStep(2);
+        } else {
+          setServerError(Object.values(fieldErrors)[0]?.[0] || 'Error de validación');
+        }
+      } else {
+        setServerError(e?.response?.data?.message || 'Error al crear la cuenta');
+      }
     } finally {
       setLoading(false);
     }
