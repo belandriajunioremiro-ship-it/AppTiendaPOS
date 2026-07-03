@@ -196,17 +196,17 @@ export default function PerfilPage() {
         </div>
       </div>
 
+      <div
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-all duration-300 ${
+          dropdownOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={closeAllDropdowns}
+      />
+
       <div className="flex-1 lg:pl-48">
         <header className="sticky top-0 z-50 bg-dark-primary/80 backdrop-blur-md border-b border-white/[0.06]">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
 
-            {/* backdrop */}
-            <div
-              className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-all duration-300 ${
-                dropdownOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-              }`}
-              onClick={closeAllDropdowns}
-            />
             <div className="flex items-center gap-3">
               <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all">
                 <Menu className="h-5 w-5" />
