@@ -23,6 +23,7 @@ interface ProductoData {
   moneda_precio: string;
   costo_promedio: number;
   margen_pct: number;
+  precio_base: number;
   atributos: Record<string, string | boolean>;
   categoria_id: number | null;
   unidad_id: number | null;
