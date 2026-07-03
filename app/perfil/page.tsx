@@ -212,7 +212,12 @@ export default function PerfilPage() {
                 <h2 className="text-xl font-bold text-zinc-100 font-display">{profile?.name}</h2>
                 <p className="text-sm text-zinc-400">{profile?.email}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border ${roleColors[profile?.roles?.[0] || ''] || 'text-zinc-400 border-zinc-700 bg-zinc-800/50'}`}>
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border ${
+                    profile?.roles?.[0] === 'admin' ? 'bg-amber/10 text-amber border-amber/20' :
+                    profile?.roles?.[0] === 'supervisor' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+                    profile?.roles?.[0] === 'cajero' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                    'text-zinc-400 border-zinc-700 bg-zinc-800/50'
+                  }`}>
                     <Shield className="h-2.5 w-2.5" />
                     {profile?.roles?.[0] || 'usuario'}
                   </span>
