@@ -107,7 +107,7 @@ export default function PerfilPage() {
       setFormEmail(userData.email);
       setSubscription(subRes?.data?.data || null);
     } catch {
-      showToast.error('Error al cargar los datos del perfil');
+      showToast.error({ message: 'Error al cargar los datos del perfil' });
     } finally {
       setLoading(false);
     }
@@ -115,7 +115,7 @@ export default function PerfilPage() {
 
   const handleSaveProfile = async () => {
     if (!formName.trim() || !formEmail.trim()) {
-      showToast.error('Nombre y email son obligatorios');
+      showToast.error({ message: 'Nombre y email son obligatorios' });
       return;
     }
     setSaving(true);
@@ -123,9 +123,9 @@ export default function PerfilPage() {
       const res = await api.put('/auth/profile', { name: formName, email: formEmail });
       setProfile(res.data.data);
       setEditMode('none');
-      showToast.success('Perfil actualizado correctamente');
+      showToast.success({ message: 'Perfil actualizado correctamente' });
     } catch {
-      showToast.error('Error al actualizar el perfil');
+      showToast.error({ message: 'Error al actualizar el perfil' });
     } finally {
       setSaving(false);
     }
@@ -133,15 +133,15 @@ export default function PerfilPage() {
 
   const handleSavePassword = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
-      showToast.error('Completa todos los campos');
+      showToast.error({ message: 'Completa todos los campos' });
       return;
     }
     if (newPassword !== confirmPassword) {
-      showToast.error('Las contraseñas no coinciden');
+      showToast.error({ message: 'Las contraseñas no coinciden' });
       return;
     }
     if (newPassword.length < 8) {
-      showToast.error('La contraseña debe tener al menos 8 caracteres');
+      showToast.error({ message: 'La contraseña debe tener al menos 8 caracteres' });
       return;
     }
     setSavingPassword(true);
@@ -155,10 +155,10 @@ export default function PerfilPage() {
       setNewPassword('');
       setConfirmPassword('');
       setEditMode('none');
-      showToast.success('Contraseña actualizada correctamente');
+      showToast.success({ message: 'Contraseña actualizada correctamente' });
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } } };
-      showToast.error(axiosErr?.response?.data?.message || 'Error al cambiar la contraseña');
+      showToast.error({ message: axiosErr?.response?.data?.message || 'Error al cambiar la contraseña' });
     } finally {
       setSavingPassword(false);
     }
