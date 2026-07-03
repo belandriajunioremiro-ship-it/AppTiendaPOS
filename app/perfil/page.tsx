@@ -232,7 +232,6 @@ export default function PerfilPage() {
                 Editar perfil
               </button>
             </div>
-          </div>
 
           {/* Editar Perfil */}
           {editMode === 'profile' && (
