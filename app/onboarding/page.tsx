@@ -73,8 +73,8 @@ const tiposImpresora = [
 
 const regimenesPorPais: Record<string, { value: string; label: string }[]> = {
   VE: [
-    { value: 'Ordinario', label: 'Ordinario' },
     { value: 'Especial', label: 'Especial' },
+    { value: 'Ordinario', label: 'Ordinario' },
   ],
   CO: [
     { value: 'Común', label: 'Régimen Común' },
@@ -85,8 +85,8 @@ const regimenesPorPais: Record<string, { value: string; label: string }[]> = {
     { value: 'Persona Física', label: 'Persona Física' },
   ],
   EC: [
-    { value: 'General', label: 'General' },
     { value: 'RIMPE', label: 'RIMPE' },
+    { value: 'General', label: 'General' },
   ],
   AR: [
     { value: 'Responsable Inscripto', label: 'Responsable Inscripto' },
@@ -95,6 +95,18 @@ const regimenesPorPais: Record<string, { value: string; label: string }[]> = {
   PE: [
     { value: 'Régimen General', label: 'Régimen General' },
     { value: 'Régimen MYPE', label: 'Régimen MYPE' },
+  ],
+  CL: [
+    { value: 'General', label: 'Régimen General' },
+    { value: 'Simplificado', label: 'Régimen Simplificado' },
+  ],
+  BO: [
+    { value: 'General', label: 'Régimen General' },
+    { value: 'Simplificado', label: 'Régimen Simplificado' },
+  ],
+  UY: [
+    { value: 'General', label: 'Régimen General (IVA)' },
+    { value: 'Simplificado', label: 'Pequeña Empresa' },
   ],
 };
 
