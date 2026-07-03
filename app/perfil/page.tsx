@@ -352,7 +352,7 @@ export default function PerfilPage() {
           )}
 
           {/* Información Personal */}
-          <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-6 mb-6">
+          <section className="mb-8">
             <div className="flex items-center justify-between mb-5">
               <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2">
                 <User className="h-4 w-4 text-amber" />
@@ -372,10 +372,10 @@ export default function PerfilPage() {
               <InfoItem icon={Shield} label="Rol" value={profile?.roles?.[0]} capitalize />
               <InfoItem icon={Calendar} label="Último acceso" value={profile?.ultimo_login ? new Date(profile.ultimo_login).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Sin acceso registrado'} />
             </div>
-          </div>
+          </section>
 
           {/* Información del Negocio */}
-          <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-6 mb-6">
+          <section className="mb-8">
             <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2 mb-5">
               <Building2 className="h-4 w-4 text-amber" />
               Información del Negocio
@@ -387,15 +387,15 @@ export default function PerfilPage() {
               <InfoItem icon={Globe} label="País" value={tienda?.pais ? `${countryNames[tienda.pais] || tienda.pais} (${tienda.pais})` : '—'} />
               <InfoItem icon={MapPin} label="Dirección" value={tienda?.direccion} />
               <InfoItem icon={Phone} label="Teléfono" value={tienda?.telefono} />
-              <InfoItem icon={Mail} label="Email del negocio" value={tienda?.email || 'No posees correo empresarial'} />
+              <InfoItem icon={Mail} label="Email del negocio" value={tienda?.email} customValue={!tienda?.email ? <span className="text-sm text-fallback">No posees correo empresarial</span> : undefined} />
               <InfoItem icon={Globe} label="Régimen Fiscal" value={tienda?.regimen_fiscal || '—'} capitalize />
               <InfoItem icon={DollarSign} label="Moneda Base" value={tienda?.moneda_base} />
               <InfoItem icon={Globe} label="Zona Horaria" value={tienda?.zona_horaria} />
             </div>
-          </div>
+          </section>
 
           {/* Suscripción */}
-          <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-6 mb-6">
+          <section className="mb-8">
             <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2 mb-5">
               <CreditCard className="h-4 w-4 text-amber" />
               Suscripción
@@ -453,7 +453,7 @@ export default function PerfilPage() {
                 </div>
               </div>
             )}
-          </div>
+          </section>
         </main>
       </div>
     </div>
@@ -470,12 +470,12 @@ function InfoItem({ icon: Icon, label, value, capitalize, customValue }: {
   return (
     <div className="flex items-start gap-3 px-3 py-2.5 rounded-lg bg-[#0a0b0e]/50">
       <div className="w-7 h-7 rounded-md bg-white/[0.04] flex items-center justify-center shrink-0 mt-0.5">
-        <Icon className="h-3.5 w-3.5 text-zinc-500" />
+        <Icon className="h-3.5 w-3.5 text-zinc-400" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-[11px] text-zinc-500 font-medium">{label}</p>
+        <p className="text-[11px] text-info-label font-medium">{label}</p>
         {customValue || (
-          <p className={`text-sm text-zinc-100 truncate ${capitalize ? 'capitalize' : ''}`}>
+          <p className={`text-sm truncate ${capitalize ? 'capitalize' : ''} ${!value ? 'text-fallback' : 'text-zinc-100'}`}>
             {value || '—'}
           </p>
         )}
