@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/auth-store';
 import api from '@/lib/axios';
@@ -10,7 +10,7 @@ import {
   Bell, LayoutDashboard, ShoppingCart, Package, DollarSign,
   Users, BarChart3, Settings, LogOut, TrendingUp, AlertTriangle,
   CreditCard, Menu, ClipboardList, ArrowUpRight,
-  AlertCircle, CheckCircle2, Store
+  AlertCircle, CheckCircle2, Store, User, ChevronDown
 } from 'lucide-react';
 
 interface DashboardData {
@@ -63,6 +63,10 @@ export default function DashboardPage() {
   const router = useRouter();
   const { user: authUser, token, logout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [avatarOpen, setAvatarOpen] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
+  const avatarRef = useRef<HTMLDivElement>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
@@ -81,6 +85,15 @@ export default function DashboardPage() {
     }
     loadData();
   }, [token, router]);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) setNotifOpen(false);
+      if (avatarRef.current && !avatarRef.current.contains(e.target as Node)) setAvatarOpen(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
 
   const loadData = async () => {
     try {
@@ -252,11 +265,104 @@ export default function DashboardPage() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <button className="relative p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all">
-                <Bell className="h-5 w-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber ring-2 ring-dark-primary" />
-              </button>
+            <div className="flex items-center gap-3">
+              <div ref={notifRef} className="relative">
+                <button
+                  onClick={() => { setNotifOpen(!notifOpen); setAvatarOpen(false); }}
+                  className="relative p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all"
+                >
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber ring-2 ring-dark-primary" />
+                </button>
+                {notifOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-[#0f1014] border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-50">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
+                      <h3 className="text-sm font-semibold text-zinc-100">Notificaciones</h3>
+                      <span className="text-[11px] text-amber font-medium">3 nuevas</span>
+                    </div>
+                    <div className="max-h-72 overflow-y-auto">
+                      <div className="px-4 py-3 hover:bg-white/[0.03] transition-colors border-l-2 border-amber">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 mt-0.5">
+                            <CheckCircle2 className="h-4 w-4 text-amber" />
+                          </div>
+                          <div>
+                            <p className="text-xs text-zinc-200 font-medium">Onboarding completado</p>
+                            <p className="text-[11px] text-zinc-500 mt-0.5">Tu tienda está lista para operar</p>
+                            <p className="text-[10px] text-zinc-600 mt-1">Hace 2 min</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="px-4 py-3 hover:bg-white/[0.03] transition-colors border-l-2 border-emerald-500">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                            <TrendingUp className="h-4 w-4 text-emerald-400" />
+                          </div>
+                          <div>
+                            <p className="text-xs text-zinc-200 font-medium">Primera venta registrada</p>
+                            <p className="text-[11px] text-zinc-500 mt-0.5">¡Felicidades por tu primera venta!</p>
+                            <p className="text-[10px] text-zinc-600 mt-1">Hace 15 min</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="px-4 py-3 hover:bg-white/[0.03] transition-colors border-l-2 border-blue-500">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                            <Package className="h-4 w-4 text-blue-400" />
+                          </div>
+                          <div>
+                            <p className="text-xs text-zinc-200 font-medium">Producto agregado</p>
+                            <p className="text-[11px] text-zinc-500 mt-0.5">Se agregó un nuevo producto al inventario</p>
+                            <p className="text-[10px] text-zinc-600 mt-1">Hace 30 min</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="border-t border-white/[0.06] px-4 py-2.5">
+                      <button className="text-[11px] text-amber hover:text-amber/80 transition-colors font-medium">Ver todas las notificaciones</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div ref={avatarRef} className="relative">
+                <button
+                  onClick={() => { setAvatarOpen(!avatarOpen); setNotifOpen(false); }}
+                  className="flex items-center gap-2 pl-2 pr-1.5 py-1 rounded-lg hover:bg-white/[0.04] transition-all"
+                >
+                  <div className="w-8 h-8 rounded-full bg-amber/20 flex items-center justify-center text-amber text-xs font-bold">
+                    {profile ? getInitials(profile.name) : 'U'}
+                  </div>
+                  <ChevronDown className={`h-3.5 w-3.5 text-zinc-500 transition-transform duration-200 ${avatarOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {avatarOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-[#0f1014] border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-50">
+                    <div className="px-4 py-3 border-b border-white/[0.06]">
+                      <p className="text-sm font-medium text-zinc-100 truncate">{profile?.name || 'Usuario'}</p>
+                      <p className="text-xs text-zinc-500 truncate">{profile?.email || ''}</p>
+                    </div>
+                    <div className="py-1">
+                      <a href="/perfil" onClick={(e) => e.preventDefault()} className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-300 hover:bg-white/[0.04] hover:text-zinc-100 transition-colors">
+                        <User className="h-4 w-4 text-zinc-500" />
+                        <span>Mi Perfil</span>
+                      </a>
+                      <a href="/configuracion" onClick={(e) => e.preventDefault()} className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-300 hover:bg-white/[0.04] hover:text-zinc-100 transition-colors">
+                        <Settings className="h-4 w-4 text-zinc-500" />
+                        <span>Configuración</span>
+                      </a>
+                    </div>
+                    <div className="border-t border-white/[0.06] py-1">
+                      <button
+                        onClick={() => { handleLogout(); setAvatarOpen(false); }}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/5 transition-colors w-full"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        <span>Cerrar Sesión</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </header>
