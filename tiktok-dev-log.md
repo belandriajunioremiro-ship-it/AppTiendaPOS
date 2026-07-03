@@ -1,49 +1,44 @@
-# 🛒 TiendaPOS — Sistema de Ventas POS Multi-País
+🔥 HOY TERMINÉ EL SISTEMA COMPLETO 🔥
 
-**Stack:** Laravel 12 API REST + Neon Tech (PostgreSQL) + Next.js 14 + Tailwind CSS
+Les cuento lo que hice hoy en mi proyecto TiendaPOS 🛒
 
----
+─── 🔐 AUTH COMPLETO ───
+✓ Login y Register con validación en tiempo real
+✓ Las contraseñas ahora se ven bien, una debajo de la otra
+✓ Al registrarte eliges tu país (VE, CO, MX, EC, AR, PE...)
+✓ Guarda tu sesión con token, si recargas no te saca
+✓ Si no has terminado el onboarding → te manda al onboarding
+✓ Si ya lo hiciste → directo al dashboard
 
-## 🔐 Auth (Login / Register)
-- Registro con nombre, email, contraseña y selección de país
-- Validación en tiempo real con React Hook Form + Zod
-- Contraseñas en columnas apiladas con toggle show/hide
-- Login con token Sanctum, sesión persistente con Zustand + localStorage
-- Redirección inteligente: si onboarding incompleto → /onboarding, si completo → /dashboard
+─── 🚀 ONBOARDING (7 pasos) ───
+Paso 1: Seleccionas tu país
+Paso 2: Tus datos fiscales (RIF, NIT, RFC según tu país)
+Paso 3: Configuras monedas y tasas
+Paso 4: Impuestos (IVA, IGTF, etc)
+Paso 5: Creas tu almacén y caja
+Paso 6: Configuras impresora y ticket
+Paso 7: Agregas tu primer producto
 
-## 🚀 Onboarding (7 pasos)
-1. **País** — Selección de país LATAM con bandera y placeholder fiscal dinámico
-2. **Datos fiscales** — RIF/NIT/RFC, razón social, dirección, teléfono
-3. **Monedas** — Moneda base + tasas de cambio
-4. **Impuestos** — IVA, IGTF, INC, IEPS según país
-5. **Almacén y Caja** — Depósito principal + punto de cobro
-6. **Configuración POS** — Impresora, plantilla de ticket
-7. **Primer producto** — Nombre, SKU, precio, categoría, stock inicial
+Al final te muestra un resumen con TODO lo que configuraste
+Y un toast bien bacano "¡Todo listo!" 🎉
 
-Al completar → resumen con todos los datos fiscales, negocio, producto, suscripción y usuario. Toast de éxito "¡Todo listo!" y redirect al dashboard.
+─── 📊 DASHBOARD ───
+✓ Sidebar con logo y nombre de tu tienda
+✓ Tus ventas del día en tiempo real
+✓ Cuántos productos tienes registrados
+✓ Cajas abiertas
+✓ Alertas de inventario (stock bajo y sin stock)
+✓ Top 5 productos más vendidos hoy
+✓ Últimos 5 productos que agregaste
+✓ Tu plan y días restantes
 
-## 📊 Dashboard
-- Sidebar con logo TiendaPOS + nombre de tienda
-- 4 cards principales: Ventas hoy, Total productos, Cajas abiertas, Plan
-- Alertas de inventario: productos sin stock + stock bajo
-- Top 5 productos más vendidos del día (tabla con ranking)
-- Últimos 5 productos ingresados
-- Sesiones de caja activas
-- Resumen de suscripción con días restantes
+─── 🛠 TECH STACK ───
+Backend → Laravel 12 API REST
+Base de datos → Neon Tech (PostgreSQL serverless)
+Frontend → Next.js 14 + Tailwind CSS
+Autenticación → Sanctum tokens
+Hosting → Render (backend) + Vercel (frontend)
 
-## 🧠 Backend (Laravel 12 + Neon Tech)
-- API RESTful con Sanctum auth
-- Base de datos PostgreSQL en Neon Tech (serverless)
-- Dashboard endpoint con KPIs: ventas del día, stock, top productos, total productos, últimos productos
-- Onboarding service con transacciones, seeders de catálogo por país
-- Modelos con BelongsToTienda (multi-tenancy automático)
-- Middleware: auth, activo, suscripción, roles
-- Desplegado en Render
+Todo con theme oscuro y detalles en ámbar 🔶
 
-## 🎨 Frontend (Next.js 14)
-- Dark theme (#090909) con acentos amber (#f59e0b)
-- Inputs con borde white/20 → hover white/35 → focus amber
-- Toast notifications con Sonner (amber border, icons personalizados)
-- Sidebar fija w-48 con avatar + rol + logout
-- Dashboard responsivo con tarjetas bg-dark-tertiary
-- Desplegado en Vercel (auto-deploy desde GitHub)
+#Laravel #NextJS #PostgreSQL #NeonTech #TiendaPOS #SaaS #FullStack #Developer #TikTokDev
