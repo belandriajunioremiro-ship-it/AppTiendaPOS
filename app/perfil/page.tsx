@@ -200,11 +200,10 @@ export default function PerfilPage() {
             </div>
           </div>
         </header>
+        <main className="px-6 sm:px-8 lg:px-10 py-8">
 
-        <main className="px-4 sm:px-6 lg:px-8 py-6 max-w-4xl mx-auto">
           {/* Avatar + Nombre */}
-          <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-6 mb-6">
-            <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5 mb-8">
               <div className="w-20 h-20 rounded-2xl bg-amber/15 flex items-center justify-center text-amber text-2xl font-bold shrink-0 border-2 border-amber/20">
                 {profile ? getInitials(profile.name) : 'U'}
               </div>
@@ -468,8 +467,8 @@ function InfoItem({ icon: Icon, label, value, capitalize, customValue }: {
   customValue?: React.ReactNode;
 }) {
   return (
-    <div className="flex items-start gap-3 px-3 py-2.5 rounded-lg bg-[#0a0b0e]/50">
-      <div className="w-7 h-7 rounded-md bg-white/[0.04] flex items-center justify-center shrink-0 mt-0.5">
+    <div className="flex items-start gap-3">
+      <div className="w-7 h-7 rounded-md flex items-center justify-center shrink-0 mt-0.5">
         <Icon className="h-3.5 w-3.5 text-zinc-400" />
       </div>
       <div className="min-w-0 flex-1">
