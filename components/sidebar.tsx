@@ -6,13 +6,14 @@ import { useAuthStore } from '@/stores/auth-store';
 import logo from '@/assets/TiendaPoslogo1.png';
 import {
   LayoutDashboard, ShoppingCart, Package, DollarSign,
-  Users, BarChart3, Settings, LogOut,
+  Users, BarChart3, Settings, LogOut, FolderTree,
 } from 'lucide-react';
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
   { icon: ShoppingCart, label: 'Punto de Venta', href: '/pos' },
   { icon: Package, label: 'Productos', href: '/productos' },
+  { icon: FolderTree, label: 'Categorías', href: '/catalogo/categorias' },
   { icon: DollarSign, label: 'Cajas', href: '/cajas' },
   { icon: Users, label: 'Clientes', href: '/clientes' },
   { icon: BarChart3, label: 'Reportes', href: '/reportes' },
@@ -66,7 +67,7 @@ export function SidebarContent({
 
       <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
-          const isActive = item.href === currentPath;
+          const isActive = currentPath === item.href || (item.href !== '/dashboard' && currentPath.startsWith(item.href));
           return (
             <a
               key={item.href}
