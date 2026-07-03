@@ -342,7 +342,7 @@ export default function DashboardPage() {
                       <p className="text-xs text-zinc-500 truncate">{profile?.email || ''}</p>
                     </div>
                     <div className="py-1">
-                      <a href="/perfil" onClick={(e) => e.preventDefault()} className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-300 hover:bg-white/[0.04] hover:text-zinc-100 transition-colors">
+                      <a href="/perfil" onClick={(e) => { e.preventDefault(); setAvatarOpen(false); router.push('/perfil'); }} className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-300 hover:bg-white/[0.04] hover:text-zinc-100 transition-colors">
                         <User className="h-4 w-4 text-zinc-500" />
                         <span>Mi Perfil</span>
                       </a>
