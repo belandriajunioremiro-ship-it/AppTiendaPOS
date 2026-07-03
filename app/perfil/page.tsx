@@ -9,7 +9,7 @@ import { showToast } from '@/lib/toast';
 import {
   Menu, Store,
   User, Mail, Lock, Building2, Globe, CreditCard,
-  Shield, Save, Eye, EyeOff, Calendar, MapPin, Phone, FileText, DollarSign
+  Shield, Save, Eye, EyeOff, Calendar, MapPin, Phone, FileText, DollarSign, Package, Users
 } from 'lucide-react';
 
 interface UserProfile {
