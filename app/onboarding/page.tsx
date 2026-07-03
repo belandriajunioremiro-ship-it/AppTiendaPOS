@@ -77,36 +77,41 @@ const regimenesPorPais: Record<string, { value: string; label: string }[]> = {
     { value: 'Ordinario', label: 'Ordinario' },
   ],
   CO: [
-    { value: 'Común', label: 'Régimen Común' },
-    { value: 'Simplificado', label: 'Régimen Simplificado' },
+    { value: 'Responsable IVA', label: 'Responsable de IVA (Común)' },
+    { value: 'No Responsable IVA', label: 'No Responsable de IVA (Simplificado)' },
   ],
   MX: [
-    { value: 'Persona Moral', label: 'Persona Moral' },
-    { value: 'Persona Física', label: 'Persona Física' },
+    { value: 'General de Ley', label: 'Régimen General de Ley (Personas Morales)' },
+    { value: 'Actividades Empresariales', label: 'Actividades Empresariales y Profesionales' },
+    { value: 'RESICO', label: 'RESICO (Simplificado de Confianza)' },
   ],
   EC: [
-    { value: 'RIMPE', label: 'RIMPE' },
-    { value: 'General', label: 'General' },
+    { value: 'RIMPE Negocio Popular', label: 'RIMPE Negocio Popular (hasta $20k)' },
+    { value: 'RIMPE Emprendedor', label: 'RIMPE Emprendedor (hasta $300k)' },
+    { value: 'General', label: 'Régimen General' },
   ],
   AR: [
     { value: 'Responsable Inscripto', label: 'Responsable Inscripto' },
     { value: 'Monotributo', label: 'Monotributo' },
   ],
   PE: [
+    { value: 'NRUS', label: 'Nuevo RUS (NRUS)' },
+    { value: 'RER', label: 'Régimen Especial (RER)' },
+    { value: 'RMT', label: 'Régimen MYPE Tributario (RMT)' },
     { value: 'Régimen General', label: 'Régimen General' },
-    { value: 'Régimen MYPE', label: 'Régimen MYPE' },
   ],
   CL: [
-    { value: 'General', label: 'Régimen General' },
-    { value: 'Simplificado', label: 'Régimen Simplificado' },
+    { value: 'Pro Pyme 14D', label: 'Pro Pyme General (Art. 14 D)' },
+    { value: 'Simplificado 14 Ter', label: 'Simplificado (Art. 14 Ter)' },
   ],
   BO: [
-    { value: 'General', label: 'Régimen General' },
-    { value: 'Simplificado', label: 'Régimen Simplificado' },
+    { value: 'Régimen General', label: 'Régimen General' },
+    { value: 'RTS', label: 'RTS (Régimen Tributario Simplificado)' },
   ],
   UY: [
-    { value: 'General', label: 'Régimen General (IVA)' },
-    { value: 'Simplificado', label: 'Pequeña Empresa' },
+    { value: 'Monotributo', label: 'Monotributo' },
+    { value: 'Literal E', label: 'Literal E (IVA Mínimo)' },
+    { value: 'Régimen General', label: 'Régimen General' },
   ],
 };
 
@@ -732,6 +737,10 @@ export default function OnboardingPage() {
                 <div className="flex justify-between text-xs">
                   <span className="text-amber font-semibold">País</span>
                   <span className="text-zinc-100 font-semibold">{storeCountry || '—'}</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-amber font-semibold">Régimen Fiscal</span>
+                  <span className="text-zinc-100 font-semibold">{fiscalData?.regimen_fiscal || '—'}</span>
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="text-amber font-semibold">Usuario</span>
