@@ -9,7 +9,7 @@ import {
   Bell, TrendingUp, AlertTriangle,
   CreditCard, Menu, ArrowUpRight,
   AlertCircle, CheckCircle2, Store, User, ChevronDown,
-  Package, DollarSign
+  Package, DollarSign, Settings, LogOut
 } from 'lucide-react';
 
 interface DashboardData {
