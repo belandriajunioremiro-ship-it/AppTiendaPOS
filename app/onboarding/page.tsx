@@ -633,7 +633,7 @@ export default function OnboardingPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-[35%_65%] gap-6 mb-8">
             <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-6 h-6 rounded-md bg-amber/15 flex items-center justify-center">

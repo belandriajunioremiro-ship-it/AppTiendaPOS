@@ -131,64 +131,62 @@ export default function RegisterPage() {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-2">
-            <Label htmlFor="password">Contraseña</Label>
-            <div className="relative">
-              <Input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="••••••••"
-                icon={<Lock className="h-4 w-4" />}
-                error={errors.password?.message}
-                {...register('password')}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-            {errors.password && (
-              <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>
-            )}
+        <div className="space-y-2">
+          <Label htmlFor="password">Contraseña</Label>
+          <div className="relative">
+            <Input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="••••••••"
+              icon={<Lock className="h-4 w-4" />}
+              error={errors.password?.message}
+              {...register('password')}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
           </div>
+          {errors.password && (
+            <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>
+          )}
+        </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password_confirmation">Confirmar</Label>
-            <div className="relative">
-              <Input
-                id="password_confirmation"
-                type={showConfirmPassword ? 'text' : 'password'}
-                placeholder="••••••••"
-                icon={<Lock className="h-4 w-4" />}
-                error={errors.password_confirmation?.message}
-                {...register('password_confirmation')}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
-              >
-                {showConfirmPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-            {errors.password_confirmation && (
-              <p className="text-red-400 text-xs mt-1">
-                {errors.password_confirmation.message}
-              </p>
-            )}
+        <div className="space-y-2">
+          <Label htmlFor="password_confirmation">Confirmar Contraseña</Label>
+          <div className="relative">
+            <Input
+              id="password_confirmation"
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder="••••••••"
+              icon={<Lock className="h-4 w-4" />}
+              error={errors.password_confirmation?.message}
+              {...register('password_confirmation')}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+            >
+              {showConfirmPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
           </div>
+          {errors.password_confirmation && (
+            <p className="text-red-400 text-xs mt-1">
+              {errors.password_confirmation.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
