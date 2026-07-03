@@ -31,8 +31,8 @@ const leftContent: Record<string, { title: string; subtitle: string; highlights:
     subtitle: 'Regístrate y descubre por qué miles de negocios confían en TiendaPOS',
     highlights: [
       { icon: Store, text: '14 días de prueba gratuita sin tarjeta' },
-      { icon: TrendingUp, text: 'Configuración guiada en 4 pasos' },
-      { icon: Shield, text: 'Soporte técnico incluido desde el día 1' },
+      { icon: TrendingUp, text: 'Configuración guiada en 3 pasos' },
+      { icon: Shield, text: 'Todo en una transacción, sin datos fantasma' },
     ],
   },
   '/forgot-password': {

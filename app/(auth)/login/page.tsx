@@ -52,7 +52,7 @@ function LoginForm() {
       try {
         const { data: onboardingData } = await (await import('@/lib/axios')).default.get('/onboarding/estado');
         if (!onboardingData.data.completado) {
-          router.push('/onboarding');
+          router.push('/register?continue=true');
           return;
         }
       } catch {}
