@@ -387,8 +387,8 @@ export default function PerfilPage() {
               <InfoItem icon={Globe} label="País" value={tienda?.pais ? `${countryNames[tienda.pais] || tienda.pais} (${tienda.pais})` : '—'} />
               <InfoItem icon={MapPin} label="Dirección" value={tienda?.direccion} />
               <InfoItem icon={Phone} label="Teléfono" value={tienda?.telefono} />
-              <InfoItem icon={Mail} label="Email del negocio" value={tienda?.email} />
-              <InfoItem icon={Globe} label="Régimen Fiscal" value={tienda?.regimen_fiscal} capitalize />
+              <InfoItem icon={Mail} label="Email del negocio" value={tienda?.email || 'No posees correo empresarial'} />
+              <InfoItem icon={Globe} label="Régimen Fiscal" value={tienda?.regimen_fiscal || '—'} capitalize />
               <InfoItem icon={DollarSign} label="Moneda Base" value={tienda?.moneda_base} />
               <InfoItem icon={Globe} label="Zona Horaria" value={tienda?.zona_horaria} />
             </div>
