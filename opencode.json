@@ -16,6 +16,32 @@
           }
         }
       }
+    },
+    "featherless-deepseek-v4": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Featherless DeepSeek V4 Pro",
+      "options": {
+        "baseURL": "https://api.featherless.ai/v1",
+        "apiKey": "rc_ff630e2c6040772396168a6d8a1da2427033a66f3533c685685442e75d2b0677"
+      },
+      "models": {
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek V4 Pro"
+        }
+      }
+    },
+    "featherless-glm52": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Featherless GLM 5.2",
+      "options": {
+        "baseURL": "https://api.featherless.ai/v1",
+        "apiKey": "rc_ff6d2a531e0f81962476ccfe7cfb7145776e313ffcf1a04766f9fbc1e47cecfc"
+      },
+      "models": {
+        "zai-org/GLM-5.2": {
+          "name": "GLM 5.2"
+        }
+      }
     }
   }
 }
