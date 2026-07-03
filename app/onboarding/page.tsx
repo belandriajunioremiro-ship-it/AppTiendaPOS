@@ -18,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { CategorySelector, type DefinicionAtributo } from '@/components/producto/CategorySelector';
+import { DynamicAttributes } from '@/components/producto/DynamicAttributes';
 
 const datosFiscalesSchema = z.object({
   identificacion_fiscal: z.string().min(1, 'Requerido'),
@@ -141,6 +143,10 @@ export default function OnboardingPage() {
   const [countryCode, setCountryCode] = useState('');
   const [categories, setCategories] = useState<{ id: number; nombre: string }[]>([]);
 
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [atributosDef, setAtributosDef] = useState<DefinicionAtributo[]>([]);
+  const [atributosValores, setAtributosValores] = useState<Record<string, string | boolean>>({});
+
   useEffect(() => {
     if (!token) {
       router.push('/login');
@@ -244,15 +250,17 @@ export default function OnboardingPage() {
   const onSubmitProduct = async (data: PrimerProductoData) => {
     setSaving(true);
     try {
+      const atributos = Object.keys(atributosValores).length > 0 ? atributosValores : undefined;
       await api.post('/onboarding/primer-producto', {
         nombre: data.nombre,
         sku: data.sku || undefined,
         codigo_barra: data.codigo_barra || undefined,
-        categoria_id: data.categoria_id ? Number(data.categoria_id) : undefined,
+        categoria_id: selectedCategoryId ? Number(selectedCategoryId) : undefined,
         descripcion: data.descripcion || undefined,
         costo: data.costo ? Number(data.costo) : undefined,
         aplica_iva: data.aplica_iva ?? true,
         stock_inicial: data.stock_inicial ? Number(data.stock_inicial) : undefined,
+        atributos,
       });
       setProductData(data);
       setCurrentStep(5);
@@ -579,19 +587,26 @@ export default function OnboardingPage() {
 
             <div className="space-y-2">
               <Label htmlFor="categoria_id">Categoría</Label>
-              <Select
-                onValueChange={(value) => productForm.setValue('categoria_id', value)}
-              >
-                <SelectTrigger id="categoria_id">
-                  <SelectValue placeholder="Selecciona una categoría" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat.id} value={String(cat.id)}>{cat.nombre}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <CategorySelector
+                value={selectedCategoryId}
+                onChange={(catId, attrs) => {
+                  setSelectedCategoryId(catId);
+                  setAtributosDef(attrs);
+                  setAtributosValores({});
+                  productForm.setValue('categoria_id', catId || '');
+                }}
+              />
             </div>
+
+            {atributosDef.length > 0 && (
+              <div className="md:col-span-2">
+                <DynamicAttributes
+                  atributos={atributosDef}
+                  value={atributosValores}
+                  onChange={setAtributosValores}
+                />
+              </div>
+            )}
 
             <div className="space-y-2 md:col-span-2">
               <Label htmlFor="descripcion">Descripción <span className="text-zinc-500">(opcional)</span></Label>
