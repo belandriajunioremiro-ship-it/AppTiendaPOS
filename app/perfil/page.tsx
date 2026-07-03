@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/auth-store';
 import api from '@/lib/axios';
 import { SidebarContent } from '@/components/sidebar';
+import { NotificationDropdown } from '@/components/notification-dropdown';
+import { AvatarDropdown } from '@/components/avatar-dropdown';
 import { showToast } from '@/lib/toast';
 import {
   Menu, Store,
@@ -55,7 +57,7 @@ const countryNames: Record<string, string> = {
 
 export default function PerfilPage() {
   const router = useRouter();
-  const { token } = useAuthStore();
+  const { token, logout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [tienda, setTienda] = useState<UserProfile['tienda'] | null>(null);
@@ -154,6 +156,11 @@ export default function PerfilPage() {
   const getInitials = (name: string) =>
     name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-dark-primary flex items-center justify-center">
@@ -197,6 +204,15 @@ export default function PerfilPage() {
                 <h1 className="text-lg font-semibold text-zinc-100">Mi Perfil</h1>
                 <p className="text-xs text-zinc-500">Información de tu cuenta y negocio</p>
               </div>
+              </div>
+            <div className="flex items-center gap-3">
+              <NotificationDropdown />
+              <AvatarDropdown
+                userName={profile?.name || 'Usuario'}
+                userEmail={profile?.email || ''}
+                userInitials={profile ? getInitials(profile.name) : 'U'}
+                onLogout={handleLogout}
+              />
             </div>
           </div>
         </header>
