@@ -7,6 +7,7 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './lib/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -65,7 +66,7 @@ const config: Config = {
           primary: '#161616',
           secondary: '#161616',
           tertiary: '#06141B',
-          elevated: '#1F1F23',
+          elevated: '#06141B',
           border: '#27272A',
         },
         zinc: {
