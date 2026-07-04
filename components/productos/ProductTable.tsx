@@ -37,11 +37,15 @@ export function ProductTable({ productos, onEdit, onDelete, formatMoney }: Produ
             </tr>
           </thead>
           <tbody>
-            {productos.map((p) => {
+            {productos.map((p, idx) => {
               const stock = calcularStock(p);
               const stockOk = stock > 0;
+              const margenDisplay = Number.isInteger(p.margen_pct) ? p.margen_pct : Math.round(p.margen_pct);
               return (
-                <tr key={p.id} className="border-b border-border/40 hover:bg-accent/50 transition-colors">
+                <tr
+                  key={p.id}
+                  className={`${idx < productos.length - 1 ? 'border-b border-border/40' : ''} hover:bg-accent/50 transition-colors`}
+                >
                   <td className="px-3 py-2.5">
                     <div className="flex items-center gap-2.5">
                       <div className="w-8 h-8 rounded-full shrink-0 overflow-hidden bg-primary/10 flex items-center justify-center">
@@ -67,7 +71,7 @@ export function ProductTable({ productos, onEdit, onDelete, formatMoney }: Produ
                     {formatMoney(p.costo_promedio, p.moneda_precio)}
                   </td>
                   <td className="px-3 py-2.5 text-sm text-muted-foreground text-right">
-                    {p.margen_pct}%
+                    {margenDisplay}%
                   </td>
                   <td className="px-3 py-2.5 text-sm text-foreground font-semibold text-right whitespace-nowrap">
                     {formatMoney(p.precio_base, p.moneda_precio)}

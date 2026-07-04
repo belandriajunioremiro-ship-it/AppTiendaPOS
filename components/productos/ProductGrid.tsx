@@ -1,6 +1,6 @@
 'use client';
 
-import { Package, Pencil, Trash2 } from 'lucide-react';
+import { Package, Pencil, Trash2, TrendingUp } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { Producto } from '@/types/producto';
 
@@ -24,6 +24,7 @@ export function ProductGrid({ productos, onEdit, onDelete, formatMoney }: Produc
       {productos.map((p) => {
         const stock = calcularStock(p);
         const stockOk = stock > 0;
+        const margenDisplay = Number.isInteger(p.margen_pct) ? p.margen_pct : Math.round(p.margen_pct);
         return (
           <div key={p.id} className="bg-card border border-border rounded-lg p-4 flex flex-col gap-3 relative">
             <div className="absolute top-3 right-3">
@@ -46,30 +47,35 @@ export function ProductGrid({ productos, onEdit, onDelete, formatMoney }: Produc
               <div className="min-w-0 flex-1">
                 <p className="font-bold text-foreground text-sm truncate">{p.nombre}</p>
                 <p className="text-xs text-muted-foreground font-mono truncate">{p.codigo_sku}</p>
+                {p.categoria && (
+                  <span className="text-[10px] text-muted-foreground/60">{p.categoria.nombre}</span>
+                )}
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
-              <div className="flex justify-between">
+            <div className="bg-background rounded-lg p-3 space-y-2">
+              <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">Costo</span>
-                <span className="text-muted-foreground">{formatMoney(p.costo_promedio, p.moneda_precio)}</span>
+                <span className="text-foreground font-medium">{formatMoney(p.costo_promedio, p.moneda_precio)}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">Margen</span>
-                <span className="text-muted-foreground">{p.margen_pct}%</span>
+                <span className="text-foreground font-medium">{margenDisplay}%</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Categoría</span>
-                <span className="text-muted-foreground truncate max-w-[80px]">{p.categoria?.nombre || '—'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Stock</span>
-                <span className={`font-medium ${stockOk ? 'text-emerald-500' : 'text-destructive'}`}>{stock}</span>
+              <div className="h-px bg-border/60" />
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground flex items-center gap-1">
+                  <TrendingUp className="h-3 w-3 text-primary" />
+                  Precio venta
+                </span>
+                <span className="text-sm font-bold text-primary">{formatMoney(p.precio_base, p.moneda_precio)}</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between mt-auto pt-1 border-t border-border/40">
-              <span className="text-xl font-bold text-primary">{formatMoney(p.precio_base, p.moneda_precio)}</span>
+            <div className="flex items-center justify-between">
+              <span className={`text-xs font-medium ${stockOk ? 'text-emerald-500' : 'text-destructive'}`}>
+                {stock === 0 ? 'Sin stock' : `${stock} en stock`}
+              </span>
               <div className="flex items-center gap-0.5">
                 <button
                   onClick={() => onEdit(p.id)}
