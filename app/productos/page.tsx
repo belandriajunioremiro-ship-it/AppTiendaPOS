@@ -159,15 +159,13 @@ export default function ProductosPage() {
                 formatMoney={formatMoney}
               />
             )}
-            <div className="bg-card border border-border rounded-xl">
-              <ProductPagination
-                page={meta?.current_page ?? 1}
-                totalPages={meta?.last_page ?? 1}
-                total={total}
-                perPage={meta?.per_page ?? 20}
-                onPageChange={setPage}
-              />
-            </div>
+            <ProductPagination
+              page={meta?.current_page ?? 1}
+              totalPages={meta?.last_page ?? 1}
+              total={total}
+              perPage={meta?.per_page ?? 20}
+              onPageChange={setPage}
+            />
           </>
         )}
       </div>
