@@ -15,13 +15,18 @@ import { CategorySelector, type DefinicionAtributo } from '@/components/producto
 import { DynamicAttributes } from '@/components/producto/DynamicAttributes';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 
-const UNIDADES_FIJAS = [
-  { id: 1, nombre: 'Unidad', abreviatura: 'Und' },
-  { id: 2, nombre: 'Kilogramo', abreviatura: 'Kg' },
-  { id: 3, nombre: 'Litro', abreviatura: 'Lt' },
-  { id: 4, nombre: 'Metro', abreviatura: 'm' },
-  { id: 5, nombre: 'Caja', abreviatura: 'Cja' },
-  { id: 6, nombre: 'Pack', abreviatura: 'Pck' },
+interface UnidadItem {
+  id: number;
+  nombre: string;
+  abreviatura: string;
+  tipo: string;
+}
+
+const UNIDADES_FALLBACK: UnidadItem[] = [
+  { id: 0, nombre: 'Unidad', abreviatura: 'Und', tipo: 'cantidad' },
+  { id: 0, nombre: 'Kilogramo', abreviatura: 'Kg', tipo: 'peso' },
+  { id: 0, nombre: 'Litro', abreviatura: 'Lt', tipo: 'volumen' },
+  { id: 0, nombre: 'Metro', abreviatura: 'm', tipo: 'longitud' },
 ];
 
 export default function NuevoProductoPage() {
@@ -30,7 +35,7 @@ export default function NuevoProductoPage() {
   const [selectedCategoriaId, setSelectedCategoriaId] = useState('');
   const [atributosDef, setAtributosDef] = useState<DefinicionAtributo[]>([]);
   const [atributosValores, setAtributosValores] = useState<Record<string, string | boolean>>({});
-  const [unidades] = useState(UNIDADES_FIJAS);
+  const [unidades, setUnidades] = useState<UnidadItem[]>(UNIDADES_FALLBACK);
   const [impuestos, setImpuestos] = useState<{ id: number; nombre: string; porcentaje: number }[]>([]);
 
   const [nombre, setNombre] = useState('');
@@ -46,6 +51,10 @@ export default function NuevoProductoPage() {
   const [apiErrors, setApiErrors] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
+    api.get('/unidades').then(r => {
+      const data = r.data?.data || [];
+      if (data.length > 0) setUnidades(data);
+    }).catch(() => {});
     api.get('/impuestos').then(r => setImpuestos(r.data?.data || [])).catch(() => {});
   }, []);
 
