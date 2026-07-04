@@ -109,7 +109,7 @@ export function DashboardLayout({ children, pageTitle, pageSubtitle }: Dashboard
         }`}
       >
         <div
-          className={`fixed inset-0 bg-black/60 transition-opacity duration-300 ease-out ${
+          className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ease-out ${
             sidebarOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setSidebarOpen(false)}
@@ -124,7 +124,7 @@ export function DashboardLayout({ children, pageTitle, pageSubtitle }: Dashboard
       </div>
 
       <div
-        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-all duration-300 ${
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] transition-all duration-300 ${
           dropdownOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={closeAllDropdowns}

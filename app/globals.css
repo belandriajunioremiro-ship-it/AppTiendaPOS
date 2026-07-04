@@ -34,9 +34,9 @@
   --destructive: 0 72% 51%; 
   --destructive-foreground: 0 0% 100%;
 
-  /* Bordes sutiles pero visibles */
+  /* Bordes de inputs: blanco puro para máximo contraste */
   --border: 240 5% 14%;
-  --input: 240 5% 10%;
+  --input: 0 0% 100%;
   --ring: 38 92% 50%; /* Anillo de foco amber */
 
   --radius: 0.5rem;
@@ -74,5 +74,28 @@ input:-webkit-autofill:active {
   }
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(38 92% 50%); /* Amber on hover */
+  }
+
+  /* Inputs: bordes blancos, hover/focus con glow ámbar suave */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea,
+  [role="combobox"] {
+    transition: border-color 300ms ease-out, box-shadow 300ms ease-out;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):hover,
+  select:hover,
+  textarea:hover,
+  [role="combobox"]:hover {
+    border-color: hsl(38 92% 50% / 0.7);
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+  select:focus,
+  textarea:focus,
+  [role="combobox"]:focus {
+    border-color: hsl(38 92% 50%);
+    box-shadow: 0 0 0 3px hsl(38 92% 50% / 0.15);
   }
 }
