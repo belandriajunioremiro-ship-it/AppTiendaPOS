@@ -15,11 +15,14 @@ import { CategorySelector, type DefinicionAtributo } from '@/components/producto
 import { DynamicAttributes } from '@/components/producto/DynamicAttributes';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 
-interface Unidad {
-  id: number;
-  nombre: string;
-  abreviatura: string;
-}
+const UNIDADES_FIJAS = [
+  { id: 1, nombre: 'Unidad', abreviatura: 'Und' },
+  { id: 2, nombre: 'Kilogramo', abreviatura: 'Kg' },
+  { id: 3, nombre: 'Litro', abreviatura: 'Lt' },
+  { id: 4, nombre: 'Metro', abreviatura: 'm' },
+  { id: 5, nombre: 'Caja', abreviatura: 'Cja' },
+  { id: 6, nombre: 'Pack', abreviatura: 'Pck' },
+];
 
 export default function NuevoProductoPage() {
   const router = useRouter();
@@ -27,7 +30,7 @@ export default function NuevoProductoPage() {
   const [selectedCategoriaId, setSelectedCategoriaId] = useState('');
   const [atributosDef, setAtributosDef] = useState<DefinicionAtributo[]>([]);
   const [atributosValores, setAtributosValores] = useState<Record<string, string | boolean>>({});
-  const [unidades, setUnidades] = useState<Unidad[]>([]);
+  const [unidades] = useState(UNIDADES_FIJAS);
   const [impuestos, setImpuestos] = useState<{ id: number; nombre: string; porcentaje: number }[]>([]);
 
   const [nombre, setNombre] = useState('');
@@ -43,7 +46,6 @@ export default function NuevoProductoPage() {
   const [apiErrors, setApiErrors] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
-    api.get('/unidades').then(r => setUnidades(r.data?.data || [])).catch(() => {});
     api.get('/impuestos').then(r => setImpuestos(r.data?.data || [])).catch(() => {});
   }, []);
 
