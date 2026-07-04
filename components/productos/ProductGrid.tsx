@@ -1,7 +1,6 @@
 'use client';
 
 import { Package, Pencil, Trash2, TrendingUp } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import type { Producto } from '@/types/producto';
 
 interface ProductGridProps {
@@ -26,70 +25,70 @@ export function ProductGrid({ productos, onEdit, onDelete, formatMoney }: Produc
         const stockOk = stock > 0;
         const margenDisplay = Number.isInteger(p.margen_pct) ? p.margen_pct : Math.round(p.margen_pct);
         return (
-          <div key={p.id} className="bg-card border border-border rounded-lg p-4 flex flex-col gap-3 relative">
-            <div className="absolute top-3 right-3">
-              <Badge
-                variant={p.activo ? 'default' : 'secondary'}
-                className={`text-[10px] px-2 py-0 ${p.activo ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : ''}`}
-              >
-                {p.activo ? 'Activo' : 'Inactivo'}
-              </Badge>
+          <div key={p.id} className="bg-card border border-border rounded-xl p-4 flex flex-col gap-3 relative overflow-hidden group">
+            <div className={`absolute top-0 right-0 w-20 h-20 ${p.activo ? 'bg-emerald-500/10' : 'bg-muted'} -translate-y-1/2 translate-x-1/2 rotate-45`} />
+            <div className={`absolute top-2.5 right-3 z-10 text-[10px] font-semibold tracking-wide uppercase ${p.activo ? 'text-emerald-400' : 'text-muted-foreground'}`}>
+              {p.activo ? 'Activo' : 'Inactivo'}
             </div>
 
-            <div className="flex items-start gap-3 pr-20">
-              <div className="w-16 h-16 rounded-md shrink-0 overflow-hidden bg-primary/10 flex items-center justify-center">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl shrink-0 overflow-hidden bg-gradient-to-br from-amber/20 to-amber/5 flex items-center justify-center ring-1 ring-amber/10">
                 {p.foto_url ? (
                   <img src={p.foto_url} alt={p.nombre} className="w-full h-full object-cover" />
                 ) : (
-                  <Package className="h-6 w-6 text-primary" />
+                  <Package className="h-5 w-5 text-amber" />
                 )}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="font-bold text-foreground text-sm truncate">{p.nombre}</p>
-                <p className="text-xs text-muted-foreground font-mono truncate">{p.codigo_sku}</p>
-                {p.categoria && (
-                  <span className="text-[10px] text-muted-foreground/60">{p.categoria.nombre}</span>
-                )}
+                <p className="text-sm font-bold text-foreground truncate leading-tight">{p.nombre}</p>
+                <p className="text-[11px] text-muted-foreground font-mono truncate mt-0.5">{p.codigo_sku}</p>
               </div>
             </div>
 
-            <div className="bg-background rounded-lg p-3 space-y-2">
+            {p.categoria && (
+              <div className="flex items-center gap-1.5">
+                <div className="w-1 h-1 rounded-full bg-primary/50" />
+                <span className="text-[11px] text-muted-foreground/70">{p.categoria.nombre}</span>
+              </div>
+            )}
+
+            <div className="bg-background/60 rounded-xl p-3.5 space-y-2.5 mt-1">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">Costo</span>
-                <span className="text-foreground font-medium">{formatMoney(p.costo_promedio, p.moneda_precio)}</span>
+                <span className="text-muted-foreground/70">Costo</span>
+                <span className="text-foreground font-semibold">{formatMoney(p.costo_promedio, p.moneda_precio)}</span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">Margen</span>
-                <span className="text-foreground font-medium">{margenDisplay}%</span>
+                <span className="text-muted-foreground/70">Margen</span>
+                <span className="text-foreground font-semibold">{margenDisplay}%</span>
               </div>
-              <div className="h-px bg-border/60" />
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground flex items-center gap-1">
-                  <TrendingUp className="h-3 w-3 text-primary" />
+              <div className="h-px bg-border/40" />
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-muted-foreground/70 flex items-center gap-1">
+                  <TrendingUp className="h-3 w-3 text-amber" />
                   Precio venta
                 </span>
-                <span className="text-sm font-bold text-primary">{formatMoney(p.precio_base, p.moneda_precio)}</span>
+                <span className="text-sm font-bold text-amber drop-shadow-sm">{formatMoney(p.precio_base, p.moneda_precio)}</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <span className={`text-xs font-medium ${stockOk ? 'text-emerald-500' : 'text-destructive'}`}>
+            <div className="flex items-center justify-between mt-0.5">
+              <span className={`text-[11px] font-medium ${stockOk ? 'text-emerald-500' : 'text-destructive'}`}>
                 {stock === 0 ? 'Sin stock' : `${stock} en stock`}
               </span>
-              <div className="flex items-center gap-0.5">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => onEdit(p.id)}
-                  className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  className="w-8 h-8 rounded-full bg-amber flex items-center justify-center hover:bg-amber/90 transition-colors shadow-sm"
                   title="Editar"
                 >
-                  <Pencil className="h-3.5 w-3.5" />
+                  <Pencil className="h-3.5 w-3.5 text-black" />
                 </button>
                 <button
                   onClick={() => onDelete(p.id)}
-                  className="p-1.5 rounded-md text-muted-foreground hover:text-destructive-foreground hover:bg-destructive/10 transition-colors"
+                  className="w-8 h-8 rounded-full bg-amber flex items-center justify-center hover:bg-amber/90 transition-colors shadow-sm"
                   title="Desactivar"
                 >
-                  <Trash2 className="h-3.5 w-3.5" />
+                  <Trash2 className="h-3.5 w-3.5 text-black" />
                 </button>
               </div>
             </div>
