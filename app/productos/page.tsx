@@ -2,55 +2,45 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  Package, Plus, Search, Pencil, Trash2, Loader2,
-  ChevronLeft, ChevronRight,
-} from 'lucide-react';
+import { Package, Loader2 } from 'lucide-react';
 import api from '@/lib/axios';
 import { showToast } from '@/lib/toast';
-import { useAuthStore } from '@/stores/auth-store';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { Button } from '@/components/ui/button';
+import { ProductToolbar } from '@/components/productos/ProductToolbar';
+import { ProductTable } from '@/components/productos/ProductTable';
+import { ProductGrid } from '@/components/productos/ProductGrid';
+import { ProductPagination } from '@/components/productos/ProductPagination';
+import { ProductDeleteDialog } from '@/components/productos/ProductDeleteDialog';
+import type { Producto, Categoria, ProductoMeta } from '@/types/producto';
 
-interface Variant {
-  id: number;
-  codigo_barra: string | null;
-  descripcion: string;
-  atributos: Record<string, unknown>;
-  activo: boolean;
-}
+type ViewMode = 'list' | 'grid';
 
-interface Categoria {
-  id: number;
-  nombre: string;
-}
-
-interface Producto {
-  id: number;
-  nombre: string;
-  codigo_sku: string;
-  descripcion: string | null;
-  moneda_precio: string;
-  costo_promedio: number;
-  margen_pct: number;
-  precio_base: number;
-  atributos: Record<string, unknown>;
-  activo: boolean;
-  categoria: Categoria | null;
-  variantes: Variant[];
-}
+const formatMoney = (amount: number, currency: string) =>
+  new Intl.NumberFormat('es-VE', { style: 'currency', currency, minimumFractionDigits: 2 }).format(amount);
 
 export default function ProductosPage() {
   const router = useRouter();
-  const { token } = useAuthStore();
+
+  // Data
   const [productos, setProductos] = useState<Producto[]>([]);
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [meta, setMeta] = useState<ProductoMeta | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Filters
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [categoriaId, setCategoriaId] = useState('todas');
+  const [estado, setEstado] = useState('todos');
+
+  // View
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
+
+  // Pagination
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [total, setTotal] = useState(0);
+
+  // Delete
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
 
@@ -61,24 +51,32 @@ export default function ProductosPage() {
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, categoriaId, estado]);
+
+  useEffect(() => {
+    api.get('/categorias').then((res) => {
+      setCategorias(res.data?.data || []);
+    }).catch(() => {});
+  }, []);
 
   const loadProductos = useCallback(async () => {
     setLoading(true);
     try {
       const params: Record<string, unknown> = { page, per_page: 20 };
       if (debouncedSearch) params.buscar = debouncedSearch;
+      if (categoriaId !== 'todas') params.categoria_id = Number(categoriaId);
+      if (estado === 'activos') params.activo = true;
+      if (estado === 'inactivos') params.activo = false;
       const res = await api.get('/productos', { params });
       const raw = res.data;
       setProductos(raw.data || []);
-      setTotalPages(raw.meta?.last_page || 1);
-      setTotal(raw.meta?.total || 0);
+      setMeta(raw.meta || null);
     } catch {
       showToast.error({ message: 'Error al cargar productos' });
     } finally {
       setLoading(false);
     }
-  }, [page, debouncedSearch]);
+  }, [page, debouncedSearch, categoriaId, estado]);
 
   useEffect(() => {
     loadProductos();
@@ -99,185 +97,87 @@ export default function ProductosPage() {
     }
   };
 
-  const formatMoney = (amount: number, currency: string) =>
-    new Intl.NumberFormat('es-VE', { style: 'currency', currency, minimumFractionDigits: 2 }).format(amount);
+  const total = meta?.total ?? 0;
 
   return (
     <DashboardLayout pageTitle="Productos" pageSubtitle="Gestión de inventario">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
-              <Package className="h-6 w-6 text-primary" />
-              Productos
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">{total} productos registrados</p>
+        <ProductToolbar
+          search={search}
+          onSearchChange={setSearch}
+          categoriaId={categoriaId}
+          onCategoriaChange={setCategoriaId}
+          categorias={categorias}
+          estado={estado}
+          onEstadoChange={setEstado}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          onNewProduct={() => router.push('/productos/nuevo')}
+        />
+
+        {loading ? (
+          <div className="flex items-center justify-center py-24">
+            <div className="flex items-center gap-3 text-muted-foreground">
+              <Loader2 className="h-5 w-5 animate-spin text-primary" />
+              <span>Cargando productos...</span>
+            </div>
           </div>
-          <Button
-            onClick={() => router.push('/productos/nuevo')}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shrink-0"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Nuevo Producto
-          </Button>
-        </div>
-
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Buscar por nombre o SKU..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="pl-10 bg-card border-border focus:border-ring"
-          />
-        </div>
-
-        <div className="bg-card border border-border rounded-xl overflow-hidden">
-          {loading ? (
-            <div className="flex items-center justify-center py-16">
-              <div className="flex items-center gap-3 text-muted-foreground">
-                <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                <span>Cargando productos...</span>
-              </div>
+        ) : productos.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-24 text-center bg-card border border-border rounded-xl">
+            <Package className="h-12 w-12 text-muted-foreground/50 mb-4" />
+            <p className="text-muted-foreground text-sm mb-1">
+              {debouncedSearch || categoriaId !== 'todas' || estado !== 'todos'
+                ? 'Sin resultados para los filtros seleccionados'
+                : 'No hay productos creados'}
+            </p>
+            <p className="text-xs text-muted-foreground/60 mb-6">
+              {debouncedSearch || categoriaId !== 'todas' || estado !== 'todos'
+                ? 'Intenta con otros criterios de búsqueda'
+                : 'Comienza agregando tu primer producto'}
+            </p>
+            {!debouncedSearch && categoriaId === 'todas' && estado === 'todos' && (
+              <Button onClick={() => router.push('/productos/nuevo')} variant="outline">
+                <Package className="h-4 w-4 mr-2" />
+                Crear el primero
+              </Button>
+            )}
+          </div>
+        ) : (
+          <>
+            {viewMode === 'list' ? (
+              <ProductTable
+                productos={productos}
+                onEdit={(id) => router.push(`/productos/${id}/editar`)}
+                onDelete={setDeleteId}
+                formatMoney={formatMoney}
+              />
+            ) : (
+              <ProductGrid
+                productos={productos}
+                onEdit={(id) => router.push(`/productos/${id}/editar`)}
+                onDelete={setDeleteId}
+                formatMoney={formatMoney}
+              />
+            )}
+            <div className="bg-card border border-border rounded-xl">
+              <ProductPagination
+                page={meta?.current_page ?? 1}
+                totalPages={meta?.last_page ?? 1}
+                total={total}
+                perPage={meta?.per_page ?? 20}
+                onPageChange={setPage}
+              />
             </div>
-          ) : productos.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <Package className="h-10 w-10 text-muted-foreground mb-3" />
-              <p className="text-muted-foreground text-sm">
-                {debouncedSearch ? 'Sin resultados para tu búsqueda' : 'No hay productos creados'}
-              </p>
-              {!debouncedSearch && (
-                <Button
-                  onClick={() => router.push('/productos/nuevo')}
-                  variant="outline"
-                  className="mt-4 border-primary/30 text-primary hover:bg-primary/10"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Crear el primero
-                </Button>
-              )}
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Producto</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">SKU</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Categoría</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Precio</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Costo</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Margen</th>
-                    <th className="text-right px-4 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {productos.map(p => (
-                    <tr key={p.id} className="border-b border-border/40 hover:bg-accent/50 transition-colors">
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                            <Package className="h-4 w-4 text-primary" />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="text-sm text-foreground font-medium truncate max-w-[200px]">{p.nombre}</p>
-                            {p.descripcion && (
-                              <p className="text-[11px] text-muted-foreground truncate max-w-[200px]">{p.descripcion}</p>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground font-mono">{p.codigo_sku}</td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground">{p.categoria?.nombre || '—'}</td>
-                      <td className="px-4 py-3 text-sm text-foreground text-right font-medium">
-                        {formatMoney(p.precio_base, p.moneda_precio)}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground text-right">
-                        {formatMoney(p.costo_promedio, p.moneda_precio)}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground text-right">{p.margen_pct}%</td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center justify-end gap-1">
-                          <button
-                            onClick={() => router.push(`/productos/${p.id}/editar`)}
-                            className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                            title="Editar"
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                          </button>
-                          <button
-                            onClick={() => setDeleteId(p.id)}
-                            className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive-foreground hover:bg-destructive/10 transition-colors"
-                            title="Desactivar"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between px-4 py-3 border-t border-border">
-              <p className="text-xs text-muted-foreground">
-                Página {page} de {totalPages}
-              </p>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page <= 1}
-                  className="border-input text-foreground hover:bg-accent h-8"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page >= totalPages}
-                  className="border-input text-foreground hover:bg-accent h-8"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
 
-      {deleteId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setDeleteId(null)} />
-          <div className="relative bg-card border border-border rounded-xl p-6 max-w-sm mx-4 shadow-2xl">
-            <h3 className="text-lg font-semibold text-foreground mb-2">Desactivar producto</h3>
-            <p className="text-sm text-muted-foreground mb-6">
-              ¿Estás seguro? El producto se marcará como inactivo pero no se eliminará.
-            </p>
-            <div className="flex justify-end gap-3">
-              <Button
-                variant="outline"
-                onClick={() => setDeleteId(null)}
-                className="border-input text-foreground hover:bg-accent"
-              >
-                Cancelar
-              </Button>
-              <Button
-                onClick={handleDelete}
-                disabled={deleting}
-                className="bg-destructive hover:bg-destructive/90 text-white font-semibold"
-              >
-                {deleting ? 'Eliminando...' : 'Desactivar'}
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ProductDeleteDialog
+        open={deleteId !== null}
+        deleting={deleting}
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteId(null)}
+      />
     </DashboardLayout>
   );
 }
