@@ -1,6 +1,13 @@
 export interface Categoria {
   id: number;
   nombre: string;
+  slug?: string;
+}
+
+export interface UnidadInfo {
+  id: number;
+  nombre: string;
+  abreviatura: string;
 }
 
 export interface Variant {
@@ -27,6 +34,8 @@ export interface Producto {
   variantes: Variant[];
   cantidad_disponible?: number;
   stock_minimo?: number;
+  unidad?: UnidadInfo | null;
+  unidad_id?: number | null;
 }
 
 export interface ProductoMeta {

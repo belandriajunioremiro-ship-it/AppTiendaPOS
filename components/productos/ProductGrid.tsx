@@ -1,6 +1,6 @@
 'use client';
 
-import { Package, Pencil, Trash2, MoreHorizontal } from 'lucide-react';
+import { Package, Pencil, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { Producto } from '@/types/producto';
 
@@ -19,62 +19,66 @@ export function ProductGrid({ productos, onEdit, onDelete, formatMoney }: Produc
         const minStock = p.stock_minimo ?? 0;
         const stockOk = stock > minStock;
         return (
-          <div
-            key={p.id}
-            className="group bg-card border border-border rounded-lg overflow-hidden hover:border-ring/30 transition-all"
-          >
-            <div className="relative">
-              {p.foto_url ? (
-                <div className="w-full h-[120px] overflow-hidden">
-                  <img
-                    src={p.foto_url}
-                    alt={p.nombre}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ) : (
-                <div className="w-full h-[120px] bg-muted flex items-center justify-center">
-                  <Package className="h-10 w-10 text-muted-foreground/50" />
-                </div>
-              )}
-              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+          <div key={p.id} className="bg-card border border-border rounded-lg p-4 flex flex-col gap-3 relative">
+            <div className="absolute top-3 right-3">
+              <Badge
+                variant={p.activo ? 'default' : 'secondary'}
+                className={`text-[10px] px-2 py-0 ${p.activo ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : ''}`}
+              >
+                {p.activo ? 'Activo' : 'Inactivo'}
+              </Badge>
+            </div>
+
+            <div className="flex items-start gap-3 pr-20">
+              <div className="w-16 h-16 rounded-md shrink-0 overflow-hidden bg-primary/10 flex items-center justify-center">
+                {p.foto_url ? (
+                  <img src={p.foto_url} alt={p.nombre} className="w-full h-full object-cover" />
+                ) : (
+                  <Package className="h-6 w-6 text-primary" />
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-bold text-foreground text-sm truncate">{p.nombre}</p>
+                <p className="text-xs text-muted-foreground font-mono truncate">{p.codigo_sku}</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Costo</span>
+                <span className="text-muted-foreground">{formatMoney(p.costo_promedio, p.moneda_precio)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Margen</span>
+                <span className="text-muted-foreground">{p.margen_pct}%</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Categoría</span>
+                <span className="text-muted-foreground truncate max-w-[80px]">{p.categoria?.nombre || '—'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Stock</span>
+                <span className={`font-medium ${stockOk ? 'text-emerald-500' : 'text-destructive'}`}>{stock}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between mt-auto pt-1 border-t border-border/40">
+              <span className="text-xl font-bold text-primary">{formatMoney(p.precio_base, p.moneda_precio)}</span>
+              <div className="flex items-center gap-0.5">
                 <button
                   onClick={() => onEdit(p.id)}
-                  className="p-1.5 rounded-lg bg-background/80 backdrop-blur-sm text-muted-foreground hover:text-primary hover:bg-background transition-colors"
+                  className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
                   title="Editar"
                 >
                   <Pencil className="h-3.5 w-3.5" />
                 </button>
                 <button
                   onClick={() => onDelete(p.id)}
-                  className="p-1.5 rounded-lg bg-background/80 backdrop-blur-sm text-muted-foreground hover:text-destructive-foreground hover:bg-background transition-colors"
+                  className="p-1.5 rounded-md text-muted-foreground hover:text-destructive-foreground hover:bg-destructive/10 transition-colors"
                   title="Desactivar"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
-              </div>
-            </div>
-            <div className="p-4 space-y-3">
-              <div>
-                <p className="text-sm font-bold text-foreground truncate">{p.nombre}</p>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-[11px] text-muted-foreground font-mono">{p.codigo_sku}</span>
-                  {p.categoria && (
-                    <>
-                      <span className="text-muted-foreground/40">·</span>
-                      <span className="text-[11px] text-muted-foreground">{p.categoria.nombre}</span>
-                    </>
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xl font-bold text-primary">{formatMoney(p.precio_base, p.moneda_precio)}</span>
-                <Badge
-                  variant={stockOk ? 'default' : 'destructive'}
-                  className={stockOk ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : ''}
-                >
-                  {stock} en stock
-                </Badge>
               </div>
             </div>
           </div>
