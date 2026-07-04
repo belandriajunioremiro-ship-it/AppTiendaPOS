@@ -36,7 +36,7 @@ export const showToast = {
   error: ({ message, description }: ToastOptions) => {
     toast.custom(
       () => (
-        <div className="flex items-start gap-3 bg-[#18181b] border border-amber rounded-xl p-4 shadow-xl min-w-[340px] max-w-[380px]">
+        <div className="flex items-start gap-3 bg-dark-tertiary border border-amber rounded-xl p-4 shadow-xl min-w-[340px] max-w-[380px]">
           <div className="w-7 h-7 rounded-full bg-amber flex items-center justify-center shrink-0 mt-0.5">
             <AlertCircle className="h-3.5 w-3.5 text-[#09090b]" />
           </div>
@@ -53,7 +53,7 @@ export const showToast = {
   success: ({ message, description }: ToastOptions) => {
     toast.custom(
       () => (
-        <div className="flex items-start gap-3 bg-[#18181b] border border-amber rounded-xl p-4 shadow-xl min-w-[340px] max-w-[380px]">
+        <div className="flex items-start gap-3 bg-dark-tertiary border border-amber rounded-xl p-4 shadow-xl min-w-[340px] max-w-[380px]">
           <div className="w-7 h-7 rounded-full bg-amber flex items-center justify-center shrink-0 mt-0.5">
             <CheckCircle2 className="h-3.5 w-3.5 text-[#09090b]" />
           </div>
@@ -70,7 +70,7 @@ export const showToast = {
   warning: ({ message, description }: ToastOptions) => {
     toast.custom(
       () => (
-        <div className="flex items-start gap-3 bg-[#18181b] border border-amber rounded-xl p-4 shadow-xl min-w-[340px] max-w-[380px]">
+        <div className="flex items-start gap-3 bg-dark-tertiary border border-amber rounded-xl p-4 shadow-xl min-w-[340px] max-w-[380px]">
           <div className="w-7 h-7 rounded-full bg-amber flex items-center justify-center shrink-0 mt-0.5">
             <AlertTriangle className="h-3.5 w-3.5 text-[#09090b]" />
           </div>
@@ -87,7 +87,7 @@ export const showToast = {
   info: ({ message, description }: ToastOptions) => {
     toast.custom(
       () => (
-        <div className="flex items-start gap-3 bg-[#18181b] border border-amber rounded-xl p-4 shadow-xl min-w-[340px] max-w-[380px]">
+        <div className="flex items-start gap-3 bg-dark-tertiary border border-amber rounded-xl p-4 shadow-xl min-w-[340px] max-w-[380px]">
           <div className="w-7 h-7 rounded-full bg-amber flex items-center justify-center shrink-0 mt-0.5">
             <Info className="h-3.5 w-3.5 text-[#09090b]" />
           </div>
