@@ -63,14 +63,14 @@ const config: Config = {
         },
         dark: {
           primary: '#161616',
-          secondary: '#0a0a0b',
+          secondary: '#161616',
           tertiary: '#06141B',
           elevated: '#1F1F23',
           border: '#27272A',
         },
         zinc: {
-          100: '#CCD0CF',
-          200: '#E4E4E7',
+          100: '#FFFFFF',
+          200: '#FFFFFF',
           300: '#D4D4D8',
           400: '#9BA8AB',
           500: '#71717A',
