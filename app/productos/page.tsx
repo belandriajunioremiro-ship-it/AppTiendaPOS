@@ -11,6 +11,7 @@ import { showToast } from '@/lib/toast';
 import { useAuthStore } from '@/stores/auth-store';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 
 interface Variant {
   id: number;
@@ -52,10 +53,6 @@ export default function ProductosPage() {
   const [total, setTotal] = useState(0);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    if (!token) { router.push('/login'); return; }
-  }, [token]);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search), 300);
@@ -106,8 +103,8 @@ export default function ProductosPage() {
     new Intl.NumberFormat('es-VE', { style: 'currency', currency, minimumFractionDigits: 2 }).format(amount);
 
   return (
-    <div className="min-h-screen bg-dark-primary">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+    <DashboardLayout pageTitle="Productos" pageSubtitle="Gestión de inventario">
+      <div className="max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-2xl font-bold text-zinc-100 flex items-center gap-3">
@@ -281,6 +278,7 @@ export default function ProductosPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 import api from '@/lib/axios';
@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import { CategorySelector, type DefinicionAtributo } from '@/components/producto/CategorySelector';
 import { DynamicAttributes } from '@/components/producto/DynamicAttributes';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 
 interface ProductoData {
   id: number;
@@ -56,6 +57,15 @@ export default function EditarProductoPage() {
   const [atributosValores, setAtributosValores] = useState<Record<string, string | boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const precioCalculado = useMemo(() => {
+    const costo = parseFloat(costoPromedio) || 0;
+    const margen = parseFloat(margenPct) || 0;
+    return costo * (1 + margen / 100);
+  }, [costoPromedio, margenPct]);
+
+  const formatMoney = (amount: number) =>
+    new Intl.NumberFormat('es-VE', { style: 'currency', currency: monedaPrecio || 'USD', minimumFractionDigits: 2 }).format(amount);
+
   useEffect(() => {
     if (!token) { router.push('/login'); return; }
     if (!productoId) return;
@@ -80,11 +90,8 @@ export default function EditarProductoPage() {
       setAtributosValores(p.atributos || {});
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response?.status;
-      if (status === 404) {
-        setNotFound(true);
-      } else {
-        showToast.error({ message: 'Error al cargar producto' });
-      }
+      if (status === 404) setNotFound(true);
+      else showToast.error({ message: 'Error al cargar producto' });
     } finally {
       setLoading(false);
     }
@@ -138,31 +145,33 @@ export default function EditarProductoPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-dark-primary flex items-center justify-center">
-        <div className="flex items-center gap-3 text-zinc-400">
-          <Loader2 className="h-5 w-5 animate-spin text-amber" />
-          <span>Cargando producto...</span>
+      <DashboardLayout pageTitle="Editar Producto">
+        <div className="flex items-center justify-center py-20">
+          <div className="flex items-center gap-3 text-zinc-400">
+            <Loader2 className="h-5 w-5 animate-spin text-amber" />
+            <span>Cargando producto...</span>
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   if (notFound) {
     return (
-      <div className="min-h-screen bg-dark-primary flex items-center justify-center">
-        <div className="text-center">
+      <DashboardLayout pageTitle="Producto no encontrado">
+        <div className="text-center py-20">
           <p className="text-zinc-400 mb-4">Producto no encontrado</p>
           <Button onClick={() => router.push('/productos')} variant="outline" className="border-white/20 text-zinc-300">
             Volver a productos
           </Button>
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-dark-primary">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+    <DashboardLayout pageTitle="Editar Producto" pageSubtitle={`SKU: ${codigoSku}`}>
+      <div className="max-w-3xl mx-auto">
         <button
           onClick={() => router.push('/productos')}
           className="flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors mb-6"
@@ -170,8 +179,6 @@ export default function EditarProductoPage() {
           <ArrowLeft className="h-4 w-4" />
           <span className="text-sm">Volver a productos</span>
         </button>
-
-        <h1 className="text-2xl font-bold text-zinc-100 mb-8">Editar Producto</h1>
 
         <div className="space-y-6">
           <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-6 space-y-5">
@@ -221,6 +228,14 @@ export default function EditarProductoPage() {
                 <Input id="margen_pct" type="number" value={margenPct} onChange={e => setMargenPct(e.target.value)} className="bg-dark-primary border-white/20 focus:border-amber" />
                 {errors.margen_pct && <p className="text-xs text-red-400">{errors.margen_pct}</p>}
               </div>
+            </div>
+
+            <div className="bg-dark-primary border border-amber/20 rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-zinc-400">Precio de venta calculado</span>
+                <span className="text-lg font-bold text-amber">{formatMoney(precioCalculado)}</span>
+              </div>
+              <p className="text-[11px] text-zinc-500 mt-1">Costo × (1 + Margen/100) — se calcula automáticamente</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -285,6 +300,6 @@ export default function EditarProductoPage() {
           </div>
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

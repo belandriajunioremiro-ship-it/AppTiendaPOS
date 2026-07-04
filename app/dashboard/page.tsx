@@ -4,13 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/auth-store';
 import api from '@/lib/axios';
-import { SidebarContent } from '@/components/sidebar';
-import { NotificationDropdown } from '@/components/notification-dropdown';
-import { AvatarDropdown } from '@/components/avatar-dropdown';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import {
   Bell, TrendingUp, AlertTriangle,
-  CreditCard, Menu, ArrowUpRight,
-  AlertCircle, CheckCircle2, Store, User,
+  CreditCard, ArrowUpRight,
+  AlertCircle, CheckCircle2, Store,
   Package, DollarSign
 } from 'lucide-react';
 
@@ -47,11 +45,7 @@ interface UserProfile {
 export default function DashboardPage() {
   const router = useRouter();
   const { user: authUser, token, logout } = useAuthStore();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [dropdownOpen, setDropdownOpen] = useState<'notif' | 'avatar' | null>(null);
-
-  const closeAllDropdowns = () => setDropdownOpen(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
@@ -98,16 +92,8 @@ export default function DashboardPage() {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    router.push('/login');
-  };
-
   const formatMoney = (amount: number, currency = 'USD') =>
     new Intl.NumberFormat('es-VE', { style: 'currency', currency, minimumFractionDigits: 2 }).format(amount);
-
-  const getInitials = (name: string) =>
-    name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
   const salesToday = dashboard?.ventas_hoy?.[0];
   const openSessions = dashboard?.sesiones_abiertas || [];
@@ -140,87 +126,10 @@ export default function DashboardPage() {
 
   if (!token && !localStorage.getItem('tiendapos_token')) return null;
 
-  const sidebarProps = {
-    storeName,
-    userName: profile?.name || 'Usuario',
-    userEmail: profile?.email || '',
-    userInitials: profile ? getInitials(profile.name) : 'U',
-    userRole,
-    currentPath: '/dashboard',
-  };
-
   return (
-    <div className="min-h-screen bg-dark-primary flex">
-      <div className="hidden lg:flex lg:w-48 lg:flex-col lg:fixed lg:inset-y-0 bg-[#090909] border-r border-white/[0.06]">
-        <SidebarContent {...sidebarProps} />
-      </div>
-
-      <div
-        className={`fixed inset-0 z-50 transition-all duration-300 ease-out lg:hidden ${
-          sidebarOpen ? 'visible' : 'invisible'
-        }`}
-      >
-        <div
-          className={`fixed inset-0 bg-black/60 transition-opacity duration-300 ease-out ${
-            sidebarOpen ? 'opacity-100' : 'opacity-0'
-          }`}
-          onClick={() => setSidebarOpen(false)}
-        />
-        <div
-          className={`fixed inset-y-0 left-0 w-48 bg-[#090909] border-r border-white/[0.06] transition-transform duration-300 ease-out ${
-            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
-        >
-          <SidebarContent {...sidebarProps} />
-        </div>
-      </div>
-
-      <div
-        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-all duration-300 ${
-          dropdownOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={closeAllDropdowns}
-      />
-
-      <div className="flex-1 lg:pl-48">
-        <header className="sticky top-0 z-50 bg-dark-primary/80 backdrop-blur-md border-b border-white/[0.06]">
-          <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
-
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all"
-              >
-                <Menu className="h-5 w-5" />
-              </button>
-              <div>
-                <h1 className="text-lg font-semibold text-zinc-100">Dashboard</h1>
-                <p className="text-xs text-zinc-500">
-                  {new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <NotificationDropdown
-                isOpen={dropdownOpen === 'notif'}
-                onToggle={() => setDropdownOpen(dropdownOpen === 'notif' ? null : 'notif')}
-                onClose={closeAllDropdowns}
-              />
-              <AvatarDropdown
-                userName={profile?.name || 'Usuario'}
-                userEmail={profile?.email || ''}
-                userInitials={profile ? getInitials(profile.name) : 'U'}
-                onLogout={handleLogout}
-                isOpen={dropdownOpen === 'avatar'}
-                onToggle={() => setDropdownOpen(dropdownOpen === 'avatar' ? null : 'avatar')}
-                onClose={closeAllDropdowns}
-              />
-            </div>
-          </div>
-        </header>
-
-        <main className="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <DashboardLayout pageTitle="Dashboard" pageSubtitle={new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-5 hover:border-white/10 transition-all">
               <div className="flex items-center justify-between mb-3">
                 <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">
@@ -486,8 +395,8 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
-        </main>
+        </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

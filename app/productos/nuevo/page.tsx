@@ -1,10 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { ArrowLeft, Save } from 'lucide-react';
 import api from '@/lib/axios';
 import { showToast } from '@/lib/toast';
@@ -12,29 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { CategorySelector, type DefinicionAtributo } from '@/components/producto/CategorySelector';
 import { DynamicAttributes } from '@/components/producto/DynamicAttributes';
-
-const productoSchema = z.object({
-  nombre: z.string().min(1, 'El nombre es obligatorio'),
-  codigo_sku: z.string().min(1, 'El SKU es obligatorio'),
-  unidad_id: z.string().min(1, 'Selecciona una unidad'),
-  impuesto_id: z.string().optional(),
-  moneda_precio: z.string().min(1, 'Selecciona una moneda'),
-  costo_promedio: z.string().min(1, 'Ingresa el costo'),
-  margen_pct: z.string().min(1, 'Ingresa el margen'),
-  descripcion: z.string().optional(),
-  codigo_barra: z.string().optional(),
-  categoria_id: z.string().optional(),
-});
-
-type ProductoFormData = z.infer<typeof productoSchema>;
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 
 export default function NuevoProductoPage() {
   const router = useRouter();
@@ -43,108 +22,123 @@ export default function NuevoProductoPage() {
   const [atributosDef, setAtributosDef] = useState<DefinicionAtributo[]>([]);
   const [atributosValores, setAtributosValores] = useState<Record<string, string | boolean>>({});
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<ProductoFormData>({
-    resolver: zodResolver(productoSchema),
-  });
+  const [nombre, setNombre] = useState('');
+  const [codigoSku, setCodigoSku] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [codigoBarra, setCodigoBarra] = useState('');
+  const [costoPromedio, setCostoPromedio] = useState('');
+  const [margenPct, setMargenPct] = useState('20');
+  const [monedaPrecio, setMonedaPrecio] = useState('');
+  const [unidadId, setUnidadId] = useState('');
+  const [impuestoId, setImpuestoId] = useState('');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const precioCalculado = useMemo(() => {
+    const costo = parseFloat(costoPromedio) || 0;
+    const margen = parseFloat(margenPct) || 0;
+    return costo * (1 + margen / 100);
+  }, [costoPromedio, margenPct]);
+
+  const formatMoney = (amount: number) =>
+    new Intl.NumberFormat('es-VE', { style: 'currency', currency: monedaPrecio || 'USD', minimumFractionDigits: 2 }).format(amount);
 
   const handleCategoryChange = (catId: string, attrs: DefinicionAtributo[]) => {
     setSelectedCategoriaId(catId);
     setAtributosDef(attrs);
     setAtributosValores({});
-    setValue('categoria_id', catId || '');
   };
 
-  const onSubmit = async (data: ProductoFormData) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+    const errs: Record<string, string> = {};
+    if (!nombre.trim()) errs.nombre = 'Requerido';
+    if (!codigoSku.trim()) errs.codigo_sku = 'Requerido';
+    if (!costoPromedio) errs.costo_promedio = 'Requerido';
+    if (!margenPct) errs.margen_pct = 'Requerido';
+    if (!monedaPrecio) errs.moneda_precio = 'Requerido';
+    if (!unidadId) errs.unidad_id = 'Requerido';
+    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+
     setSaving(true);
     try {
       const payload: Record<string, unknown> = {
-        nombre: data.nombre,
-        codigo_sku: data.codigo_sku,
-        unidad_id: data.unidad_id ? Number(data.unidad_id) : undefined,
-        impuesto_id: data.impuesto_id ? Number(data.impuesto_id) : undefined,
-        moneda_precio: data.moneda_precio,
-        costo_promedio: data.costo_promedio ? Number(data.costo_promedio) : undefined,
-        margen_pct: data.margen_pct ? Number(data.margen_pct) : undefined,
-        descripcion: data.descripcion || undefined,
-        variante_codigo_barra: data.codigo_barra || undefined,
+        nombre: nombre.trim(),
+        codigo_sku: codigoSku.trim(),
+        unidad_id: Number(unidadId),
+        moneda_precio: monedaPrecio,
+        costo_promedio: Number(costoPromedio),
+        margen_pct: Number(margenPct),
+        descripcion: descripcion.trim() || undefined,
+        variante_codigo_barra: codigoBarra.trim() || undefined,
         categoria_id: selectedCategoriaId ? Number(selectedCategoriaId) : undefined,
-        atributos: atributosValores,
+        impuesto_id: impuestoId ? Number(impuestoId) : undefined,
+        atributos: Object.keys(atributosValores).length > 0 ? atributosValores : undefined,
       };
-
-      Object.keys(payload).forEach(k => { if (payload[k] === undefined) delete payload[k]; });
 
       await api.post('/productos', payload);
       showToast.success({ message: 'Producto creado correctamente' });
       router.push('/productos');
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error al crear producto';
-      showToast.error({ message: msg });
+      const e = err as { response?: { data?: { message?: string; errors?: Record<string, string[]> } } };
+      if (e?.response?.data?.errors) {
+        const fieldErrors = Object.entries(e.response.data.errors)[0];
+        if (fieldErrors) showToast.error({ message: fieldErrors[1][0] });
+      } else {
+        showToast.error({ message: e?.response?.data?.message || 'Error al crear producto' });
+      }
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#090909]">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+    <DashboardLayout pageTitle="Nuevo Producto" pageSubtitle="Agregar producto al inventario">
+      <div className="max-w-3xl mx-auto">
         <button
-          onClick={() => router.back()}
+          onClick={() => router.push('/productos')}
           className="flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors mb-6"
         >
           <ArrowLeft className="h-4 w-4" />
-          <span className="text-sm">Volver</span>
+          <span className="text-sm">Volver a productos</span>
         </button>
 
-        <h1 className="text-2xl font-bold text-zinc-100 mb-8">Nuevo Producto</h1>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-6 space-y-5">
             <h2 className="text-sm font-semibold text-zinc-100">Información general</h2>
 
             <div className="space-y-2">
               <Label htmlFor="nombre">Nombre del producto *</Label>
-              <Input id="nombre" {...register('nombre')} className="border-white/20 hover:border-white/35 focus:border-amber transition-all duration-300 ease-out caret-amber" />
-              {errors.nombre && <p className="text-xs text-red-400">{errors.nombre.message}</p>}
+              <Input id="nombre" value={nombre} onChange={e => setNombre(e.target.value)} className="bg-dark-primary border-white/20 focus:border-amber" />
+              {errors.nombre && <p className="text-xs text-red-400">{errors.nombre}</p>}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="codigo_sku">SKU *</Label>
-                <Input id="codigo_sku" {...register('codigo_sku')} className="border-white/20 hover:border-white/35 focus:border-amber transition-all duration-300 ease-out caret-amber" />
-                {errors.codigo_sku && <p className="text-xs text-red-400">{errors.codigo_sku.message}</p>}
+                <Input id="codigo_sku" value={codigoSku} onChange={e => setCodigoSku(e.target.value)} className="bg-dark-primary border-white/20 focus:border-amber" />
+                {errors.codigo_sku && <p className="text-xs text-red-400">{errors.codigo_sku}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="codigo_barra">Código de barra</Label>
-                <Input id="codigo_barra" {...register('codigo_barra')} className="border-white/20 hover:border-white/35 focus:border-amber transition-all duration-300 ease-out caret-amber" />
+                <Input id="codigo_barra" value={codigoBarra} onChange={e => setCodigoBarra(e.target.value)} className="bg-dark-primary border-white/20 focus:border-amber" />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="descripcion">Descripción</Label>
-              <Input id="descripcion" {...register('descripcion')} className="border-white/20 hover:border-white/35 focus:border-amber transition-all duration-300 ease-out caret-amber" />
+              <Input id="descripcion" value={descripcion} onChange={e => setDescripcion(e.target.value)} className="bg-dark-primary border-white/20 focus:border-amber" />
             </div>
           </div>
 
           <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-6 space-y-5">
             <h2 className="text-sm font-semibold text-zinc-100">Categoría</h2>
-            <CategorySelector
-              value={selectedCategoriaId}
-              onChange={handleCategoryChange}
-            />
+            <CategorySelector value={selectedCategoriaId} onChange={handleCategoryChange} />
           </div>
 
           {atributosDef.length > 0 && (
             <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-6 space-y-5">
-              <DynamicAttributes
-                atributos={atributosDef}
-                value={atributosValores}
-                onChange={setAtributosValores}
-              />
+              <DynamicAttributes atributos={atributosDef} value={atributosValores} onChange={setAtributosValores} />
             </div>
           )}
 
@@ -154,41 +148,44 @@ export default function NuevoProductoPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="costo_promedio">Costo promedio *</Label>
-                <Input id="costo_promedio" type="number" step="0.01" {...register('costo_promedio')} className="border-white/20 hover:border-white/35 focus:border-amber transition-all duration-300 ease-out caret-amber" />
-                {errors.costo_promedio && <p className="text-xs text-red-400">{errors.costo_promedio.message}</p>}
+                <Input id="costo_promedio" type="number" step="0.01" value={costoPromedio} onChange={e => setCostoPromedio(e.target.value)} className="bg-dark-primary border-white/20 focus:border-amber" />
+                {errors.costo_promedio && <p className="text-xs text-red-400">{errors.costo_promedio}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="margen_pct">Margen (%) *</Label>
-                <Input id="margen_pct" type="number" {...register('margen_pct')} className="border-white/20 hover:border-white/35 focus:border-amber transition-all duration-300 ease-out caret-amber" />
-                {errors.margen_pct && <p className="text-xs text-red-400">{errors.margen_pct.message}</p>}
+                <Input id="margen_pct" type="number" value={margenPct} onChange={e => setMargenPct(e.target.value)} className="bg-dark-primary border-white/20 focus:border-amber" />
+                {errors.margen_pct && <p className="text-xs text-red-400">{errors.margen_pct}</p>}
               </div>
+            </div>
+
+            <div className="bg-dark-primary border border-amber/20 rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-zinc-400">Precio de venta calculado</span>
+                <span className="text-lg font-bold text-amber">{formatMoney(precioCalculado)}</span>
+              </div>
+              <p className="text-[11px] text-zinc-500 mt-1">Costo × (1 + Margen/100) — se calcula automáticamente</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="moneda_precio">Moneda *</Label>
-                <Select onValueChange={v => setValue('moneda_precio', v)}>
-                  <SelectTrigger>
+                <Label>Moneda *</Label>
+                <Select onValueChange={setMonedaPrecio}>
+                  <SelectTrigger className="bg-dark-primary border-white/20">
                     <SelectValue placeholder="Moneda" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="USD">USD</SelectItem>
-                    <SelectItem value="COP">COP</SelectItem>
-                    <SelectItem value="MXN">MXN</SelectItem>
-                    <SelectItem value="ARS">ARS</SelectItem>
-                    <SelectItem value="PEN">PEN</SelectItem>
-                    <SelectItem value="CLP">CLP</SelectItem>
-                    <SelectItem value="BOB">BOB</SelectItem>
-                    <SelectItem value="UYU">UYU</SelectItem>
+                    {['USD', 'VES', 'COP', 'MXN', 'ARS', 'PEN', 'CLP', 'BOB', 'UYU'].map(m => (
+                      <SelectItem key={m} value={m}>{m}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
-                {errors.moneda_precio && <p className="text-xs text-red-400">{errors.moneda_precio.message}</p>}
+                {errors.moneda_precio && <p className="text-xs text-red-400">{errors.moneda_precio}</p>}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="unidad_id">Unidad *</Label>
-                <Select onValueChange={v => setValue('unidad_id', v)}>
-                  <SelectTrigger>
+                <Label>Unidad *</Label>
+                <Select onValueChange={setUnidadId}>
+                  <SelectTrigger className="bg-dark-primary border-white/20">
                     <SelectValue placeholder="Unidad" />
                   </SelectTrigger>
                   <SelectContent>
@@ -198,13 +195,13 @@ export default function NuevoProductoPage() {
                     <SelectItem value="4">Metro (m)</SelectItem>
                   </SelectContent>
                 </Select>
-                {errors.unidad_id && <p className="text-xs text-red-400">{errors.unidad_id.message}</p>}
+                {errors.unidad_id && <p className="text-xs text-red-400">{errors.unidad_id}</p>}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="impuesto_id">Impuesto</Label>
-                <Select onValueChange={v => setValue('impuesto_id', v)}>
-                  <SelectTrigger>
+                <Label>Impuesto</Label>
+                <Select onValueChange={setImpuestoId}>
+                  <SelectTrigger className="bg-dark-primary border-white/20">
                     <SelectValue placeholder="Sin impuesto" />
                   </SelectTrigger>
                   <SelectContent>
@@ -219,7 +216,7 @@ export default function NuevoProductoPage() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.back()}
+              onClick={() => router.push('/productos')}
               className="border-white/20 text-zinc-300 hover:bg-white/[0.04]"
             >
               Cancelar
@@ -227,7 +224,7 @@ export default function NuevoProductoPage() {
             <Button
               type="submit"
               disabled={saving}
-              className="bg-amber hover:bg-amber/90 text-black font-semibold"
+              className="bg-amber hover:bg-amber-dark text-dark-primary font-semibold"
             >
               <Save className="h-4 w-4 mr-2" />
               {saving ? 'Guardando...' : 'Guardar producto'}
@@ -235,6 +232,6 @@ export default function NuevoProductoPage() {
           </div>
         </form>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

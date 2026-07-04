@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Plus, FolderTree, Search, ArrowLeft, Loader2,
+  Plus, FolderTree, Search, Loader2,
 } from 'lucide-react';
 import api from '@/lib/axios';
 import { showToast } from '@/lib/toast';
@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from '@/components/ui/dialog';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { CategoryTreeItem, type Categoria } from '@/components/catalogo/CategoryTreeItem';
 import { AttributesPanel } from '@/components/catalogo/AttributesPanel';
 
@@ -119,29 +120,14 @@ export default function CategoriasPage() {
   };
 
   const filtered = filterCategorias(categorias, search.toLowerCase());
-
   const totalCategorias = categorias.reduce((acc, c) => acc + 1 + (c.hijos?.length || 0), 0);
 
   return (
-    <div className="min-h-screen bg-dark-primary">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors mb-6"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          <span className="text-sm">Volver</span>
-        </button>
-
+    <DashboardLayout pageTitle="Categorías" pageSubtitle="Catálogo e inventario">
+      <div className="max-w-4xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-zinc-100 flex items-center gap-3">
-              <FolderTree className="h-6 w-6 text-amber" />
-              Categorías
-            </h1>
-            <p className="text-sm text-zinc-400 mt-1">
-              {totalCategorias} categorías en total
-            </p>
+            <p className="text-sm text-zinc-400">{totalCategorias} categorías en total</p>
           </div>
           <Button
             onClick={() => openNewCategoria()}
@@ -206,13 +192,9 @@ export default function CategoriasPage() {
       <Dialog open={showNewCat} onOpenChange={setShowNewCat}>
         <DialogContent className="bg-dark-tertiary border-white/[0.06] text-zinc-100">
           <DialogHeader>
-            <DialogTitle>
-              {newCatPadreId ? 'Nueva Subcategoría' : 'Nueva Categoría'}
-            </DialogTitle>
+            <DialogTitle>{newCatPadreId ? 'Nueva Subcategoría' : 'Nueva Categoría'}</DialogTitle>
             <DialogDescription className="text-zinc-400">
-              {newCatPadreId
-                ? `Se creará dentro de "${newCatPadreNombre}"`
-                : 'Se creará como categoría principal'}
+              {newCatPadreId ? `Se creará dentro de "${newCatPadreNombre}"` : 'Se creará como categoría principal'}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
@@ -230,18 +212,8 @@ export default function CategoriasPage() {
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button
-              variant="outline"
-              onClick={() => setShowNewCat(false)}
-              className="border-white/20 text-zinc-300 hover:bg-white/[0.04]"
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={handleCreateCategoria}
-              disabled={saving || !newCatNombre.trim()}
-              className="bg-amber hover:bg-amber-dark text-dark-primary font-semibold"
-            >
+            <Button variant="outline" onClick={() => setShowNewCat(false)} className="border-white/20 text-zinc-300 hover:bg-white/[0.04]">Cancelar</Button>
+            <Button onClick={handleCreateCategoria} disabled={saving || !newCatNombre.trim()} className="bg-amber hover:bg-amber-dark text-dark-primary font-semibold">
               {saving ? 'Creando...' : 'Crear'}
             </Button>
           </div>
@@ -257,18 +229,8 @@ export default function CategoriasPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end gap-3 pt-2">
-            <Button
-              variant="outline"
-              onClick={() => setDeleteTarget(null)}
-              className="border-white/20 text-zinc-300 hover:bg-white/[0.04]"
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={handleDeleteCategoria}
-              disabled={deleting}
-              className="bg-red-600 hover:bg-red-700 text-white font-semibold"
-            >
+            <Button variant="outline" onClick={() => setDeleteTarget(null)} className="border-white/20 text-zinc-300 hover:bg-white/[0.04]">Cancelar</Button>
+            <Button onClick={handleDeleteCategoria} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white font-semibold">
               {deleting ? 'Eliminando...' : 'Desactivar'}
             </Button>
           </div>
@@ -281,6 +243,6 @@ export default function CategoriasPage() {
         onClose={() => { setAttrPanelOpen(false); setAttrCategoria(null); }}
         onAttributeChange={loadCategorias}
       />
-    </div>
+    </DashboardLayout>
   );
 }
