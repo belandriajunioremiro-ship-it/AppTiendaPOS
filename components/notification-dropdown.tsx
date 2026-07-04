@@ -37,7 +37,7 @@ export function NotificationDropdown({ isOpen, onToggle, onClose }: Notification
         <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber ring-2 ring-background" />
       </button>
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-50">
+        <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-[70]">
           <div className="flex items-center justify-between px-4 py-3 border-b border-border">
             <h3 className="text-sm font-semibold text-foreground">Notificaciones</h3>
             <span className="text-[11px] text-primary font-medium">{notifications.length} nuevas</span>
