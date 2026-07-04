@@ -63,8 +63,8 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
         dark: {
-          primary: '#161616',
-          secondary: '#161616',
+          primary: '#171717',
+          secondary: '#171717',
           tertiary: '#06141B',
           elevated: '#06141B',
           border: '#27272A',
@@ -72,7 +72,7 @@ const config: Config = {
         zinc: {
           100: '#FFFFFF',
           200: '#FFFFFF',
-          300: '#D4D4D8',
+          300: '#FFFFFF',
           400: '#9BA8AB',
           500: '#71717A',
           600: '#52525B',
