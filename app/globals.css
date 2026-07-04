@@ -26,8 +26,9 @@
   --muted: 240 5% 10%;
   --muted-foreground: 0 0% 75%; /* Texto secundario (gris claro pero legible) */
 
-  --accent: 38 92% 50%;
-  --accent-foreground: 240 10% 4%;
+  /* Hover sutil gris oscuro (sin amarillo) */
+  --accent: 240 5% 14%;
+  --accent-foreground: 0 0% 100%;
 
   /* Danger: Rojo vibrante para alertas y eliminar */
   --destructive: 0 72% 51%; 
