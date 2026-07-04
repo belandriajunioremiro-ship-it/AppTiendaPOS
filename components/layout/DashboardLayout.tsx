@@ -123,6 +123,13 @@ export function DashboardLayout({ children, pageTitle, pageSubtitle }: Dashboard
         </div>
       </div>
 
+      <div
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] transition-all duration-300 ${
+          dropdownOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={closeAllDropdowns}
+      />
+
       <div className="flex-1 lg:pl-48 flex flex-col">
         <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
@@ -160,12 +167,6 @@ export function DashboardLayout({ children, pageTitle, pageSubtitle }: Dashboard
         </header>
 
         <div className="relative flex-1 min-h-0">
-          {dropdownOpen && (
-            <div
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm z-40"
-              onClick={closeAllDropdowns}
-            />
-          )}
           <main className="relative z-0 p-4 sm:p-6 lg:p-8">
             {children}
           </main>

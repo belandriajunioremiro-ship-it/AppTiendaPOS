@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Bell, CheckCircle2, TrendingUp, Package } from 'lucide-react';
 
 interface NotificationDropdownProps {
@@ -16,28 +17,47 @@ const notifications = [
 ];
 
 export function NotificationDropdown({ isOpen, onToggle, onClose }: NotificationDropdownProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [position, setPosition] = useState<{ top: number; right: number } | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;
+    setPosition(null);
     const handleClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+      const target = e.target as Node;
+      if (panelRef.current && !panelRef.current.contains(target) &&
+          wrapperRef.current && !wrapperRef.current.contains(target)) {
+        onClose();
+      }
     };
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    if (!isOpen || !buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    setPosition({ top: rect.bottom + 8, right: window.innerWidth - rect.right });
+  }, [isOpen]);
+
   return (
-    <div ref={ref} className="relative">
+    <div ref={wrapperRef} className="relative">
       <button
+        ref={buttonRef}
         onClick={onToggle}
         className="relative p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
       >
         <Bell className="h-5 w-5" />
         <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber ring-2 ring-background" />
       </button>
-      {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-[70]">
+      {isOpen && position && createPortal(
+        <div
+          ref={panelRef}
+          className="fixed w-80 bg-card border border-border rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-[70]"
+          style={{ top: position.top, right: position.right }}
+        >
           <div className="flex items-center justify-between px-4 py-3 border-b border-border">
             <h3 className="text-sm font-semibold text-foreground">Notificaciones</h3>
             <span className="text-[11px] text-primary font-medium">{notifications.length} nuevas</span>
@@ -64,7 +84,8 @@ export function NotificationDropdown({ isOpen, onToggle, onClose }: Notification
           <div className="border-t border-border px-4 py-2.5">
             <button className="text-[11px] text-primary hover:text-primary/80 transition-colors font-medium">Ver todas las notificaciones</button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
