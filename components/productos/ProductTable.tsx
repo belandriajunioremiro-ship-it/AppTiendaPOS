@@ -11,6 +11,13 @@ interface ProductTableProps {
   formatMoney: (amount: number, currency: string) => string;
 }
 
+function calcularStock(p: Producto): number {
+  return p.variantes?.reduce((acc, v) => {
+    const disponible = v.inventarios?.[0]?.cantidad_disponible ?? 0;
+    return acc + disponible;
+  }, 0) ?? 0;
+}
+
 export function ProductTable({ productos, onEdit, onDelete, formatMoney }: ProductTableProps) {
   return (
     <div className="bg-card border border-border rounded-xl overflow-hidden">
@@ -31,9 +38,8 @@ export function ProductTable({ productos, onEdit, onDelete, formatMoney }: Produ
           </thead>
           <tbody>
             {productos.map((p) => {
-              const stock = p.cantidad_disponible ?? 0;
-              const minStock = p.stock_minimo ?? 0;
-              const stockOk = stock > minStock;
+              const stock = calcularStock(p);
+              const stockOk = stock > 0;
               return (
                 <tr key={p.id} className="border-b border-border/40 hover:bg-accent/50 transition-colors">
                   <td className="px-3 py-2.5">

@@ -11,13 +11,19 @@ interface ProductGridProps {
   formatMoney: (amount: number, currency: string) => string;
 }
 
+function calcularStock(p: Producto): number {
+  return p.variantes?.reduce((acc, v) => {
+    const disponible = v.inventarios?.[0]?.cantidad_disponible ?? 0;
+    return acc + disponible;
+  }, 0) ?? 0;
+}
+
 export function ProductGrid({ productos, onEdit, onDelete, formatMoney }: ProductGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {productos.map((p) => {
-        const stock = p.cantidad_disponible ?? 0;
-        const minStock = p.stock_minimo ?? 0;
-        const stockOk = stock > minStock;
+        const stock = calcularStock(p);
+        const stockOk = stock > 0;
         return (
           <div key={p.id} className="bg-card border border-border rounded-lg p-4 flex flex-col gap-3 relative">
             <div className="absolute top-3 right-3">
