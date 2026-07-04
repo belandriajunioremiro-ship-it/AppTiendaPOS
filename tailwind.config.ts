@@ -22,6 +22,7 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        // Mapeo directo a las variables CSS para mantener todo sincronizado
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -55,35 +56,25 @@ const config: Config = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
-        },
-        dark: {
-          primary: '#000000',
-          secondary: '#000000',
-          tertiary: '#1e1e1e',
-          elevated: '#1e1e1e',
-          border: '#27272A',
-        },
-        zinc: {
-          100: '#FFFFFF',
-          200: '#FFFFFF',
-          300: '#FFFFFF',
-          400: '#9BA8AB',
-          500: '#71717A',
-          600: '#52525B',
-          900: '#18181B',
-        },
+        
+        // Paletas directas para usar en íconos, badges, etc.
         amber: {
           DEFAULT: '#F59E0B',
           light: '#FBBF24',
           dark: '#D97706',
           glow: 'rgba(245, 158, 11, 0.15)',
         },
+        danger: {
+          DEFAULT: '#DC2626',
+          light: '#EF4444',
+          dark: '#B91C1C',
+          glow: 'rgba(220, 38, 38, 0.15)',
+        },
+        dark: {
+          primary: '#000000',
+          secondary: '#0a0a0a',
+          tertiary: '#121212',
+        }
       },
       fontFamily: {
         display: ['"Montserrat"', 'sans-serif'],
@@ -92,20 +83,12 @@ const config: Config = {
       },
       keyframes: {
         'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
         },
         'fade-up': {
           from: { opacity: '0', transform: 'translateY(12px)' },
