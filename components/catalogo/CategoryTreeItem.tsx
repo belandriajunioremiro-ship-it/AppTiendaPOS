@@ -48,7 +48,7 @@ export function CategoryTreeItem({
   return (
     <div>
       <div
-        className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/[0.04] transition-colors cursor-pointer"
+        className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-accent transition-colors cursor-pointer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -58,16 +58,16 @@ export function CategoryTreeItem({
         >
           {hasChildren ? (
             expanded ? (
-              <ChevronDown className="h-3.5 w-3.5 text-zinc-400" />
+              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
             ) : (
-              <ChevronRight className="h-3.5 w-3.5 text-zinc-400" />
+              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
             )
           ) : (
             <span className="w-3.5" />
           )}
         </button>
 
-        <div className="shrink-0 text-amber">
+        <div className="shrink-0 text-primary">
           {expanded && hasChildren ? (
             <FolderOpen className="h-4 w-4" />
           ) : (
@@ -75,12 +75,12 @@ export function CategoryTreeItem({
           )}
         </div>
 
-        <span className="text-sm text-zinc-200 font-medium truncate flex-1">
+        <span className="text-sm text-foreground font-medium truncate flex-1">
           {categoria.nombre}
         </span>
 
         {categoria.nivel === 1 && (
-          <span className="text-[10px] text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">
+          <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
             {categoria.hijos?.length || 0}
           </span>
         )}
@@ -93,7 +93,7 @@ export function CategoryTreeItem({
           {categoria.nivel === 1 && (
             <button
               onClick={(e) => { e.stopPropagation(); onAddSubcategoria(categoria); }}
-              className="p-1 rounded hover:bg-white/10 text-zinc-400 hover:text-amber transition-colors"
+              className="p-1 rounded hover:bg-white/10 text-muted-foreground hover:text-primary transition-colors"
               title="Agregar subcategoría"
             >
               <Plus className="h-3.5 w-3.5" />
@@ -101,14 +101,14 @@ export function CategoryTreeItem({
           )}
           <button
             onClick={(e) => { e.stopPropagation(); onOpenAttributes(categoria); }}
-            className="p-1 rounded hover:bg-white/10 text-zinc-400 hover:text-amber transition-colors"
+            className="p-1 rounded hover:bg-white/10 text-muted-foreground hover:text-primary transition-colors"
             title="Atributos dinámicos"
           >
             <Settings className="h-3.5 w-3.5" />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onDelete(categoria); }}
-            className="p-1 rounded hover:bg-white/10 text-zinc-400 hover:text-red-400 transition-colors"
+            className="p-1 rounded hover:bg-white/10 text-muted-foreground hover:text-destructive-foreground transition-colors"
             title="Desactivar"
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -117,7 +117,7 @@ export function CategoryTreeItem({
       </div>
 
       {expanded && hasChildren && (
-        <div className="ml-7 border-l border-white/[0.06]">
+        <div className="ml-7 border-l border-border">
           {categoria.hijos!.map(hijo => (
             <CategoryTreeItem
               key={hijo.id}

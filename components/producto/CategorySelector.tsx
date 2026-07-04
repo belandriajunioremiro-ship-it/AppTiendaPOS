@@ -133,7 +133,7 @@ export function CategorySelector({ value, onChange, error }: CategorySelectorPro
         </div>
       )}
 
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs text-destructive-foreground">{error}</p>}
     </div>
   );
 }

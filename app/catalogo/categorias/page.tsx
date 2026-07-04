@@ -127,11 +127,11 @@ export default function CategoriasPage() {
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <p className="text-sm text-zinc-400">{totalCategorias} categorías en total</p>
+            <p className="text-sm text-muted-foreground">{totalCategorias} categorías en total</p>
           </div>
           <Button
             onClick={() => openNewCategoria()}
-            className="bg-amber hover:bg-amber-dark text-dark-primary font-semibold shrink-0"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shrink-0"
           >
             <Plus className="h-4 w-4 mr-2" />
             Nueva Categoría
@@ -139,34 +139,34 @@ export default function CategoriasPage() {
         </div>
 
         <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Buscar categoría..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="pl-10 bg-dark-tertiary border-white/[0.06] focus:border-amber"
+            className="pl-10 bg-card border-border focus:border-ring"
           />
         </div>
 
-        <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl overflow-hidden">
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center py-16">
-              <div className="flex items-center gap-3 text-zinc-400">
-                <Loader2 className="h-5 w-5 animate-spin text-amber" />
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <Loader2 className="h-5 w-5 animate-spin text-primary" />
                 <span>Cargando categorías...</span>
               </div>
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <FolderTree className="h-10 w-10 text-zinc-600 mb-3" />
-              <p className="text-zinc-400 text-sm">
+              <FolderTree className="h-10 w-10 text-muted-foreground mb-3" />
+              <p className="text-muted-foreground text-sm">
                 {search ? 'Sin resultados para tu búsqueda' : 'No hay categorías creadas'}
               </p>
               {!search && (
                 <Button
                   onClick={() => openNewCategoria()}
                   variant="outline"
-                  className="mt-4 border-amber/30 text-amber hover:bg-amber/10"
+                  className="mt-4 border-primary/30 text-primary hover:bg-primary/10"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Crear la primera
@@ -190,10 +190,10 @@ export default function CategoriasPage() {
       </div>
 
       <Dialog open={showNewCat} onOpenChange={setShowNewCat}>
-        <DialogContent className="bg-dark-tertiary border-white/[0.06] text-zinc-100">
+        <DialogContent className="bg-card border-border text-foreground">
           <DialogHeader>
             <DialogTitle>{newCatPadreId ? 'Nueva Subcategoría' : 'Nueva Categoría'}</DialogTitle>
-            <DialogDescription className="text-zinc-400">
+            <DialogDescription className="text-muted-foreground">
               {newCatPadreId ? `Se creará dentro de "${newCatPadreNombre}"` : 'Se creará como categoría principal'}
             </DialogDescription>
           </DialogHeader>
@@ -207,13 +207,13 @@ export default function CategoriasPage() {
                 onChange={e => setNewCatNombre(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') handleCreateCategoria(); }}
                 autoFocus
-                className="bg-dark-primary border-white/20 focus:border-amber"
+                className="bg-background border-input focus:border-ring"
               />
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="outline" onClick={() => setShowNewCat(false)} className="border-white/20 text-zinc-300 hover:bg-white/[0.04]">Cancelar</Button>
-            <Button onClick={handleCreateCategoria} disabled={saving || !newCatNombre.trim()} className="bg-amber hover:bg-amber-dark text-dark-primary font-semibold">
+            <Button variant="outline" onClick={() => setShowNewCat(false)} className="border-input text-foreground hover:bg-accent">Cancelar</Button>
+            <Button onClick={handleCreateCategoria} disabled={saving || !newCatNombre.trim()} className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
               {saving ? 'Creando...' : 'Crear'}
             </Button>
           </div>
@@ -221,16 +221,16 @@ export default function CategoriasPage() {
       </Dialog>
 
       <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
-        <DialogContent className="bg-dark-tertiary border-white/[0.06] text-zinc-100">
+        <DialogContent className="bg-card border-border text-foreground">
           <DialogHeader>
             <DialogTitle>Desactivar categoría</DialogTitle>
-            <DialogDescription className="text-zinc-400">
+            <DialogDescription className="text-muted-foreground">
               ¿Estás seguro de desactivar &quot;{deleteTarget?.nombre}&quot;? Los productos asociados no se eliminarán.
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="outline" onClick={() => setDeleteTarget(null)} className="border-white/20 text-zinc-300 hover:bg-white/[0.04]">Cancelar</Button>
-            <Button onClick={handleDeleteCategoria} disabled={deleting} className="bg-red-600 hover:bg-red-700 text-white font-semibold">
+            <Button variant="outline" onClick={() => setDeleteTarget(null)} className="border-input text-foreground hover:bg-accent">Cancelar</Button>
+            <Button onClick={handleDeleteCategoria} disabled={deleting} className="bg-destructive hover:bg-destructive/90 text-white font-semibold">
               {deleting ? 'Eliminando...' : 'Desactivar'}
             </Button>
           </div>

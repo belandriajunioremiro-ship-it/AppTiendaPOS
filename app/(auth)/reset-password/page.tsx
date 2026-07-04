@@ -140,10 +140,10 @@ function ResetPasswordForm() {
   return (
     <>
       <div className="text-center mb-8">
-        <h2 className="font-display text-2xl font-bold text-zinc-100">
+        <h2 className="font-display text-2xl font-bold text-foreground">
           {view === 'verify' ? 'Verificar Código' : 'Nueva Contraseña'}
         </h2>
-        <p className="mt-2 text-zinc-400 text-sm">
+        <p className="mt-2 text-muted-foreground text-sm">
           {view === 'verify'
             ? 'Ingresa el código de 6 dígitos que enviamos a tu correo'
             : 'Crea una nueva contraseña segura para tu cuenta'}
@@ -151,21 +151,21 @@ function ResetPasswordForm() {
       </div>
 
       {error && (
-        <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-2">
+        <div className="mb-6 p-3 rounded-lg bg-destructive/10 border border-destructive/20 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-          <p className="text-red-400 text-sm">{error}</p>
+          <p className="text-destructive-foreground text-sm">{error}</p>
         </div>
       )}
 
       {view === 'verify' ? (
         <form onSubmit={verifyForm.handleSubmit(onVerify)} className="space-y-6">
-          <div className="bg-dark-tertiary/30 rounded-lg p-4 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0">
-              <Mail className="h-4 w-4 text-amber" />
+          <div className="bg-card/30 rounded-lg p-4 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+              <Mail className="h-4 w-4 text-primary" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs text-zinc-500 mb-0.5">Correo electrónico</p>
-              <p className="text-sm text-zinc-100 font-medium truncate">
+              <p className="text-xs text-muted-foreground mb-0.5">Correo electrónico</p>
+              <p className="text-sm text-foreground font-medium truncate">
                 {emailFromUrl ? maskEmail(emailFromUrl) : 'tu@email.com'}
               </p>
             </div>
@@ -194,7 +194,7 @@ function ResetPasswordForm() {
               </InputOTP>
             </div>
             {verifyForm.formState.errors.token && (
-              <p className="text-red-400 text-xs text-center mt-1">
+              <p className="text-destructive-foreground text-xs text-center mt-1">
                 {verifyForm.formState.errors.token.message}
               </p>
             )}
@@ -203,7 +203,7 @@ function ResetPasswordForm() {
           <button
             type="submit"
             disabled={loading || otp.length !== 6}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-amber text-dark-primary font-semibold rounded-md hover:bg-amber-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               'Verificando...'
@@ -257,7 +257,7 @@ function ResetPasswordForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
@@ -267,7 +267,7 @@ function ResetPasswordForm() {
                 </button>
               </div>
               {resetForm.formState.errors.password && (
-                <p className="text-red-400 text-xs mt-1">
+                <p className="text-destructive-foreground text-xs mt-1">
                   {resetForm.formState.errors.password.message}
                 </p>
               )}
@@ -286,7 +286,7 @@ function ResetPasswordForm() {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {showConfirmPassword ? (
                     <EyeOff className="h-4 w-4" />
@@ -296,7 +296,7 @@ function ResetPasswordForm() {
                 </button>
               </div>
               {resetForm.formState.errors.password_confirmation && (
-                <p className="text-red-400 text-xs mt-1">
+                <p className="text-destructive-foreground text-xs mt-1">
                   {resetForm.formState.errors.password_confirmation.message}
                 </p>
               )}
@@ -306,7 +306,7 @@ function ResetPasswordForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-amber text-dark-primary font-semibold rounded-md hover:bg-amber-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               'Guardando...'
@@ -320,10 +320,10 @@ function ResetPasswordForm() {
         </form>
       )}
 
-      <div className="mt-6 pt-6 border-t border-white/20 text-center">
+      <div className="mt-6 pt-6 border-t border-input text-center">
         <Link
           href="/login"
-          className="inline-flex items-center gap-2 text-zinc-400 text-sm hover:text-zinc-100 transition-colors"
+          className="inline-flex items-center gap-2 text-muted-foreground text-sm hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Volver al inicio de sesión

@@ -13,14 +13,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="relative w-full">
         {icon && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-amber transition-colors duration-200">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-primary transition-colors duration-200">
             {icon}
           </div>
         )}
         <input
           type={type}
           className={cn(
-            'peer flex h-11 w-full rounded-lg border border-white/20 bg-dark-tertiary/50 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 hover:border-white/35 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 ease-out caret-amber font-body',
+            'peer flex h-11 w-full rounded-lg border border-input bg-card/50 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground hover:border-ring/50 focus:outline-none focus:border-ring focus:ring-2 focus:ring-ring/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 ease-out caret-amber font-body',
             icon && 'pl-10',
             error && 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
             className

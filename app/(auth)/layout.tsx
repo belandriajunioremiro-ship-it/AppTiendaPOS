@@ -61,20 +61,20 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
-        <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#090909] min-h-screen">
+        <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-background min-h-screen">
         <div className="relative z-10 flex flex-col justify-center h-full px-12 lg:px-16 py-16">
           <div className="flex flex-col items-start max-w-md">
             <div className="flex flex-row items-center gap-3 mb-8">
               <Image src={logo} alt="TiendaPOS" className="h-14 w-auto lg:h-16" priority />
-              <span className="font-display text-xl lg:text-2xl font-bold text-zinc-100 leading-none">
+              <span className="font-display text-xl lg:text-2xl font-bold text-foreground leading-none">
                 Tienda<span className="text-amber">POS</span>
               </span>
             </div>
             <div className="mb-10">
-              <h2 className="font-display text-3xl xl:text-4xl font-bold text-zinc-100 mb-3 leading-tight">
+              <h2 className="font-display text-3xl xl:text-4xl font-bold text-foreground mb-3 leading-tight">
                 {content.title}
               </h2>
-              <p className="text-zinc-400 text-base leading-relaxed max-w-md">
+              <p className="text-muted-foreground text-base leading-relaxed max-w-md">
                 {content.subtitle}
               </p>
             </div>
@@ -84,19 +84,19 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 const Icon = item.icon;
                 return (
                   <div key={idx} className="flex items-center gap-3 group">
-                    <div className="w-8 h-8 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 group-hover:bg-amber/20 transition-colors">
-                      <Icon className="h-4 w-4 text-amber" />
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <Icon className="h-4 w-4 text-primary" />
                     </div>
                     <div>
-                      <p className="text-zinc-300 text-sm leading-relaxed">{item.text}</p>
+                      <p className="text-foreground text-sm leading-relaxed">{item.text}</p>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className="mt-10 pt-8 border-t border-white/20">
-              <div className="flex items-center gap-2 text-zinc-500 text-xs">
+            <div className="mt-10 pt-8 border-t border-input">
+              <div className="flex items-center gap-2 text-muted-foreground text-xs">
                 <Shield className="h-3.5 w-3.5 shrink-0" />
                 <span>Tus datos están protegidos con encriptación SSL</span>
               </div>
@@ -105,11 +105,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen bg-dark-tertiary">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 py-8 lg:px-8 min-h-screen bg-card">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex flex-col items-center mb-8">
             <Image src={logo} alt="TiendaPOS" className="h-14 w-auto" priority />
-            <span className="font-display text-lg font-bold text-zinc-100 mt-1.5">
+            <span className="font-display text-lg font-bold text-foreground mt-1.5">
               Tienda<span className="text-amber">POS</span>
             </span>
           </div>

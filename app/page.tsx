@@ -17,8 +17,8 @@ export default function Home() {
   }, [token, router]);
 
   return (
-    <div className="min-h-screen bg-dark-primary flex items-center justify-center">
-      <div className="text-zinc-400 font-body">Cargando...</div>
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="text-muted-foreground font-body">Cargando...</div>
     </div>
   );
 }

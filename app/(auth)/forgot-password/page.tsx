@@ -47,10 +47,10 @@ export default function ForgotPasswordPage() {
   return (
     <>
       <div className="text-center mb-8">
-        <h2 className="font-display text-2xl font-bold text-zinc-100">
+        <h2 className="font-display text-2xl font-bold text-foreground">
           ¿Olvidaste tu contraseña?
         </h2>
-        <p className="mt-2 text-zinc-400 text-sm">
+        <p className="mt-2 text-muted-foreground text-sm">
           Te enviaremos un código de verificación a tu correo electrónico
         </p>
       </div>
@@ -65,14 +65,14 @@ export default function ForgotPasswordPage() {
               <p className="text-emerald-400 text-sm font-medium mb-1">
                 Correo enviado
               </p>
-              <p className="text-zinc-400 text-sm">
+              <p className="text-muted-foreground text-sm">
                 Si el correo está registrado, recibirás un código de verificación de 6 dígitos.
               </p>
             </div>
           </div>
           <Link
             href={`/reset-password?email=${encodeURIComponent(submittedEmail)}`}
-            className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-amber text-dark-primary font-semibold rounded-md hover:bg-amber-dark transition-all text-center"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition-all text-center"
           >
             <SendHorizonal className="h-4 w-4" />
             Ya tengo el código
@@ -80,7 +80,7 @@ export default function ForgotPasswordPage() {
           <button
             type="button"
             onClick={() => { setSuccess(false); setError(null); }}
-            className="w-full text-zinc-500 text-sm hover:text-zinc-300 transition-colors"
+            className="w-full text-muted-foreground text-sm hover:text-foreground transition-colors"
           >
             Enviar código a otro correo
           </button>
@@ -88,9 +88,9 @@ export default function ForgotPasswordPage() {
       ) : (
         <>
           {error && (
-            <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-2">
+            <div className="mb-6 p-3 rounded-lg bg-destructive/10 border border-destructive/20 flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-              <p className="text-red-400 text-sm">{error}</p>
+              <p className="text-destructive-foreground text-sm">{error}</p>
             </div>
           )}
 
@@ -106,14 +106,14 @@ export default function ForgotPasswordPage() {
                 {...register('email')}
               />
               {errors.email && (
-                <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+                <p className="text-destructive-foreground text-xs mt-1">{errors.email.message}</p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-amber text-dark-primary font-semibold rounded-md hover:bg-amber-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 'Enviando...'
@@ -125,17 +125,17 @@ export default function ForgotPasswordPage() {
               )}
             </button>
 
-            <p className="text-zinc-500 text-xs text-center">
+            <p className="text-muted-foreground text-xs text-center">
               Si no te llega el código, revisa tu bandeja de spam. Tienes un límite de 3 intentos por minuto.
             </p>
           </form>
         </>
       )}
 
-      <div className="mt-6 pt-6 border-t border-white/20 text-center">
+      <div className="mt-6 pt-6 border-t border-input text-center">
         <Link
           href="/login"
-          className="inline-flex items-center gap-2 text-zinc-400 text-sm hover:text-zinc-100 transition-colors"
+          className="inline-flex items-center gap-2 text-muted-foreground text-sm hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Volver al inicio de sesión

@@ -12,7 +12,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast: '!bg-transparent !shadow-none !p-0 !border-0 !w-auto !max-w-none',
-          closeButton: 'text-zinc-500 hover:text-zinc-300',
+          closeButton: 'text-muted-foreground hover:text-foreground',
         },
       }}
       position="top-right"

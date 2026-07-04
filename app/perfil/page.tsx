@@ -166,8 +166,8 @@ export default function PerfilPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-dark-primary flex items-center justify-center">
-        <div className="flex items-center gap-3 text-zinc-400">
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex items-center gap-3 text-muted-foreground">
           <div className="w-5 h-5 border-2 border-amber/30 border-t-amber rounded-full animate-spin" />
           <span>Cargando perfil...</span>
         </div>
@@ -184,14 +184,14 @@ export default function PerfilPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-primary flex">
-      <div className="hidden lg:flex lg:w-48 lg:flex-col lg:fixed lg:inset-y-0 bg-[#090909] border-r border-white/[0.06]">
+    <div className="min-h-screen bg-background flex">
+      <div className="hidden lg:flex lg:w-48 lg:flex-col lg:fixed lg:inset-y-0 bg-background border-r border-border">
         <SidebarContent {...sidebarProps} />
       </div>
 
       <div className={`fixed inset-0 z-50 transition-all duration-300 ease-out lg:hidden ${sidebarOpen ? 'visible' : 'invisible'}`}>
         <div className={`fixed inset-0 bg-black/60 transition-opacity duration-300 ease-out ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setSidebarOpen(false)} />
-        <div className={`fixed inset-y-0 left-0 w-48 bg-[#090909] border-r border-white/[0.06] transition-transform duration-300 ease-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`fixed inset-y-0 left-0 w-48 bg-background border-r border-border transition-transform duration-300 ease-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <SidebarContent {...sidebarProps} />
         </div>
       </div>
@@ -204,16 +204,16 @@ export default function PerfilPage() {
       />
 
       <div className="flex-1 lg:pl-48">
-        <header className="sticky top-0 z-50 bg-dark-primary/80 backdrop-blur-md border-b border-white/[0.06]">
+        <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
 
             <div className="flex items-center gap-3">
-              <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all">
+              <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all">
                 <Menu className="h-5 w-5" />
               </button>
               <div>
-                <h1 className="text-lg font-semibold text-zinc-100">Mi Perfil</h1>
-                <p className="text-xs text-zinc-500">Información de tu cuenta y negocio</p>
+                <h1 className="text-lg font-semibold text-foreground">Mi Perfil</h1>
+                <p className="text-xs text-muted-foreground">Información de tu cuenta y negocio</p>
               </div>
               </div>
             <div className="flex items-center gap-3">
@@ -238,30 +238,30 @@ export default function PerfilPage() {
 
           {/* Avatar + Nombre */}
           <div className="flex items-center gap-5 mb-8">
-              <div className="w-20 h-20 rounded-2xl bg-amber/15 flex items-center justify-center text-amber text-2xl font-bold shrink-0 border-2 border-amber/20">
+              <div className="w-20 h-20 rounded-2xl bg-amber/15 flex items-center justify-center text-primary text-2xl font-bold shrink-0 border-2 border-primary/20">
                 {profile ? getInitials(profile.name) : 'U'}
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-xl font-bold text-zinc-100 font-display">{profile?.name}</h2>
-                <p className="text-sm text-zinc-400">{profile?.email}</p>
+                <h2 className="text-xl font-bold text-foreground font-display">{profile?.name}</h2>
+                <p className="text-sm text-muted-foreground">{profile?.email}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border ${
                     profile?.roles?.[0] === 'admin' ? 'bg-amber/10 text-amber border-amber/20' :
                     profile?.roles?.[0] === 'supervisor' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
                     profile?.roles?.[0] === 'cajero' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                    'text-zinc-400 border-zinc-700 bg-zinc-800/50'
+                    'text-muted-foreground border-border bg-muted/50'
                   }`}>
                     <Shield className="h-2.5 w-2.5" />
                     {profile?.roles?.[0] || 'usuario'}
                   </span>
-                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold ${profile?.activo ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold ${profile?.activo ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-destructive/10 text-destructive-foreground border border-destructive/20'}`}>
                     {profile?.activo ? 'Activo' : 'Inactivo'}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setEditMode(editMode === 'profile' ? 'none' : 'profile')}
-                className="px-4 py-2 rounded-lg border border-white/[0.08] text-sm text-zinc-300 hover:bg-white/[0.04] hover:border-white/15 transition-all"
+                className="px-4 py-2 rounded-lg border border-border text-sm text-foreground hover:bg-accent hover:border-ring/40 transition-all"
               >
                 Editar perfil
               </button>
@@ -269,42 +269,42 @@ export default function PerfilPage() {
 
           {/* Editar Perfil */}
           {editMode === 'profile' && (
-            <div className="bg-dark-tertiary border border-amber/20 rounded-xl p-6 mb-6">
-              <h3 className="text-sm font-semibold text-amber mb-4 flex items-center gap-2">
+            <div className="bg-card border border-primary/20 rounded-xl p-6 mb-6">
+              <h3 className="text-sm font-semibold text-primary mb-4 flex items-center gap-2">
                 <User className="h-4 w-4" />
                 Editar Información Personal
               </h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5 font-medium">Nombre completo</label>
+                  <label className="block text-xs text-muted-foreground mb-1.5 font-medium">Nombre completo</label>
                   <input
                     type="text"
                     value={formName}
                     onChange={(e) => setFormName(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#0a0b0e] border border-white/20 text-zinc-100 text-sm focus:border-amber focus:outline-none transition-all duration-300 caret-amber hover:border-white/35"
+                    className="w-full px-4 py-2.5 rounded-lg bg-card border border-input text-foreground text-sm focus:border-ring focus:outline-none transition-all duration-300 caret-amber hover:border-ring/50"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5 font-medium">Correo electrónico</label>
+                  <label className="block text-xs text-muted-foreground mb-1.5 font-medium">Correo electrónico</label>
                   <input
                     type="email"
                     value={formEmail}
                     onChange={(e) => setFormEmail(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#0a0b0e] border border-white/20 text-zinc-100 text-sm focus:border-amber focus:outline-none transition-all duration-300 caret-amber hover:border-white/35"
+                    className="w-full px-4 py-2.5 rounded-lg bg-card border border-input text-foreground text-sm focus:border-ring focus:outline-none transition-all duration-300 caret-amber hover:border-ring/50"
                   />
                 </div>
                 <div className="flex items-center gap-3 pt-2">
                   <button
                     onClick={handleSaveProfile}
                     disabled={saving}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-amber text-black text-sm font-semibold hover:bg-amber/90 transition-all disabled:opacity-50"
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-black text-sm font-semibold hover:bg-primary/90 transition-all disabled:opacity-50"
                   >
                     <Save className="h-4 w-4" />
                     {saving ? 'Guardando...' : 'Guardar cambios'}
                   </button>
                   <button
                     onClick={() => { setEditMode('none'); setFormName(profile?.name || ''); setFormEmail(profile?.email || ''); }}
-                    className="px-4 py-2.5 rounded-lg border border-white/[0.08] text-sm text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all"
+                    className="px-4 py-2.5 rounded-lg border border-border text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
                   >
                     Cancelar
                   </button>
@@ -315,50 +315,50 @@ export default function PerfilPage() {
 
           {/* Cambiar Contraseña */}
           {editMode === 'password' && (
-            <div className="bg-dark-tertiary border border-amber/20 rounded-xl p-6 mb-6">
-              <h3 className="text-sm font-semibold text-amber mb-4 flex items-center gap-2">
+            <div className="bg-card border border-primary/20 rounded-xl p-6 mb-6">
+              <h3 className="text-sm font-semibold text-primary mb-4 flex items-center gap-2">
                 <Lock className="h-4 w-4" />
                 Cambiar Contraseña
               </h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5 font-medium">Contraseña actual</label>
+                  <label className="block text-xs text-muted-foreground mb-1.5 font-medium">Contraseña actual</label>
                   <div className="relative">
                     <input
                       type={showCurrent ? 'text' : 'password'}
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#0a0b0e] border border-white/20 text-zinc-100 text-sm focus:border-amber focus:outline-none transition-all duration-300 caret-amber hover:border-white/35 pr-10"
+                      className="w-full px-4 py-2.5 rounded-lg bg-card border border-input text-foreground text-sm focus:border-ring focus:outline-none transition-all duration-300 caret-amber hover:border-ring/50 pr-10"
                     />
-                    <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors">
+                    <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
                       {showCurrent ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5 font-medium">Nueva contraseña</label>
+                  <label className="block text-xs text-muted-foreground mb-1.5 font-medium">Nueva contraseña</label>
                   <div className="relative">
                     <input
                       type={showNew ? 'text' : 'password'}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#0a0b0e] border border-white/20 text-zinc-100 text-sm focus:border-amber focus:outline-none transition-all duration-300 caret-amber hover:border-white/35 pr-10"
+                      className="w-full px-4 py-2.5 rounded-lg bg-card border border-input text-foreground text-sm focus:border-ring focus:outline-none transition-all duration-300 caret-amber hover:border-ring/50 pr-10"
                     />
-                    <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors">
+                    <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
                       {showNew ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs text-zinc-400 mb-1.5 font-medium">Confirmar nueva contraseña</label>
+                  <label className="block text-xs text-muted-foreground mb-1.5 font-medium">Confirmar nueva contraseña</label>
                   <div className="relative">
                     <input
                       type={showConfirm ? 'text' : 'password'}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#0a0b0e] border border-white/20 text-zinc-100 text-sm focus:border-amber focus:outline-none transition-all duration-300 caret-amber hover:border-white/35 pr-10"
+                      className="w-full px-4 py-2.5 rounded-lg bg-card border border-input text-foreground text-sm focus:border-ring focus:outline-none transition-all duration-300 caret-amber hover:border-ring/50 pr-10"
                     />
-                    <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors">
+                    <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
                       {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
@@ -367,14 +367,14 @@ export default function PerfilPage() {
                   <button
                     onClick={handleSavePassword}
                     disabled={savingPassword}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-amber text-black text-sm font-semibold hover:bg-amber/90 transition-all disabled:opacity-50"
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-black text-sm font-semibold hover:bg-primary/90 transition-all disabled:opacity-50"
                   >
                     <Lock className="h-4 w-4" />
                     {savingPassword ? 'Actualizando...' : 'Actualizar contraseña'}
                   </button>
                   <button
                     onClick={() => { setEditMode('none'); setCurrentPassword(''); setNewPassword(''); setConfirmPassword(''); }}
-                    className="px-4 py-2.5 rounded-lg border border-white/[0.08] text-sm text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all"
+                    className="px-4 py-2.5 rounded-lg border border-border text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
                   >
                     Cancelar
                   </button>
@@ -386,13 +386,13 @@ export default function PerfilPage() {
           {/* Información Personal */}
           <section className="mb-8">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2">
-                <User className="h-4 w-4 text-amber" />
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <User className="h-4 w-4 text-primary" />
                 Información Personal
               </h3>
               <button
                 onClick={() => setEditMode(editMode === 'password' ? 'none' : 'password')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/[0.08] text-xs text-zinc-400 hover:text-amber hover:border-amber/30 transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-xs text-muted-foreground hover:text-primary hover:border-primary/30 transition-all"
               >
                 <Lock className="h-3 w-3" />
                 Cambiar contraseña
@@ -408,8 +408,8 @@ export default function PerfilPage() {
 
           {/* Información del Negocio */}
           <section className="mb-8">
-            <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2 mb-5">
-              <Building2 className="h-4 w-4 text-amber" />
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-5">
+              <Building2 className="h-4 w-4 text-primary" />
               Información del Negocio
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -428,8 +428,8 @@ export default function PerfilPage() {
 
           {/* Suscripción */}
           <section className="mb-8">
-            <h3 className="text-sm font-semibold text-zinc-100 flex items-center gap-2 mb-5">
-              <CreditCard className="h-4 w-4 text-amber" />
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-5">
+              <CreditCard className="h-4 w-4 text-primary" />
               Suscripción
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -442,8 +442,8 @@ export default function PerfilPage() {
                 customValue={
                   <span className={`text-xs font-semibold px-2 py-0.5 rounded-md ${
                     subscription?.estado === 'activa' ? 'bg-emerald-500/10 text-emerald-400' :
-                    subscription?.estado === 'trial' ? 'bg-amber/10 text-amber' :
-                    'bg-red-500/10 text-red-400'
+                    subscription?.estado === 'trial' ? 'bg-primary/10 text-primary' :
+                    'bg-destructive/10 text-destructive-foreground'
                   }`}>
                     {subscription?.estado || 'trial'}
                   </span>
@@ -461,8 +461,8 @@ export default function PerfilPage() {
               />
             </div>
             {subscription?.plan && (
-              <div className="mt-5 pt-4 border-t border-white/[0.06]">
-                <p className="text-xs text-zinc-500 mb-3 font-medium">Límites del plan</p>
+              <div className="mt-5 pt-4 border-t border-border">
+                <p className="text-xs text-muted-foreground mb-3 font-medium">Límites del plan</p>
                 <div className="flex flex-wrap gap-3">
                   {subscription.plan.limite_productos && (
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/5 border border-blue-500/10 text-xs text-blue-400">
@@ -502,12 +502,12 @@ function InfoItem({ icon: Icon, label, value, capitalize, customValue }: {
   return (
     <div className="flex items-start gap-3">
       <div className="w-7 h-7 rounded-md flex items-center justify-center shrink-0 mt-0.5">
-        <Icon className="h-3.5 w-3.5 text-zinc-400" />
+        <Icon className="h-3.5 w-3.5 text-muted-foreground" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-[11px] text-info-label font-medium">{label}</p>
         {customValue || (
-          <p className={`text-sm truncate ${capitalize ? 'capitalize' : ''} ${!value ? 'text-fallback' : 'text-zinc-100'}`}>
+          <p className={`text-sm truncate ${capitalize ? 'capitalize' : ''} ${!value ? 'text-fallback' : 'text-foreground'}`}>
             {value || '—'}
           </p>
         )}

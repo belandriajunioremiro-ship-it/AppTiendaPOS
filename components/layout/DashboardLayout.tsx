@@ -77,9 +77,9 @@ export function DashboardLayout({ children, pageTitle, pageSubtitle }: Dashboard
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-dark-primary flex items-center justify-center">
-        <div className="flex items-center gap-3 text-zinc-400">
-          <Loader2 className="h-5 w-5 animate-spin text-amber" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex items-center gap-3 text-muted-foreground">
+          <Loader2 className="h-5 w-5 animate-spin text-primary" />
           <span>Cargando...</span>
         </div>
       </div>
@@ -98,8 +98,8 @@ export function DashboardLayout({ children, pageTitle, pageSubtitle }: Dashboard
   };
 
   return (
-    <div className="min-h-screen bg-dark-primary flex">
-      <div className="hidden lg:flex lg:w-48 lg:flex-col lg:fixed lg:inset-y-0 bg-[#090909] border-r border-white/[0.06]">
+    <div className="min-h-screen bg-background flex">
+      <div className="hidden lg:flex lg:w-48 lg:flex-col lg:fixed lg:inset-y-0 bg-background border-r border-border">
         <SidebarContent {...sidebarProps} />
       </div>
 
@@ -115,7 +115,7 @@ export function DashboardLayout({ children, pageTitle, pageSubtitle }: Dashboard
           onClick={() => setSidebarOpen(false)}
         />
         <div
-          className={`fixed inset-y-0 left-0 w-48 bg-[#090909] border-r border-white/[0.06] transition-transform duration-300 ease-out ${
+          className={`fixed inset-y-0 left-0 w-48 bg-background border-r border-border transition-transform duration-300 ease-out ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -131,19 +131,19 @@ export function DashboardLayout({ children, pageTitle, pageSubtitle }: Dashboard
       />
 
       <div className="flex-1 lg:pl-48">
-        <header className="sticky top-0 z-50 bg-dark-primary/80 backdrop-blur-md border-b border-white/[0.06]">
+        <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04] transition-all"
+                className="lg:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
               >
                 <Menu className="h-5 w-5" />
               </button>
               <div>
-                <h1 className="text-lg font-semibold text-zinc-100">{pageTitle}</h1>
+                <h1 className="text-lg font-semibold text-foreground">{pageTitle}</h1>
                 {pageSubtitle && (
-                  <p className="text-xs text-zinc-500">{pageSubtitle}</p>
+                  <p className="text-xs text-muted-foreground">{pageSubtitle}</p>
                 )}
               </div>
             </div>

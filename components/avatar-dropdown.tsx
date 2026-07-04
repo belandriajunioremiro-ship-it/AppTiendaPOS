@@ -31,39 +31,39 @@ export function AvatarDropdown({ userName, userEmail, userInitials, onLogout, is
     <div ref={ref} className="relative">
       <button
         onClick={onToggle}
-        className="flex items-center gap-2 pl-2 pr-1.5 py-1 rounded-lg hover:bg-white/[0.04] transition-all"
+        className="flex items-center gap-2 pl-2 pr-1.5 py-1 rounded-lg hover:bg-accent transition-all"
       >
-        <div className="w-8 h-8 rounded-full bg-amber/20 flex items-center justify-center text-amber text-xs font-bold">
+        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
           {userInitials}
         </div>
-        <ChevronDown className={`h-3.5 w-3.5 text-zinc-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`h-3.5 w-3.5 text-muted-foreground transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-56 bg-[#0f1014] border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-50">
-          <div className="px-4 py-3 border-b border-white/[0.06]">
-            <p className="text-sm font-medium text-zinc-100 truncate">{userName}</p>
-            <p className="text-xs text-zinc-500 truncate">{userEmail}</p>
+        <div className="absolute right-0 top-full mt-2 w-56 bg-card border border-border rounded-xl shadow-2xl shadow-black/50 overflow-hidden z-50">
+          <div className="px-4 py-3 border-b border-border">
+            <p className="text-sm font-medium text-foreground truncate">{userName}</p>
+            <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
           </div>
           <div className="py-1">
             <button
               onClick={() => { onClose(); router.push('/perfil'); }}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-300 hover:bg-white/[0.04] hover:text-zinc-100 transition-colors w-full text-left"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-accent hover:text-foreground transition-colors w-full text-left"
             >
-              <User className="h-4 w-4 text-zinc-500" />
+              <User className="h-4 w-4 text-muted-foreground" />
               <span>Mi Perfil</span>
             </button>
             <button
               onClick={onClose}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-300 hover:bg-white/[0.04] hover:text-zinc-100 transition-colors w-full text-left"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-accent hover:text-foreground transition-colors w-full text-left"
             >
-              <Settings className="h-4 w-4 text-zinc-500" />
+              <Settings className="h-4 w-4 text-muted-foreground" />
               <span>Configuración</span>
             </button>
           </div>
-          <div className="border-t border-white/[0.06] py-1">
+          <div className="border-t border-border py-1">
             <button
               onClick={() => { onLogout(); onClose(); }}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/5 transition-colors w-full"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm text-destructive-foreground hover:bg-destructive/5 transition-colors w-full"
             >
               <LogOut className="h-4 w-4" />
               <span>Cerrar Sesión</span>

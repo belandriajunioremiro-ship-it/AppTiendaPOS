@@ -233,10 +233,10 @@ export default function RegisterPage() {
   return (
     <>
       <div className="text-center mb-6">
-        <h2 className="font-display text-2xl font-bold text-zinc-100">
+        <h2 className="font-display text-2xl font-bold text-foreground">
           {step === 1 ? 'Crear cuenta' : step === 2 ? 'Configurar tienda' : 'Revisa tus datos'}
         </h2>
-        <p className="mt-1 text-zinc-400 text-sm">
+        <p className="mt-1 text-muted-foreground text-sm">
           {step === 1 ? 'Paso 1 de 3 — Tus datos de acceso' :
            step === 2 ? 'Paso 2 de 3 — Información de tu negocio' :
            'Paso 3 de 3 — Confirma antes de crear'}
@@ -251,16 +251,16 @@ export default function RegisterPage() {
           return (
             <div key={s.number} className="flex items-center gap-2 flex-1 min-w-0">
               <div className={`flex items-center gap-1.5 px-2 py-1.5 text-xs transition-all w-full rounded-md ${
-                isActive ? 'bg-amber/10' : ''
+                isActive ? 'bg-primary/10' : ''
               }`}>
                 <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 ${
-                  isActive ? 'bg-amber text-dark-primary' :
-                  isPast ? 'bg-amber/20 text-amber' : 'bg-zinc-800 text-zinc-500'
+                  isActive ? 'bg-amber text-primary-foreground' :
+                  isPast ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'
                 }`}>
                   {isPast ? <Check className="h-3 w-3" /> : <Icon className="h-3 w-3" />}
                 </div>
                 <span className={`hidden sm:inline font-medium truncate ${
-                  isActive ? 'text-amber' : isPast ? 'text-amber/60' : 'text-zinc-500'
+                  isActive ? 'text-primary' : isPast ? 'text-primary/60' : 'text-muted-foreground'
                 }`}>
                   {s.label}
                 </span>
@@ -274,9 +274,9 @@ export default function RegisterPage() {
       </div>
 
       {serverError && (
-        <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-2">
+        <div className="mb-6 p-3 rounded-lg bg-destructive/10 border border-destructive/20 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-          <p className="text-red-400 text-sm">{serverError}</p>
+          <p className="text-destructive-foreground text-sm">{serverError}</p>
         </div>
       )}
 
@@ -308,13 +308,13 @@ export default function RegisterPage() {
                     <button
                       type="button"
                       onClick={() => isPass ? setShowPassword(!showPassword) : setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                     >
                       {(isPass ? showPassword : showConfirmPassword) ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   )}
                 </div>
-                {s1Errors[f.key] && <p className="text-red-400 text-xs">{s1Errors[f.key]}</p>}
+                {s1Errors[f.key] && <p className="text-destructive-foreground text-xs">{s1Errors[f.key]}</p>}
               </div>
             );
           })}
@@ -322,7 +322,7 @@ export default function RegisterPage() {
           <div className="space-y-1.5">
             <Label htmlFor="pais">País</Label>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 z-10">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10">
                 <Globe className="h-4 w-4" />
               </div>
               <Select
@@ -339,14 +339,14 @@ export default function RegisterPage() {
                 </SelectContent>
               </Select>
             </div>
-            {s1Errors.pais && <p className="text-red-400 text-xs">{s1Errors.pais}</p>}
+            {s1Errors.pais && <p className="text-destructive-foreground text-xs">{s1Errors.pais}</p>}
           </div>
 
           <div className="pt-2">
             <button
               type="button"
               onClick={goStep1}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-5 bg-amber text-dark-primary font-semibold rounded-lg hover:bg-amber-dark transition-all"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all"
             >
               Siguiente <ArrowRight className="h-4 w-4" />
             </button>
@@ -364,7 +364,7 @@ export default function RegisterPage() {
                 {f.key === 'direccion' ? (
                   <textarea
                     id={f.key}
-                    className="w-full px-3 py-2 bg-dark-tertiary/50 border border-white/20 rounded-lg text-zinc-100 placeholder:text-zinc-500 hover:border-white/35 focus:outline-none focus:border-amber focus:ring-2 focus:ring-amber/20 text-sm min-h-[60px] resize-none transition-all font-body"
+                    className="w-full px-3 py-2 bg-card/50 border border-input rounded-lg text-foreground placeholder:text-muted-foreground hover:border-ring/50 focus:outline-none focus:border-ring focus:ring-2 focus:ring-ring/20 text-sm min-h-[60px] resize-none transition-all font-body"
                     placeholder={f.placeholder}
                     value={s2[f.key] as string}
                     onChange={e => { setS2(p => ({ ...p, [f.key]: e.target.value })); setS2Errors(p => { const n = { ...p }; delete n[f.key]; return n; }); }}
@@ -380,7 +380,7 @@ export default function RegisterPage() {
                     error={s2Errors[f.key]}
                   />
                 )}
-                {s2Errors[f.key] && <p className="text-red-400 text-xs">{s2Errors[f.key]}</p>}
+                {s2Errors[f.key] && <p className="text-destructive-foreground text-xs">{s2Errors[f.key]}</p>}
               </div>
             </div>
           ))}
@@ -401,7 +401,7 @@ export default function RegisterPage() {
                   ))}
                 </SelectContent>
               </Select>
-              {s2Errors.tipo_negocio && <p className="text-red-400 text-xs">{s2Errors.tipo_negocio}</p>}
+              {s2Errors.tipo_negocio && <p className="text-destructive-foreground text-xs">{s2Errors.tipo_negocio}</p>}
             </div>
 
             <div className="space-y-1.5">
@@ -412,13 +412,13 @@ export default function RegisterPage() {
                 value={s2.moneda_base || countryData?.moneda || ''}
                 readOnly
                 icon={<CreditCard className="h-4 w-4" />}
-                className="text-zinc-400"
+                className="text-muted-foreground"
               />
-              <p className="text-[11px] text-zinc-500">Según el país seleccionado: {countryData?.label}</p>
+              <p className="text-[11px] text-muted-foreground">Según el país seleccionado: {countryData?.label}</p>
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="regimen_fiscal">Régimen fiscal <span className="text-zinc-500">(opcional)</span></Label>
+              <Label htmlFor="regimen_fiscal">Régimen fiscal <span className="text-muted-foreground">(opcional)</span></Label>
               <Select
                 value={s2.regimen_fiscal}
                 onValueChange={v => setS2(p => ({ ...p, regimen_fiscal: v }))}
@@ -439,14 +439,14 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-100 transition-colors shrink-0"
+              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> Atrás
             </button>
             <button
               type="button"
               onClick={goStep2}
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-5 bg-amber text-dark-primary font-semibold rounded-lg hover:bg-amber-dark transition-all"
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all"
             >
               Siguiente <ArrowRight className="h-4 w-4" />
             </button>
@@ -457,54 +457,54 @@ export default function RegisterPage() {
       {/* STEP 3 — Confirmación */}
       {step === 3 && (
         <div className="space-y-6">
-          <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-4">
+          <div className="bg-card border border-border rounded-xl p-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded-md bg-amber/15 flex items-center justify-center">
-                <User className="h-3 w-3 text-amber" />
+                <User className="h-3 w-3 text-primary" />
               </div>
-              <h4 className="text-sm font-semibold text-zinc-100">Cuenta</h4>
+              <h4 className="text-sm font-semibold text-foreground">Cuenta</h4>
             </div>
             <div className="space-y-1.5 text-xs">
-              <div className="flex justify-between"><span className="text-zinc-500">Nombre</span><span className="text-zinc-100 font-medium">{s1.name}</span></div>
-              <div className="flex justify-between"><span className="text-zinc-500">Email</span><span className="text-zinc-100 font-medium">{s1.email}</span></div>
-              <div className="flex justify-between"><span className="text-zinc-500">País</span><span className="text-zinc-100 font-medium">{countries.find(c => c.value === s1.pais)?.label}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Nombre</span><span className="text-foreground font-medium">{s1.name}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Email</span><span className="text-foreground font-medium">{s1.email}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">País</span><span className="text-foreground font-medium">{countries.find(c => c.value === s1.pais)?.label}</span></div>
             </div>
           </div>
 
-          <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-4">
+          <div className="bg-card border border-border rounded-xl p-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded-md bg-amber/15 flex items-center justify-center">
-                <Store className="h-3 w-3 text-amber" />
+                <Store className="h-3 w-3 text-primary" />
               </div>
-              <h4 className="text-sm font-semibold text-zinc-100">Tienda</h4>
+              <h4 className="text-sm font-semibold text-foreground">Tienda</h4>
             </div>
             <div className="space-y-1.5 text-xs">
-              <div className="flex justify-between"><span className="text-zinc-500">Nombre</span><span className="text-zinc-100 font-medium">{s2.nombre_comercio}</span></div>
-              <div className="flex justify-between"><span className="text-zinc-500">Tipo</span><span className="text-zinc-100 font-medium capitalize">{tiposNegocio.find(t => t.value === s2.tipo_negocio)?.label || s2.tipo_negocio}</span></div>
-              <div className="flex justify-between"><span className="text-zinc-500">Moneda</span><span className="text-zinc-100 font-medium">{s2.moneda_base || countryData?.moneda}</span></div>
-              {s2.identificacion_fiscal && <div className="flex justify-between"><span className="text-zinc-500">Identificación fiscal</span><span className="text-zinc-100 font-medium">{s2.identificacion_fiscal}</span></div>}
-              {s2.razon_social && <div className="flex justify-between"><span className="text-zinc-500">Razón social</span><span className="text-zinc-100 font-medium">{s2.razon_social}</span></div>}
-              {s2.regimen_fiscal && <div className="flex justify-between"><span className="text-zinc-500">Régimen fiscal</span><span className="text-zinc-100 font-medium">{s2.regimen_fiscal}</span></div>}
-              {s2.direccion && <div className="flex justify-between"><span className="text-zinc-500">Dirección</span><span className="text-zinc-100 font-medium text-right max-w-[200px] truncate">{s2.direccion}</span></div>}
-              {s2.telefono && <div className="flex justify-between"><span className="text-zinc-500">Teléfono</span><span className="text-zinc-100 font-medium">{s2.telefono}</span></div>}
+              <div className="flex justify-between"><span className="text-muted-foreground">Nombre</span><span className="text-foreground font-medium">{s2.nombre_comercio}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Tipo</span><span className="text-foreground font-medium capitalize">{tiposNegocio.find(t => t.value === s2.tipo_negocio)?.label || s2.tipo_negocio}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Moneda</span><span className="text-foreground font-medium">{s2.moneda_base || countryData?.moneda}</span></div>
+              {s2.identificacion_fiscal && <div className="flex justify-between"><span className="text-muted-foreground">Identificación fiscal</span><span className="text-foreground font-medium">{s2.identificacion_fiscal}</span></div>}
+              {s2.razon_social && <div className="flex justify-between"><span className="text-muted-foreground">Razón social</span><span className="text-foreground font-medium">{s2.razon_social}</span></div>}
+              {s2.regimen_fiscal && <div className="flex justify-between"><span className="text-muted-foreground">Régimen fiscal</span><span className="text-foreground font-medium">{s2.regimen_fiscal}</span></div>}
+              {s2.direccion && <div className="flex justify-between"><span className="text-muted-foreground">Dirección</span><span className="text-foreground font-medium text-right max-w-[200px] truncate">{s2.direccion}</span></div>}
+              {s2.telefono && <div className="flex justify-between"><span className="text-muted-foreground">Teléfono</span><span className="text-foreground font-medium">{s2.telefono}</span></div>}
             </div>
           </div>
 
-          <div className="bg-dark-tertiary border border-white/[0.06] rounded-xl p-4">
+          <div className="bg-card border border-border rounded-xl p-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded-md bg-emerald-500/15 flex items-center justify-center">
                 <Shield className="h-3 w-3 text-emerald-400" />
               </div>
-              <h4 className="text-sm font-semibold text-zinc-100">Plan incluido</h4>
+              <h4 className="text-sm font-semibold text-foreground">Plan incluido</h4>
             </div>
-            <p className="text-xs text-zinc-400">14 días de prueba gratuita — sin tarjeta de crédito. Impuestos, monedas, categorías y un almacén se configurarán automáticamente.</p>
+            <p className="text-xs text-muted-foreground">14 días de prueba gratuita — sin tarjeta de crédito. Impuestos, monedas, categorías y un almacén se configurarán automáticamente.</p>
           </div>
 
           <div className="flex items-center gap-3 pt-2">
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-100 transition-colors shrink-0"
+              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> Atrás
             </button>
@@ -512,7 +512,7 @@ export default function RegisterPage() {
               type="button"
               onClick={handleSubmit}
               disabled={loading}
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-5 bg-amber text-dark-primary font-semibold rounded-lg hover:bg-amber-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-5 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 'Creando tu negocio...'
@@ -524,10 +524,10 @@ export default function RegisterPage() {
         </div>
       )}
 
-      <div className="mt-6 pt-6 border-t border-white/20 text-center">
-        <p className="text-zinc-400 text-sm">
+      <div className="mt-6 pt-6 border-t border-input text-center">
+        <p className="text-muted-foreground text-sm">
           ¿Ya tienes cuenta?{' '}
-          <Link href="/login" className="text-amber hover:text-amber-light transition-colors font-medium">
+          <Link href="/login" className="text-primary hover:text-primary-light transition-colors font-medium">
             Inicia sesión
           </Link>
         </p>

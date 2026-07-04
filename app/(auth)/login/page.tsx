@@ -65,10 +65,10 @@ function LoginForm() {
   return (
     <>
       <div className="text-center mb-8">
-        <h2 className="font-display text-2xl font-bold text-zinc-100">
+        <h2 className="font-display text-2xl font-bold text-foreground">
           Inicia sesión
         </h2>
-        <p className="mt-2 text-zinc-400 text-sm">
+        <p className="mt-2 text-muted-foreground text-sm">
           Usa el mismo correo con el que te registraste
         </p>
       </div>
@@ -80,9 +80,9 @@ function LoginForm() {
         </div>
       )}
       {registered && (
-        <div className="mb-6 p-3 rounded-lg bg-amber/10 border border-amber/20 flex items-center gap-2">
+        <div className="mb-6 p-3 rounded-lg bg-primary/10 border border-primary/20 flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-amber shrink-0" />
-          <p className="text-amber text-sm">Cuenta creada exitosamente. Continúa con la configuración de tu negocio.</p>
+          <p className="text-primary text-sm">Cuenta creada exitosamente. Continúa con la configuración de tu negocio.</p>
         </div>
       )}
 
@@ -100,7 +100,7 @@ function LoginForm() {
             {...register('email')}
           />
           {errors.email && (
-            <p id="email-error" className="text-red-400 text-xs mt-1" role="alert">{errors.email.message}</p>
+            <p id="email-error" className="text-destructive-foreground text-xs mt-1" role="alert">{errors.email.message}</p>
           )}
         </div>
 
@@ -120,7 +120,7 @@ function LoginForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-zinc-300 transition-colors"
               tabIndex={-1}
               aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
             >
@@ -128,14 +128,14 @@ function LoginForm() {
             </button>
           </div>
           {errors.password && (
-            <p id="password-error" className="text-red-400 text-xs mt-1" role="alert">{errors.password.message}</p>
+            <p id="password-error" className="text-destructive-foreground text-xs mt-1" role="alert">{errors.password.message}</p>
           )}
         </div>
 
         <div className="flex justify-end">
           <Link
             href="/forgot-password"
-            className="text-zinc-400 text-sm hover:text-amber transition-colors"
+            className="text-muted-foreground text-sm hover:text-primary transition-colors"
           >
             ¿No recuerdas tu contraseña?
           </Link>
@@ -144,7 +144,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-amber text-dark-primary font-semibold rounded-md hover:bg-amber-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
             'Ingresando...'
@@ -157,12 +157,12 @@ function LoginForm() {
         </button>
       </form>
 
-      <div className="mt-6 pt-6 border-t border-white/20 text-center">
-        <p className="text-zinc-400 text-sm">
+      <div className="mt-6 pt-6 border-t border-input text-center">
+        <p className="text-muted-foreground text-sm">
           ¿Aún no tienes cuenta?{' '}
           <Link
             href="/register"
-            className="text-amber hover:text-amber-light transition-colors font-medium"
+            className="text-primary hover:text-primary-light transition-colors font-medium"
           >
             Crea una aquí
           </Link>

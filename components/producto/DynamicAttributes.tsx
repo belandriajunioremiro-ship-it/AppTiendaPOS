@@ -36,13 +36,13 @@ export function DynamicAttributes({ atributos, value, onChange }: DynamicAttribu
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-semibold text-zinc-100">Atributos del producto</h3>
+      <h3 className="text-sm font-semibold text-foreground">Atributos del producto</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {atributos.map(attr => (
           <div key={attr.id} className="space-y-2">
             <Label>
               {attr.etiqueta}
-              {attr.obligatorio && <span className="text-red-400 ml-1">*</span>}
+              {attr.obligatorio && <span className="text-destructive-foreground ml-1">*</span>}
             </Label>
 
             {attr.tipo_dato === 'select' && attr.opciones && (
@@ -68,7 +68,7 @@ export function DynamicAttributes({ atributos, value, onChange }: DynamicAttribu
                   checked={Boolean(values[attr.clave])}
                   onCheckedChange={checked => updateValue(attr.clave, Boolean(checked))}
                 />
-                <label htmlFor={`attr-${attr.clave}`} className="text-xs text-zinc-400 cursor-pointer">
+                <label htmlFor={`attr-${attr.clave}`} className="text-xs text-muted-foreground cursor-pointer">
                   Sí / No
                 </label>
               </div>
@@ -80,7 +80,7 @@ export function DynamicAttributes({ atributos, value, onChange }: DynamicAttribu
                 placeholder={attr.etiqueta}
                 value={String(values[attr.clave] || '')}
                 onChange={e => updateValue(attr.clave, e.target.value)}
-                className="border-white/20 hover:border-white/35 focus:border-amber transition-all duration-300 ease-out caret-amber"
+                className="border-input hover:border-ring/50 focus:border-ring transition-all duration-300 ease-out caret-amber"
               />
             )}
           </div>
